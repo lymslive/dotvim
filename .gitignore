@@ -1,0 +1,10 @@
+*.pyc
+*.swp
+tags
+*.bak
+core.*
+Session*.vim
+*.tar.gz
+*.tgz
+pack/
+bundle/
