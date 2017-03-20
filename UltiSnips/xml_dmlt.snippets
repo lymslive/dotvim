@@ -1,0 +1,151 @@
+# see shiped snips:
+# ~/.vim/bundle/vim-snippets/UltiSnips/xml.snippets
+
+snippet tdr "XML declaration" b
+<?xml version="1.0" encoding="gb2312" standalone="yes" ?>
+<metalib name="net" version="1" tagsetversion="1" >
+	${0}
+</metalib>
+endsnippet
+
+snippet --
+<!-- ${0} -->
+endsnippet
+
+snippet struct
+<struct name="${1:DbSturct}" version="1" desc="${2}">
+	${0}
+</struct>
+endsnippet
+
+snippet s
+<struct name="${1:DbSturct}" version="1" desc="${2}">
+	${0}
+</struct>
+endsnippet
+
+snippet entry
+<entry name="${1:Feild}" type="${2}" desc="${3}"/>
+endsnippet
+
+snippet e
+<entry name="${1:Feild}" type="${2}" desc="${3}"/>
+endsnippet
+
+snippet e1
+<entry name="${1:Feild}" type="byte" desc="${2}"/>
+endsnippet
+
+snippet e2
+<entry name="${1:Feild}" type="Smallint" desc="${2}"/>
+endsnippet
+
+snippet e4
+<entry name="${1:Feild}" type="int" desc="${2}"/>
+endsnippet
+
+snippet e8
+<entry name="${1:Feild}" type="Bigint" desc="${2}"/>
+endsnippet
+
+snippet ei
+<entry name="${1:Feild}" type="uint" desc="${2}"/>
+endsnippet
+
+snippet es
+<entry name="${1:Feild}" type="string" size="${2}" desc="${3}"/>
+endsnippet
+
+snippet ec
+<entry name="${1:Feild}" type="${2}" cname="${3}" desc="$3"/>
+endsnippet
+
+snippet cn
+cname="${0}" 
+endsnippet
+
+snippet rk
+customattr="refkey:${0}," 
+endsnippet
+
+snippet ct
+count="${0}" 
+endsnippet
+
+snippet rf
+refer="${0}" 
+endsnippet
+
+snippet bm
+bindmacrosgroup="${0}" 
+endsnippet
+
+snippet macro
+<macro name="${1:MAX_}" value="${2}" desc="${3}"/>
+endsnippet
+
+snippet m
+<macro name="${1:MAX_}" value="${2}" desc="${3}"/>
+endsnippet
+
+snippet mcs
+<macro name="CM_CMD_${1:ID}" value="${2}" desc="${3}"/>
+endsnippet
+
+snippet union
+<union name="${1:Nnion}" version="1" desc="${2}">
+	${0}
+</union>
+endsnippet
+
+snippet u
+<union name="${1:Nnion}" version="1" desc="${2}">
+	${0}
+</union>
+endsnippet
+
+snippet macgrp
+<macrosgroup name="${1:TARGET}" desc="${2}">
+	${0}
+</macrosgroup>
+endsnippet
+
+snippet g
+<macrosgroup name="${1:TARGET}" desc="${2}">
+	${0}
+</macrosgroup>
+endsnippet
+
+snippet preq "定义 req 协议"
+<macro name="CS_CMD_${1:ID}_REQ" value="${2:0}" desc="${3}请求命令" />
+<struct name="CS${1/([A-Z])([A-Z]+)_?/\u$1\L$2\E/g}Req" id="CS_CMD_$1_REQ" version="1" desc="$3请求数据">
+	<entry name="Reserve" type="byte" desc="空字段" />
+</struct>
+endsnippet
+
+snippet pres "定义 res 协议"
+<macro name="CS_CMD_${1:ID}_REQ" value="${2:0}" desc="${3}返回命令" />
+<struct name="CS${1/([A-Z])([A-Z]+)_?/\u$1\L$2\E/g}Res" id="CS_CMD_$1_REQ" version="1" desc="$3返回数据">
+	<entry name="Result" type="ProtoResult" desc="操作结果" />
+</struct>
+endsnippet
+
+snippet proto "preq + pres"
+<macro name="CS_CMD_${1:ID}_REQ" value="${2:0}" desc="${3}请求命令" />
+<struct name="CS${1/([A-Z])([A-Z]+)_?/\u$1\L$2\E/g}Req" id="CS_CMD_$1_REQ" version="1" desc="$3请求数据">
+	<entry name="Reserve" type="byte" desc="空字段" />
+</struct>
+
+<macro name="CS_CMD_$1_RES" value="$2" desc="$3返回命令" />
+<struct name="CS${1/([A-Z])([A-Z]+)_?/\u$1\L$2\E/g}Res" id="CS_CMD_$1_RES" version="1" desc="$3返回数据">
+	<entry name="Result" type="ProtoResult" desc="操作结果" />
+</struct>
+endsnippet
+
+snippet fsrank "FS Rank"
+<struct name="FS${1}RankData" version="1" desc="${2}排行榜" >
+	<entry name="RankInfoData" type="RankInfo" desc="排行榜信息" />
+	<entry name="BaseData" type="DbRoleBaseShowData" desc="角色显示数据" />
+	<entry name="Level" type="Smalluint" desc="等级"/>${0}
+</struct>
+endsnippet

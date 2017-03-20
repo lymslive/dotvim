@@ -1,0 +1,60 @@
+extends c
+
+# We want to overwrite everything in parent ft.
+priority 1
+
+###########################################################################
+#                            DMLT CPP Snippets                            #
+###########################################################################
+
+# see shiped snips:
+# ~/.vim/bundle/vim-snippets/UltiSnips/cpp.snippets
+
+snippet C: "ClassName:: prefix"
+${1:`!p snip.rv = snip.basename or "ClassName"`}::
+endsnippet
+
+snippet clsgl "class .. (singleton)"
+class ${1:`!p snip.rv = snip.basename or "name"`} : public CSingleton<$1> 
+{
+public:
+	${1/(\w+).*/$1/} (${2:arguments});
+	virtual ~${1/(\w+).*/$1/} ();
+	int Init();
+
+private:
+	${0:/* data */}
+};
+endsnippet
+
+snippet clcfg "class .. (ConfigMgr)"
+class ${1:`!p snip.rv = snip.basename or "name"`}ConfigMgr : public CSingleton<$1ConfigMgr> 
+{
+public:
+	${1/(\w+).*/$1/}ConfigMgr() { };
+	virtual ~${1/(\w+).*/$1/}ConfigMgr() { };
+	int Init();
+};
+endsnippet
+
+snippet clcpt "class .. (CPlayerCmpt)"
+class ${1:`!p snip.rv = snip.basename or "name"`}Mgr : public CPlayerCmpt
+{
+public:
+	virtual void Init(CPlayer* pPlayer);
+	virtual void InitOnCreateRole();
+	virtual void OnPreRoleLogin();
+
+public:
+	LPDB${1/C?(\w+).*/\U$1\E/}DATA Get${1/C?(\w)(\w+).*/\u$1\L$2\E/}Data();
+
+protected:
+	bool m_bDirty;
+public:
+	bool IsDirty() { return m_bDirty; };
+	void MarkDirty() { m_bDirty = true; }
+	void ClearDirty() { m_bDirty = false; }
+};
+endsnippet
+
+# vim:ft=snippets:
