@@ -8,3 +8,5 @@ Session*.vim
 *.tgz
 pack/
 bundle/
+vimrc
+local
