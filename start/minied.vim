@@ -1,6 +1,6 @@
 " vimrc for mini-editor with less set/maps.
 
-let g:AppMode = "MiniEditor"
+call add(g:RUN_NAME, 'minied')
 
 set formatoptions+=mB
 set autowriteall
@@ -27,21 +27,15 @@ noremap! <C-a> <Home>
 noremap! <C-e> <End>
 noremap! <C-f> <Right>
 noremap! <C-b> <Left>
-" noremap! <Esc>f <C-Right>
-" noremap! <Esc>b <C-Left>
 noremap! <C-p> <Up>
 noremap! <C-n> <Down>
 noremap! <C-d> <Del>
 inoremap <C-v> <PageDown>
-" inoremap <Esc>v <PageUp>
 inoremap <Tab> <C-P>
 inoremap <C-Q> <C-V>
 inoremap <C-K> <C-O>d$
-" inoremap <Esc>d <C-O>dw
-" inoremap <Esc>h <C-O>db
 inoremap <C-_> <C-O>u
 
-" To full-editor vimrc
+" transfer to fulled rc
 nnoremap <Tab> :mapclear<CR>:mapclear!<CR>:source $VIMHOME/start/fulled.vim<CR>
-
 

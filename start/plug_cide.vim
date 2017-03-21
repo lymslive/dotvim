@@ -1,5 +1,47 @@
 " plugins setting for CIDE editor
 
+" Load Plugin: {{{1
+set rtp+=$PACKHOME/lymslive/opt/vimloo
+set rtp+=$PACKHOME/lymslive/opt/EDvsplit
+set rtp+=$PACKHOME/lymslive/opt/UseTabpge
+set rtp+=$PACKHOME/lymslive/opt/qcmotion
+" set rtp+=$PACKHOME/lymslive/opt/Spacebar
+set rtp+=$PACKHOME/lymslive/opt/MicroCommand
+set rtp+=$PACKHOME/lymslive/opt/Wrap
+" set rtp+=$PACKHOME/lymslive/opt/logview
+set rtp+=$PACKHOME/lymslive/opt/vnote
+
+" set rtp+=$PACKHOME/VundleVim/opt/Vundle.vim
+set rtp+=$PACKHOME/tpope/opt/vim-surround
+" set rtp+=$PACKHOME/kshenoy/opt/vim-signature
+set rtp+=$PACKHOME/scrooloose/opt/nerdtree
+set rtp+=$PACKHOME/majutsushi/opt/tagbar
+
+set rtp+=$PACKHOME/SirVer/opt/ultisnips
+set rtp+=$PACKHOME/honza/opt/vim-snippets
+source $PACKHOME/SirVer/opt/ultisnips/ftdetect/UltiSnips.vim
+" set rtp+=$PACKHOME/Shougo/opt/neosnippet
+" set rtp+=$PACKHOME/Shougo/opt/neosnippet-snippets
+
+set rtp+=$PACKHOME/Shougo/opt/vimproc.vim
+" set rtp+=$PACKHOME/Shougo/opt/vimshell.vim
+set rtp+=$PACKHOME/Shougo/opt/unite.vim
+set rtp+=$PACKHOME/Shougo/opt/neoyank.vim
+" set rtp+=$PACKHOME/Shougo/opt/neomru.vim
+" set rtp+=$PACKHOME/Shougo/opt/unite-outline
+" set rtp+=$PACKHOME/Shougo/opt/unite-help
+" set rtp+=$PACKHOME/Shougo/opt/neoinclude.vim
+" set rtp+=$PACKHOME/tsukkee/opt/unite-tag
+" set rtp+=$PACKHOME/amitab/opt/vim-unite-cscope
+
+set rtp+=$PACKHOME/Shougo/opt/neocomplete.vim
+" set rtp+=$PACKHOME/Valloric/opt/YouCompleteMe
+set rtp+=$PACKHOME/Rip-Rip/opt/clang_complete
+
+set rtp+=$PACKHOME/mileszs/opt/ack.vim
+" set rtp+=$PACKHOME/asins/opt/vim-dict
+set rtp+=$PACKHOME/haya14busa/opt/incsearch.vim
+
 " NERDTree: {{{1
 nnoremap \f :NERDTreeToggle<CR>
 nnoremap \F :NERDTreeMirror<CR>
@@ -69,15 +111,6 @@ let g:neosnippet#snippets_directory = '~/.vim/bundle/neosnippet-snippets/neosnip
 
 " OmniCppComplete: {{{1 
 set completeopt=noselect,menu
-" search namespaces in the current buffer  and in included files
-let OmniCpp_NamespaceSearch = 2
-" 显示函数参数列表
-let OmniCpp_ShowPrototypeInAbbr = 1
-" 1/0 输入 :: . -> 后自动补全与否
-let OmniCpp_MayCompleteScope = 1
-let OmniCpp_MayCompleteDot = 1
-let OmniCpp_MayCompleteArrow = 1
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " Signature: {{{1

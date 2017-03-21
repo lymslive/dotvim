@@ -1,7 +1,7 @@
 " Full custom vimrc
 " lymslive 2016-01-22
 
-let g:AppMode = "FullEditor"
+call add(g:RUN_NAME, 'fulled')
 
 " Normal Settings: "{{{1
 
