@@ -1,25 +1,33 @@
-" $MYVIMRC: ln -s this file to ~/.vimrc
-" Maintainer: lymslive
-" Modify: 2016-01-28
+" File: main
+" Author: lymslive
+" Description: $MYVIMRC: ln -s this file to ~/.vimrc
+" Create: 2017-03-21
+" Modify: 2017-03-21
 
-" Figure out the $VIMHOME path
+" Vital Variable:
+let $VIMHOME = $HOME . '/.vim'
 if has('win32') || has ('win64')
-    let $VIMHOME = $VIM."/vimfiles"
-else
-    let $VIMHOME = $HOME."/.vim"
+    let $VIMHOME = $VIM . '/vimfiles'
 endif
+let $STARTHOME = $VIMHOME . '/start'
+let $PACKHOME  = $VIMHOME . '/pack'
+
+let g:START_NAME = v:progname
+let g:RUN_NAME = [g:START_NAME]
+
+command! -nargs=1 SOURCE execute 'source ' . expand('<sfile>:p:h') . '/' . <q-args>
 
 " vcide:
 if v:progname == "vc" || v:progname == "vcide"
-    source $VIMHOME/start/vcide.vim
+    source $STARTHOME/vcide.vim
     finish
 endif
 
 " gvim / vim : load full version of vimrc.
-if v:progname == "gvim" || v:progname == "vim" " {{{
-    source $VIMHOME/start/fulled.vim
+if v:progname == "gvim" || v:progname == "vim"
+    source $STARTHOME/fulled.vim
     finish
-endif " }}}
+endif
 
 " common vi:
 set fileencodings=ucs-bom,utf-8,gb18030,cp936,latin1

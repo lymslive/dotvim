@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: vimrc for coder
 " Create: 2017-03-20
-" Modify: 2017-03-20
+" Modify: 2017-03-21
 let g:AppMode = "VCIDE"
 
 " Normal Settings: "{{{1
@@ -89,43 +89,41 @@ source $VIMHOME/start/remap.vim
 
 " Load Plugin: "{{{1
 " Load helper script
-source $VIMHOME/mine/PlugManage.vim
 source $VIMRUNTIME/macros/matchit.vim
-
-let $PACKHOME = $VIMHOME . '/pack'
 
 " 手动添加本地个人插件
 set rtp+=$PACKHOME/lymslive/opt/vimloo
 set rtp+=$PACKHOME/lymslive/opt/EDvsplit
 set rtp+=$PACKHOME/lymslive/opt/UseTabpge
 set rtp+=$PACKHOME/lymslive/opt/qcmotion
-set rtp+=$PACKHOME/lymslive/opt/Spacebar
+" set rtp+=$PACKHOME/lymslive/opt/Spacebar
 set rtp+=$PACKHOME/lymslive/opt/MicroCommand
 set rtp+=$PACKHOME/lymslive/opt/Wrap
-set rtp+=$PACKHOME/lymslive/opt/logview
+" set rtp+=$PACKHOME/lymslive/opt/logview
 set rtp+=$PACKHOME/lymslive/opt/vnote
 
-set rtp+=$PACKHOME/VundleVim/opt/Vundle.vim
+" set rtp+=$PACKHOME/VundleVim/opt/Vundle.vim
 set rtp+=$PACKHOME/tpope/opt/vim-surround
-set rtp+=$PACKHOME/kshenoy/opt/vim-signature
+" set rtp+=$PACKHOME/kshenoy/opt/vim-signature
 set rtp+=$PACKHOME/scrooloose/opt/nerdtree
 set rtp+=$PACKHOME/majutsushi/opt/tagbar
 
 set rtp+=$PACKHOME/SirVer/opt/ultisnips
 set rtp+=$PACKHOME/honza/opt/vim-snippets
+source $PACKHOME/SirVer/opt/ultisnips/ftdetect/UltiSnips.vim
 " set rtp+=$PACKHOME/Shougo/opt/neosnippet
 " set rtp+=$PACKHOME/Shougo/opt/neosnippet-snippets
 
 set rtp+=$PACKHOME/Shougo/opt/vimproc.vim
-set rtp+=$PACKHOME/Shougo/opt/vimshell.vim
+" set rtp+=$PACKHOME/Shougo/opt/vimshell.vim
 set rtp+=$PACKHOME/Shougo/opt/unite.vim
 set rtp+=$PACKHOME/Shougo/opt/neoyank.vim
-set rtp+=$PACKHOME/Shougo/opt/neomru.vim
-set rtp+=$PACKHOME/Shougo/opt/unite-outline
-set rtp+=$PACKHOME/Shougo/opt/unite-help
-set rtp+=$PACKHOME/Shougo/opt/neoinclude.vim
-set rtp+=$PACKHOME/tsukkee/opt/unite-tag
-set rtp+=$PACKHOME/amitab/opt/vim-unite-cscope
+" set rtp+=$PACKHOME/Shougo/opt/neomru.vim
+" set rtp+=$PACKHOME/Shougo/opt/unite-outline
+" set rtp+=$PACKHOME/Shougo/opt/unite-help
+" set rtp+=$PACKHOME/Shougo/opt/neoinclude.vim
+" set rtp+=$PACKHOME/tsukkee/opt/unite-tag
+" set rtp+=$PACKHOME/amitab/opt/vim-unite-cscope
 
 set rtp+=$PACKHOME/Shougo/opt/neocomplete.vim
 " set rtp+=$PACKHOME/Valloric/opt/YouCompleteMe
