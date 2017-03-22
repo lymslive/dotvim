@@ -1,5 +1,3 @@
-call add(g:RUN_NAME, 'vi')
-
 set fileencodings=ucs-bom,utf-8,gb18030,cp936,latin1
 set noloadplugins
 set nocompatible

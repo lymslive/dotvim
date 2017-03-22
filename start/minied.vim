@@ -1,7 +1,5 @@
 " vimrc for mini-editor with less set/maps.
 
-call add(g:RUN_NAME, 'minied')
-
 set formatoptions+=mB
 set autowriteall
 set textwidth=78

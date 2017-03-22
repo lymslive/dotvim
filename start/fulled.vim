@@ -1,8 +1,6 @@
 " Full custom vimrc
 " lymslive 2016-01-22
 
-call add(g:RUN_NAME, 'fulled')
-
 " Normal Settings: "{{{1
 
 set nocompatible

@@ -3,7 +3,6 @@
 " Description: vimrc for coder
 " Create: 2017-03-20
 " Modify: 2017-03-22
-let g:AppMode = "VCIDE"
 
 " Normal Settings: "{{{1
 
