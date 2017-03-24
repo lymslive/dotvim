@@ -11,6 +11,7 @@
 + https://github.com/Shougo/vimproc.vim
 + https://github.com/Shougo/unite.vim
 + https://github.com/Shougo/neocomplete.vim
++ https://github.com/Shougo/neco-vim
 + https://github.com/Shougo/vimshell.vim
 + https://github.com/Shougo/neoyank.vim
 + https://github.com/Shougo/neomru.vim

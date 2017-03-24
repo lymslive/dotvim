@@ -4,7 +4,7 @@
 set rtp+=$PACKHOME/lymslive/opt/StartVim
 set rtp+=$PACKHOME/lymslive/opt/vimloo
 set rtp+=$PACKHOME/lymslive/opt/EDvsplit
-set rtp+=$PACKHOME/lymslive/opt/UseTabpge
+set rtp+=$PACKHOME/lymslive/opt/UseTabpage
 set rtp+=$PACKHOME/lymslive/opt/qcmotion
 " set rtp+=$PACKHOME/lymslive/opt/Spacebar
 set rtp+=$PACKHOME/lymslive/opt/MicroCommand
