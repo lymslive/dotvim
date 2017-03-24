@@ -29,3 +29,5 @@
 + https://github.com/jiangmiao/auto-pairs
 * https://github.com/Valloric/YouCompleteMe
 - https://github.com/asins/vim-dict
+
++ https://github.com/iamcco/dict.vim

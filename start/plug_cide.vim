@@ -1,6 +1,7 @@
 " plugins setting for CIDE editor
 
 " Load Plugin: {{{1
+set rtp+=$PACKHOME/lymslive/opt/StartVim
 set rtp+=$PACKHOME/lymslive/opt/vimloo
 set rtp+=$PACKHOME/lymslive/opt/EDvsplit
 set rtp+=$PACKHOME/lymslive/opt/UseTabpge

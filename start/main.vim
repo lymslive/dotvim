@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: $MYVIMRC: ln -s this file to ~/.vimrc
 " Create: 2017-03-21
-" Modify: 2017-03-23
+" Modify: 2017-03-24
 
 " Vital Variable: {{{1
 let $VIMHOME = $HOME . '/.vim'
@@ -37,8 +37,12 @@ function! s:LoadVimrc(pVimrc) abort "{{{
 endfunction "}}}
 
 " Search Vimrc: {{{1
-if has_key(s:dStartAlias, v:progname)
-    let g:START_NAME = s:dStartAlias[v:progname]
+if v:progname =~? '^vim-.\+'
+    let g:START_NAME = substitute(v:progname, '^vim-', '', '')
+endif
+
+if has_key(s:dStartAlias, g:START_NAME)
+    let g:START_NAME = s:dStartAlias[g:START_NAME]
 endif
 
 " 1. self_{g:START_NAME}*.vim

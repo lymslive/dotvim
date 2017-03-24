@@ -1,7 +1,7 @@
 " Vim filetype plugin
 " Language:	Vim
 " Maintainer: lymslive
-" Modify: 2017-03-17
+" Modify: 2017-03-23
 
 " 常规设置 "{{{1
 " always use space to indent
@@ -41,4 +41,8 @@ nnoremap <buffer> z2 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldm
 nnoremap <buffer> z3 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldmarker, ',')[0].'3', '')<CR><Esc>
 nnoremap <buffer> z4 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldmarker, ',')[0].'4', '')<CR><Esc>
 
+if !exists('s:once')
+    set rtp+=$PACKHOME/Shougo/opt/neco-vim
+    silent source $PACKHOME/Shougo/opt/neco-vim/plugin/necovim.vim
+endif
 finish
