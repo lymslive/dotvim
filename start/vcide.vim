@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: vimrc for coder
 " Create: 2017-03-20
-" Modify: 2017-03-24
+" Modify: 2017-03-26
 
 " Common Vimrc:
 source $STARTHOME/_setting.vim
@@ -22,3 +22,7 @@ source $VIMRUNTIME/macros/matchit.vim
 
 source $STARTHOME/plug_cide.vim
 filetype plugin indent on
+
+" read .vim in current dir
+set exrc
+set secure
