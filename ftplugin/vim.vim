@@ -42,6 +42,7 @@ nnoremap <buffer> z3 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldm
 nnoremap <buffer> z4 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldmarker, ',')[0].'4', '')<CR><Esc>
 
 if !exists('s:once')
+    let s:once = 1
     set rtp+=$PACKHOME/Shougo/opt/neco-vim
     silent source $PACKHOME/Shougo/opt/neco-vim/plugin/necovim.vim
 endif
