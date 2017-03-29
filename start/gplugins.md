@@ -32,3 +32,4 @@
 - https://github.com/asins/vim-dict
 
 + https://github.com/iamcco/dict.vim
++ https://github.com/lvht/phpcd.vim

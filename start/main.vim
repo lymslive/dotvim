@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: $MYVIMRC: ln -s this file to ~/.vimrc
 " Create: 2017-03-21
-" Modify: 2017-03-25
+" Modify: 2017-03-27
 
 " Vital Variable: {{{1
 let $VIMHOME = $HOME . '/.vim'
@@ -11,10 +11,12 @@ if has('win32') || has ('win64')
 endif
 let $STARTHOME = $VIMHOME . '/start'
 let $PACKHOME  = $VIMHOME . '/pack'
+let $UNPACKHOME  = $VIMHOME . '/unpack'
 
 let g:START_NAME = v:progname
 let g:START_VIMRC = ''
 let g:RUN_NAME = []
+let g:PLUGIN_LIST = $STARTHOME . '/gplugins.md'
 
 " Custom Config: {{{1
 let s:dStartAlias = {}
