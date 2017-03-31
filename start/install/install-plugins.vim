@@ -9,7 +9,7 @@ packadd vimloo
 packadd StartVim
 
 " the plugin list file
-let s:plugins = '~/.vim/start/gplugins.md'
+let s:plugins = '~/.vim/start/install/plugins.md'
 " whether update if already installed
 let s:flag = 0
 
