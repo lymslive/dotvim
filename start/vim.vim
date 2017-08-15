@@ -1,4 +1,4 @@
-" File: vim-note
+" File: vim.vim
 " Author: lymslive
 " Description: server as vimrc for `vim` only
 " Create: 2017-03-25
@@ -11,8 +11,8 @@ source $STARTHOME/_remap.vim
 source $STARTHOME/_event.vim
 
 " Load Plugin:
-" set rtp+=$PACKHOME/lymslive/opt/StartVim
-set rtp+=$PACKHOME/lymslive/opt/vimloo
+packadd StartVim
+packadd vimloo
 packadd autoplug
 call autoplug#load()
 filetype plugin indent on
