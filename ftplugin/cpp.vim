@@ -7,10 +7,10 @@ set foldmethod=syntax
 set foldlevelstart=99
 
 " 注释
-nnoremap <buffer> ,x <ESC>:call Wrap#Wrap('// ', '', "n")<CR>
-vnoremap <buffer> ,x <ESC>:call Wrap#Wrap('// ', '', "v")<CR>
-vnoremap <buffer> ,,x <ESC>:call Wrap#Wrap('/*', '*/', visualmode())<CR>
-vnoremap <buffer> ,X <ESC>:call Wrap#Wrap('#if 0', '#endif', visualmode())<CR>
+nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "n")<CR>
+vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "v")<CR>
+vnoremap <buffer> ,,x <ESC>:call wraptext#func#wrap('/*', '*/', visualmode())<CR>
+vnoremap <buffer> ,X <ESC>:call wraptext#func#wrap('#if 0', '#endif', visualmode())<CR>
 
 " 空格快捷键模式
 silent! call Spacebar#SpaceModeSelect('Cpp')

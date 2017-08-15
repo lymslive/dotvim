@@ -1,7 +1,7 @@
 " Vim filetype plugin
 " Language:	Vim
 " Maintainer: lymslive
-" Modify: 2017-03-23
+" Modify: 2017-08-15
 
 " 常规设置 "{{{1
 " always use space to indent
@@ -23,10 +23,10 @@ endfunction "}}}
 nnoremap <buffer> <F9> :update<CR>:source %<CR>:ClassTest
 
 " 为正则表达式添加括号分组 \(\)
-vnoremap <buffer> ,) <ESC>:call Wrap#Wrap('\(', '\)', "v")<CR>
+vnoremap <buffer> ,) <ESC>:call wraptext#func#wrap('\(', '\)', "v")<CR>
 " 注释块
-nnoremap <buffer> ,x <ESC>:call Wrap#Wrap('" ', '', "n")<CR>
-vnoremap <buffer> ,x <ESC>:call Wrap#Wrap('" ', '', "v")<CR>
+nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('" ', '', "n")<CR>
+vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('" ', '', "v")<CR>
 
 inoremap <buffer> " "
 

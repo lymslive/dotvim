@@ -36,8 +36,8 @@ set foldlevel=2
 " Shift-Enter 不算定添加注释前缀
 inoremap <buffer> <S-CR> <CR><Esc>C
 " 注释块
-nnoremap <buffer> ,x <ESC>:call Wrap#Wrap('% ', '', "n")<CR>
-vnoremap <buffer> ,x <ESC>:call Wrap#Wrap('% ', '', "v")<CR>
+nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('% ', '', "n")<CR>
+vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('% ', '', "v")<CR>
 
 " 添加括号
 " iabbrev <buffer> [ []<left>

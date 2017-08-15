@@ -4,9 +4,8 @@
 " Last Change:	2014-3-30
 
 " 注释块
-let mapleader = ","
-nnoremap <buffer> <leader>x <ESC>:call Wrap#Wrap('<!-- ', ' -->', "n")<CR>
-vnoremap <buffer> <leader>x <ESC>:call Wrap#Wrap('<!-- ', ' -->', "v")<CR>
+nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('<!-- ', ' -->', "n")<CR>
+vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('<!-- ', ' -->', "v")<CR>
 
 " 按标签移动
 " [[ 上一个尖括号，]] 下一个尖括号

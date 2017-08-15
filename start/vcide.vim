@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: vimrc for coder
 " Create: 2017-03-20
-" Modify: 2017-03-26
+" Modify: 2017-07-25
 
 " Common Vimrc:
 source $STARTHOME/_setting.vim
@@ -26,3 +26,4 @@ filetype plugin indent on
 " read .vim in current dir
 set exrc
 set secure
+

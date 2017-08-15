@@ -3,6 +3,7 @@
 + https://github.com/lymslive/vimloo
 + https://github.com/lymslive/StartVim
 + https://github.com/lymslive/vnote
++ https://github.com/lymslive/tygame
 + https://github.com/lymslive/EDvsplit
 + https://github.com/lymslive/UseTabpge
 + https://github.com/lymslive/MicroCommand

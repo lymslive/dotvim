@@ -5,7 +5,7 @@
 
 " 注释块
 let maplocalleader = ","
-nnoremap <buffer> <LocalLeader>x <ESC>:call Wrap#Wrap('# ', '', "n")<CR>
-vnoremap <buffer> <LocalLeader>x <ESC>:call Wrap#Wrap('# ', '', "v")<CR>
+nnoremap <buffer> <LocalLeader>x <ESC>:call wraptext#func#wrap('# ', '', "n")<CR>
+vnoremap <buffer> <LocalLeader>x <ESC>:call wraptext#func#wrap('# ', '', "v")<CR>
 
 finish
