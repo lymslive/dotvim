@@ -8,6 +8,8 @@ source $STARTHOME/_event.vim
 " Load Plugin:
 set rtp+=$PACKHOME/lymslive/opt/StartVim
 set rtp+=$VIMHOME/pack/lymslive/opt/vimloo
+let g:vimloo_plugin_enable = 1
+let g:vimloo_ftplugin_enable = 1
 set rtp+=$VIMHOME/pack/lymslive/opt/EDvsplit
 set rtp+=$VIMHOME/pack/lymslive/opt/UseTabpge
 set rtp+=$VIMHOME/pack/lymslive/opt/MicroCommand

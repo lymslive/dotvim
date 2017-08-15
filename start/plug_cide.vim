@@ -11,6 +11,9 @@ set rtp+=$PACKHOME/lymslive/opt/MicroCommand
 set rtp+=$PACKHOME/lymslive/opt/Wrap
 " set rtp+=$PACKHOME/lymslive/opt/logview
 set rtp+=$PACKHOME/lymslive/opt/vnote
+set rtp+=$PACKHOME/lymslive/opt/tygame
+let g:vimloo_plugin_enable = 1
+let g:vimloo_ftplugin_enable = 1
 
 " set rtp+=$PACKHOME/VundleVim/opt/Vundle.vim
 set rtp+=$PACKHOME/tpope/opt/vim-surround
@@ -20,7 +23,7 @@ set rtp+=$PACKHOME/majutsushi/opt/tagbar
 
 set rtp+=$PACKHOME/SirVer/opt/ultisnips
 set rtp+=$PACKHOME/honza/opt/vim-snippets
-source $PACKHOME/SirVer/opt/ultisnips/ftdetect/UltiSnips.vim
+" source $PACKHOME/SirVer/opt/ultisnips/ftdetect/UltiSnips.vim
 " set rtp+=$PACKHOME/Shougo/opt/neosnippet
 " set rtp+=$PACKHOME/Shougo/opt/neosnippet-snippets
 
