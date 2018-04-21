@@ -13,3 +13,7 @@ source $STARTHOME/_event.vim
 packadd StartVim
 packadd vimloo
 packadd vnote
+packadd autoplug
+call autoplug#load()
+PI wraptext usetabpg microcmd
+filetype plugin indent on
