@@ -10,3 +10,7 @@ endif
 
 setlocal tabstop=4
 setlocal shiftwidth=4
+
+nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "n")<CR>
+vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "v")<CR>
+vnoremap <buffer> ,,x <ESC>:call wraptext#func#wrap('/*', '*/', visualmode())<CR>
