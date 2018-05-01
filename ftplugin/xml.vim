@@ -3,6 +3,10 @@
 " Maintainer:	lymslive
 " Last Change:	2014-3-30
 
+" xml/html 缩进层次多，用 2 格
+setlocal tabstop=2
+setlocal shiftwidth=2
+
 " 注释块
 nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('<!-- ', ' -->', "n")<CR>
 vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('<!-- ', ' -->', "v")<CR>

@@ -110,6 +110,7 @@ let g:neocomplete#text_mode_filetypes =
     \ {'text':1, 'markdown':1, 'tex':1, 'help':1} 
 let g:neocomplete#sources#dictionary#dictionaries = 
     \ {'default':'', 'text':'~/.vim/dict/english.dic'}
+command! NE NeoCompleteEnable
 
 " Neosnippet: {{{1
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
