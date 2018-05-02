@@ -1,7 +1,7 @@
 " Vim filetype plugin
 " Language:	Vim
 " Maintainer: lymslive
-" Modify: 2017-08-15
+" Modify: 2018-05-01
 
 " 常规设置 "{{{1
 " always use space to indent
@@ -31,7 +31,7 @@ vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('" ', '', "v")<CR>
 inoremap <buffer> " "
 
 " 查看帮助
-nnoremap <buffer> K :help expand('<cword>')<CR>
+nnoremap <buffer> K :execute "help" expand('<cword>')<CR>
 
 " 折叠设置 "{{{1
 setlocal foldmethod=marker

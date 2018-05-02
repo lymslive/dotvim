@@ -1,18 +1,23 @@
 " Vim filetype plugin
 " Language:	go
 " Maintainer: lymslive
-" Modify: 2018-04-27
+" Modify: 2018-05-01
 
 " Plugin:
 if !exists('s:once')
     let s:once = 1
     packadd vim-go
     let g:go_doc_url='https://golang.google.cn'
+    let g:go_fmt_command = "goimports"
 endif
 
 " Indent:
 setlocal tabstop=4
 setlocal shiftwidth=4
+
+setlocal formatoptions+=ro
+set foldmethod=syntax
+set foldlevelstart=99
 
 " Comment:
 nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "n")<CR>
@@ -27,3 +32,5 @@ nnoremap <buffer> <F10> <Esc>:GoTest<CR>
 nnoremap <buffer> <F5> <Esc>:GoRun<CR>
 nnoremap <buffer> <F6> <Esc>:GoInstall<CR>
 nnoremap <buffer> <F2> <Esc>:GoRename<CR>
+
+command! -buffer A :GoAlternate
