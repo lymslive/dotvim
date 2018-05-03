@@ -6,6 +6,7 @@ core.*
 Session*.vim
 *.tar.gz
 *.tgz
+.netrwhist
 pack/
 bundle/
 local
