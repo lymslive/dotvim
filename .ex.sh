@@ -19,6 +19,7 @@ function cdup()
 }
 
 # find a vim-plugin pack under ~/.vim/pack, and cd to that directory
+vim_pack_root=$(pwd)
 function cdpack()
 {
 	if [[ $# < 1 ]]; then
@@ -26,7 +27,7 @@ function cdpack()
 		return
 	fi
 
-	local root=$(pwd)
+	local root=$vim_pack_root
 	local pack=$1
 	local path=$(find $root/pack -name "*$pack*" -type d -print -quit)
 	if [[ -n $path ]]; then

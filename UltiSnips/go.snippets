@@ -2,21 +2,33 @@
 # ~/.vim/pack/honza/opt/vim-snippets/UltiSnips/go.snippets
 # ~/.vim/pack/fatih/opt/vim-go/gosnippets/UltiSnips/go.snippets
 
-snippet /^maint/ "Main function" r
+snippet /^maint/ "test Main function" r
 func TestMain(m *testing.M) {
 	${0:${VISUAL}}
+	m.Run()
 }
 endsnippet
 
-snippet iferr "If err statement" b
-if ${1:val}, err := ${2:fun()}; err != nil {
+snippet /^ta/ "test assert function" r
+func Test${1:XXX}(t *testing.T) {
+	assert.BeginTest(t)
+	defer assert.EndTest()
 	${0:${VISUAL}}
-	return err
 }
 endsnippet
 
-snippet ifok "If ok statement" b
-if ${1:val}, ok := ${2:fun()}; !ok {
+snippet /^imt/ "import common" r
+import (
+	"log"
+	"testing"
+
+	"github.com/lymslive/gotoo/assert"
+	${0:${VISUAL}}
+)
+endsnippet
+
+snippet /^init/ "init function" r
+func init() {
 	${0:${VISUAL}}
 }
 endsnippet
