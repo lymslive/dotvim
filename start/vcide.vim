@@ -2,7 +2,7 @@
 " Author: lymslive
 " Description: vimrc for coder
 " Create: 2017-03-20
-" Modify: 2017-07-25
+" Modify: 2018-05-05
 
 " Common Vimrc:
 source $STARTHOME/_setting.vim
@@ -20,8 +20,17 @@ set formatoptions-=t
 " Load Plugin:
 source $VIMRUNTIME/macros/matchit.vim
 
-source $STARTHOME/plug_cide.vim
+" source $STARTHOME/plug_cide.vim
 filetype plugin indent on
+
+packadd StartVim
+packadd vimloo
+let g:vimloo_plugin_enable = 1
+let g:vimloo_ftplugin_enable = 1
+packadd autoplug
+call autoplug#load()
+
+PI coding
 
 " read .vim in current dir
 set exrc

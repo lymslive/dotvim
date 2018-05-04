@@ -1,4 +1,5 @@
 " plugins setting for CIDE editor
+" has moved to `PI coding`
 
 " Load Plugin: {{{1
 packadd StartVim
