@@ -1,7 +1,7 @@
 " Vim filetype plugin
 " Language:	Vim
 " Maintainer: lymslive
-" Modify: 2018-05-01
+" Modify: 2018-05-05
 
 " 常规设置 "{{{1
 " always use space to indent
@@ -14,10 +14,6 @@ setlocal dictionary=~/.vim/dict/vim.dic
 " 运行脚本
 nnoremap <buffer> <F5> :update<CR>:source %<CR>
 vnoremap <buffer> <F5> :call <SID>RunLines()<CR>
-function! s:RunLines() "{{{
-    let l:line = getline('.')
-    execute l:line
-endfunction "}}}
 
 " 重新加载并测试脚本
 nnoremap <buffer> <F9> :update<CR>:source %<CR>:ClassTest
@@ -41,9 +37,14 @@ nnoremap <buffer> z2 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldm
 nnoremap <buffer> z3 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldmarker, ',')[0].'3', '')<CR><Esc>
 nnoremap <buffer> z4 A<Space><C-r>=substitute(&commentstring, '%s', split(&foldmarker, ',')[0].'4', '')<CR><Esc>
 
-if !exists('s:once')
-    let s:once = 1
-    set rtp+=$PACKHOME/Shougo/opt/neco-vim
-    silent source $PACKHOME/Shougo/opt/neco-vim/plugin/necovim.vim
+" Once: 剩余部分只加载一次 {{{1
+if exists('s:once')
+    finish
 endif
+let s:once = 1
+
+function! s:RunLines() "{{{
+    let l:line = getline('.')
+    execute l:line
+endfunction "}}}
 finish

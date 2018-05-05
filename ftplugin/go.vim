@@ -1,15 +1,10 @@
 " Vim filetype plugin
 " Language:	go
 " Maintainer: lymslive
-" Modify: 2018-05-01
+" Modify: 2018-05-05
 
 " Plugin:
-if !exists('s:once')
-    let s:once = 1
-    packadd vim-go
-    let g:go_doc_url='https://golang.google.cn'
-    let g:go_fmt_command = "goimports"
-endif
+PI golang
 
 " Indent:
 setlocal tabstop=4

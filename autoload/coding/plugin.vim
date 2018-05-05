@@ -5,6 +5,7 @@
 " Modify: 2018-05-05
 "
 
+" Plugin:
 PI edvsplit usetabpg microcmd qcmotion wraptext
 
 packadd nerdtree
@@ -25,7 +26,6 @@ packadd neoyank.vim
 
 packadd neocomplete.vim
 " packadd YouCompleteMe
-packadd clang_complete
 
 packadd ack.vim
 " packadd vim-dict
@@ -109,69 +109,6 @@ nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 " Signature: {{{1
 nnoremap \m :SignatureToggleSigns<CR>
 
-" Cscope: {{{1
-" see: cscope_maps.vim bt Jason Duell
-if has("cscope")
-
-    " use relative path of cscpo.out
-    set cscoperelative
-
-    " use :cstag instead of the defualt :tag
-    set cscopetag
-
-    " search tas files, after cscope database
-    set cscopetagorder=0
-
-    " print message
-    set cscopeverbose
-
-    " use quickfix for some cs find command
-    set cscopequickfix=s-,c-,d-,i-,t-,e-
-
-    " automatic load cscope.out
-    if filereadable("cscope.out")
-        cs add cscope.out  
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-
-    " common map manage cscope work
-    nnoremap <C-\>a :cs add cscope.out<CR>
-    nnoremap <C-\>r :!cscope -Rbq<CR>
-    nnoremap <C-\>h :cs help<CR>
-    nnoremap <C-\>\ :cs find f 
-
-    " find things under cursor
-    nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nnoremap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
-
-    " horizontally split find
-    nnoremap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
-    nnoremap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nnoremap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nnoremap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
-
-    " vertical split find
-    nnoremap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nnoremap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nnoremap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-endif
-
 " YouCompleteMe: {{{1
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
@@ -184,19 +121,6 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsEnableSnipMate = 0
 let g:snips_author = 'lymslive'
 
-" Clang_complete: {{{1
-let g:clang_snippets=1
-let g:clang_snippets_engine="ultisnips"
-let g:clang_use_library=1
-let g:clang_close_preview=1
-let g:clang_complete_macros=1
-let g:clang_user_options='-stdlib=libc++ -std=c++11 -ICPLUS_INCLUDE_PATH'
-
-" 不冲突 C-] C-T 快捷键
-let g:clang_jumpto_declaration_key = '<C-\><C-]>'
-let g:clang_jumpto_declaration_in_preview_key = '<C-\><C-p>'
-let g:clang_jumpto_back_key = '<C-\><C-T>'
-
 " Incsearch Map: {{{1
 " 增量搜索优化
 nmap /  <Plug>(incsearch-forward)
@@ -204,7 +128,7 @@ nmap ?  <Plug>(incsearch-backward)
 nmap g/ <Plug>(incsearch-stay)
 
 " LOAD:
-function! coding#plugin#load(...) abort "{{{
+function! coding#plugin#load(...) abort "{{{1
     return 1
 endfunction "}}}
 

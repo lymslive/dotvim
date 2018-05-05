@@ -3,6 +3,8 @@
 " Maintainer:	lymslive
 " Last Changed: 2016-01-08
 
+PI clang
+
 set foldmethod=syntax
 set foldlevelstart=99
 
@@ -101,26 +103,5 @@ inoremap <buffer> ] []
 " quation pairs
 inoremap <buffer> " ""<Esc>i
 inoremap <buffer> ' ''<Esc>i
-
-finish
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 废弃设置 {{{1
-" UltiSnips do the following things and more:
-" statement blocks
-iabbrev <buffer> for; for (?; ?; ?<Esc>o{?<ESC>2k^/?<CR>s
-iabbrev <buffer> if; if (?<Esc>o{?<ESC>2k^/?<CR>s
-iabbrev <buffer> else; else (?<Esc>o{?<ESC>2k^/?<CR>s
-iabbrev <buffer> while; while (?<Esc>o{?<ESC>2k^/?<CR>s
-iabbrev <buffer> switch; switch (?:<Esc>o{case ?:<CR>case ?:<Esc>[{k^/?<CR>s
-
-" if-else more
-iabbrev <buffer> iff; if<Esc>m`a (?<Esc>o{?<ESC>joelse {?<Esc>``/?<CR>s
-" type block
-iabbrev <buffer> struct; struct<CR>{?<Esc>ja;<Esc>h%kA
-iabbrev <buffer> class; class<Esc>m`o{private:<CR>public:<CR>protected:<Esc>ja;<Esc>``A
-
-" <C-j> jump to next ? place hold
-" inoremap <buffer> <C-j> <Esc>/?<CR>s
 
 finish
