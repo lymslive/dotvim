@@ -3,7 +3,7 @@
 
 # cdup n
 # goto up directory n levels
-function cdup()
+function cu()
 {
 	if [[ $# == 0 ]]; then
 		cd ..
@@ -19,17 +19,15 @@ function cdup()
 }
 
 # find a vim-plugin pack under ~/.vim/pack, and cd to that directory
-vim_pack_root=$(pwd)
-function cdpack()
+function cg()
 {
 	if [[ $# < 1 ]]; then
-		echo "$ cdpack packname"
+		echo "$ cg packname"
 		return
 	fi
 
-	local root=$vim_pack_root
-	local pack=$1
-	local path=$(find $root/pack -name "*$pack*" -type d -print -quit)
+	local name=$1
+	local path=$(cdgit.pl $name)
 	if [[ -n $path ]]; then
 		cd $path
 	fi
