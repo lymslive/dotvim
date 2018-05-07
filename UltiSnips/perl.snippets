@@ -28,3 +28,18 @@ sub ${1:function_name}
 }
 
 endsnippet
+
+snippet /^\s*open/ "Open file" r
+open(my $${1:fh}, '<', $${2:filename}) or die "cannot open $$2 $!";
+${VISUAL}${0}
+close($$1);
+endsnippet
+
+snippet /^\s*opendir/ "Open directory" r
+opendir(my $${1:dh}, '<', $${2:dirpath}) or die "cannot open $$2 $!";
+my @${3:files} = readdir($$1);
+${VISUAL}${0}
+closedir($$1);
+endsnippet
+
+

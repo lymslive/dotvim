@@ -8,10 +8,6 @@
 use strict;
 use warnings;
 
-# my $rootdir = $(pwd);
-# my $rootdir = `pwd`; # 可能多个回车
-# use Cwd qw(cwd);
-# my $rootdir = cwd;
 my $rootdir = $ENV{'PWD'};
 my $depthmax = 5;
 my $DEBUG = 0;
@@ -20,6 +16,7 @@ my $GIT = ".git";
 my @git = ();
 my $OUT = "git.md";
 
+&checkgit();
 &main();
 
 sub main
@@ -111,8 +108,18 @@ sub foundgit($$)
 	if ($output =~ /\s+(.+)\s+\(fetch\)/) {
 		$remote = $1;
 	}
+	warn "fail got remote url for $name" if length($remote) == 0;
 	my $entry = "* $name: [$path]($remote)";
 	return $entry;
+}
+
+# 检查 git 不低于 2.x
+sub checkgit
+{
+	my $output = `git version`;
+	my $version = 0;
+	$version = $1 if ($output =~ m/git version ([\d\.]+)/);
+	die "git version < 2.x?" if 0+$version < 2;
 }
 
 # 简单的日志函数，要求前缀与实际消息两个参数，自动添加换行

@@ -46,6 +46,7 @@ sub getpath()
 			}
 		}
 	}
+	close($fh);
 
 	# 没有完全匹配，按一定策略模糊匹配
 	my @names = keys(%gitpath);
