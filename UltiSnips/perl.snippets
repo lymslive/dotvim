@@ -8,8 +8,33 @@ use warnings;
 ${1}
 endsnippet
 
+snippet /^main/ "simple main frame" r
+&main() unless defined caller;
+
+##-- 主函数 --##
+
+sub main
+{
+	# body...
+}
+
+##-- 子函数 --##
+endsnippet
+
+snippet /^end/ "end document" r
+__END__
+=pod
+=cut
+endsnippet
+
 snippet if
 if (${1:#:condition}) {
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet fork "foreach keys"
+foreach my $${1:k} (keys(%${2:hash})){
 	${VISUAL}${0}
 }
 endsnippet
@@ -29,13 +54,13 @@ sub ${1:function_name}
 
 endsnippet
 
-snippet /^\s*open/ "Open file" r
-open(my $${1:fh}, '<', $${2:filename}) or die "cannot open $$2 $!";
+snippet open "Open file"
+open(my $${1:fh}, '${3:<}', $${2:filename}) or die "cannot open $$2 $!";
 ${VISUAL}${0}
 close($$1);
 endsnippet
 
-snippet /^\s*opendir/ "Open directory" r
+snippet opendir "Open directory"
 opendir(my $${1:dh}, '<', $${2:dirpath}) or die "cannot open $$2 $!";
 my @${3:files} = readdir($$1);
 ${VISUAL}${0}
