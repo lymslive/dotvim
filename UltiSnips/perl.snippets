@@ -8,15 +8,22 @@ use warnings;
 ${0}
 endsnippet
 
+snippet /^export/ "Exporter frame" r
+use Exporter 'import';
+@EXPORT = qw();
+@EXPORT_OK = qw();
+endsnippet
+
 snippet /^main/ "simple main frame" r
-##-- 主函数 --##
+##-- MAIN --##
 sub main
 {
-	# body...
+	my @argv = @_;
 }
 
-##-- 子函数 --##
+##-- SUBS --##
 
+##-- END --##
 &main(@ARGV) unless defined caller;
 1;
 __END__
@@ -50,9 +57,9 @@ endsnippet
 snippet sub "Function (sub)"
 sub ${1:function_name}
 {
-	${2:# body...}
+	my ($${2:var}) = @_;
+	${VISUAL}{0}
 }
-
 endsnippet
 
 snippet open "Open file"

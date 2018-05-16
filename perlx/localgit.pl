@@ -119,7 +119,7 @@ sub checkgit
 	my $output = `git version`;
 	my $version = 0;
 	$version = $1 if ($output =~ m/git version ([\d\.]+)/);
-	die "git version < 2.x?" if 0+$version < 2;
+	die "git version < 2.x?" if $version lt 1.8;
 }
 
 # 简单的日志函数，要求前缀与实际消息两个参数，自动添加换行
