@@ -43,6 +43,7 @@ if exists('s:once')
 endif
 let s:once = 1
 
+PI vimlang
 function! s:RunLines() "{{{
     let l:line = getline('.')
     execute l:line

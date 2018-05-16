@@ -2,23 +2,24 @@
 
 snippet perl
 #! /usr/bin/perl
-
+package ${1:`!v expand('%:t:r')`};
 use strict;
 use warnings;
-${1}
+${0}
 endsnippet
 
 snippet /^main/ "simple main frame" r
-&main() unless defined caller;
-
 ##-- 主函数 --##
-
 sub main
 {
 	# body...
 }
 
 ##-- 子函数 --##
+
+&main(@ARGV) unless defined caller;
+1;
+__END__
 endsnippet
 
 snippet /^end/ "end document" r
