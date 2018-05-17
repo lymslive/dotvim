@@ -19,6 +19,10 @@ vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('# ', '', "v")<CR>
 " 语法检查
 compiler perl
 nnoremap <buffer> <F9> :make<CR>
+" 当前文件 pod 检测
+nnoremap <buffer> <F10> :!podchecker %<CR>
+" 运行当前文件，停留在命令行，等待额外参数
+nnoremap <buffer> <F5> :!perl %
 
 " 字典补全
 setlocal dictionary+=~/.vim/dict/perl.dic
