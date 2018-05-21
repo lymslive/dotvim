@@ -43,6 +43,14 @@ if has("cscope")
         cs add cscope.out  
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
+    else
+        " search upward for project
+        let s:rtp = class#less#rtp#export()
+        let s:prj = s:rtp.FindPrject('.')
+        if !empty(s:prj) && filereadable(s:rtp.AddPath(s:prj, 'cscope.out'))
+            execute 'cs add ' . s:rtp.AddPath(s:prj, 'cscope.out')
+        endif
+        unlet s:rtp s:prj
     endif
 
     " common map manage cscope work
