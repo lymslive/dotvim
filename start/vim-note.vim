@@ -17,3 +17,5 @@ packadd autoplug
 call autoplug#load()
 PI wraptext usetabpg microcmd
 filetype plugin indent on
+
+:silent Vnote -w
