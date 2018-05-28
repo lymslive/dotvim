@@ -67,26 +67,26 @@ endsnippet
 
 snippet for "for ... in loop"
 for ${1} in ${2}
-	${0}
+	${VISUAL}${0}
 endfor
 endsnippet
 
 snippet forkv "for [key, value] in loop"
 for [${1},${2}] in items(${3})
-	${0}
+	${VISUAL}${0}
 	unlet $1 $2
 endfor
 endsnippet
 
 snippet wh "while loop"
 while ${1}
-	${0}
+	${VISUAL}${0}
 endwhile
 endsnippet
 
 snippet if "if statement"
 if ${1}
-	${0}
+	${VISUAL}${0}
 endif
 endsnippet
 
@@ -139,10 +139,6 @@ augroup ${1:AU_NAME}
 	" this one is which you're most likely to use?
 	autocmd ${2:BufRead,BufNewFile} ${3:*.ext,*.ext3|<buffer[=N]>} ${0}
 augroup END
-endsnippet
-
-snippet bun "Vundle.vim Plugin definition"
-Plugin '${0}'
 endsnippet
 
 # vim:ft=snippets:
