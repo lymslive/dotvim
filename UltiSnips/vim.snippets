@@ -5,9 +5,10 @@
 snippet header "standard Vim script file header"
 " File: ${1:`!v expand('%:t:r')`}
 " Author: ${2:`!v g:snips_author`}
-" Description: ${0}
+" Description: ${4}
 " Create: ${3:`!v strftime("%Y-%m-%d")`}
 " Modify: $3
+${0}
 endsnippet
 
 snippet gvar "Global / configuration variable" b
@@ -53,7 +54,7 @@ endsnippet
 
 snippet fah "command handle function" b
 " $1: 
-function! `!p snip.rv = snip.basename or "script"`#h${1:function_name}(${2}) abort "{{{
+function! `!v cmass#util#GetAutoName(expand('%:p:r'))`#h${1:function_name}(${2}) abort "{{{
 	${3:" code}
 endfunction "}}}
 endsnippet
