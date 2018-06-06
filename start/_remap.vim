@@ -6,7 +6,7 @@ cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
 cnoremap <C-d> <Del>
 cnoremap <C-f> <Right>
-cnoremap <C-o> <Up>
+cnoremap <C-o> <C-F>
 cnoremap <C-j> <Down>
 cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
 cnoremap <C-x><C-a>      <C-a>
@@ -50,6 +50,7 @@ inoremap <C-u> <C-o>@=(col('.')==col('$')-1)? "d0x" : "d0"<CR>
 inoremap <C-y> <C-R>"
 inoremap <S-Ins> <C-R>*
 
+nnoremap ? q/
 nnoremap ' `
 nnoremap ` '
 nnoremap + "+
@@ -96,8 +97,8 @@ nnoremap <C-j> 5<C-e>
 nnoremap <C-k> 5<C-y>
 nnoremap <C-S-j> 12<C-e>
 nnoremap <C-S-k> 12<C-y>
-" nnoremap <CR> :
-nnoremap <CR> : <C-R>=expand("<cword>")<CR><Home>
+" nnoremap <CR> q:
+nnoremap <CR> : <C-R>=expand("<cword>")<CR>
 nnoremap <S-CR> :<UP>
 nnoremap <S-Ins> "*p
 nnoremap <Space>   @=(foldlevel(line('.'))>0) ? "za" : "}"<CR>
@@ -117,6 +118,7 @@ nnoremap \q :cclose<CR>
 nnoremap \Q :botright copen<CR>
 noremap <BS> ^
 noremap <S-BS> $
+
 onoremap <S-Space> {
 onoremap <Space>   }
 
