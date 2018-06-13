@@ -19,8 +19,8 @@
 + https://github.com/Shougo/unite.vim
 + https://github.com/Shougo/neocomplete.vim
 + https://github.com/Shougo/neco-vim
++ make https://github.com/Shougo/vimproc.vim
 
-- https://github.com/Shougo/vimproc.vim
 - https://github.com/Shougo/vimshell.vim
 - https://github.com/Shougo/neoyank.vim
 - https://github.com/Shougo/neomru.vim
@@ -34,11 +34,11 @@
 + https://github.com/fatih/vim-go.git
 + https://github.com/lvht/phpcd.vim
 + https://github.com/WolfgangMehner/perl-support
++ make https://github.com/Rip-Rip/clang_complete
 
 ## 其他试用过已不常用的插件
 - https://github.com/tsukkee/unite-tag
 - https://github.com/amitab/vim-unite-cscope
-- make https://github.com/Rip-Rip/clang_complete
 - https://github.com/haya14busa/incsearch.vim
 
 - https://github.com/jiangmiao/auto-pairs

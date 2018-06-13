@@ -29,7 +29,7 @@ packadd neocomplete.vim
 
 packadd ack.vim
 " packadd vim-dict
-packadd incsearch.vim
+" packadd incsearch.vim
 
 packadd vim-surround
 " packadd vim-signature
@@ -107,7 +107,7 @@ set completeopt=noselect,menu
 nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " Signature: {{{1
-nnoremap \m :SignatureToggleSigns<CR>
+" nnoremap \m :SignatureToggleSigns<CR>
 
 " YouCompleteMe: {{{1
 let g:ycm_key_list_select_completion=[]
@@ -122,10 +122,10 @@ let g:UltiSnipsEnableSnipMate = 0
 let g:snips_author = 'lymslive'
 
 " Incsearch Map: {{{1
-" 增量搜索优化
-nmap /  <Plug>(incsearch-forward)
-nmap ?  <Plug>(incsearch-backward)
-nmap g/ <Plug>(incsearch-stay)
+" 增量搜索优化，没感觉到差异？
+" nmap /  <Plug>(incsearch-forward)
+" nmap ?  <Plug>(incsearch-backward)
+" nmap g/ <Plug>(incsearch-stay)
 
 " LOAD:
 function! coding#plugin#load(...) abort "{{{1
