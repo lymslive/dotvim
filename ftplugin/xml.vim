@@ -20,11 +20,20 @@ nnoremap <buffer> [< :call <SID>MoveLastOpenTag()<CR>
 
 " see `help insert.txt` for xmlcomplete
 let b:TagMotion = []
-function! s:MoveLastOpenTag() " {{{1
+function! s:MoveLastOpenTag() " {{{
     normal! b
     let l:tag = xmlcomplete#GetLastOpenTag("b:TagMotion")
     if len(l:tag) > 0
         call search('<' . l:tag, 'b')
     endif
-endfunction
-finish
+endfunction " }}}
+
+" Once: 剩余部分只加载一次 {{{1
+if exists('s:once')
+    finish
+endif
+let s:once = 1
+
+" Plugin: https://github.com/sukima/xmledit
+let g:xmledit_enable_html = 1
+packadd xmledit
