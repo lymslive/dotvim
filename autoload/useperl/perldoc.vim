@@ -44,6 +44,7 @@ endfunction
 
 function! s:SetKeyMaps()
   noremap <buffer> <silent> K :Perldoc<CR>
+  noremap <buffer> <silent> <CR> :Perldoc <C-R><C-W>
   noremap <buffer> <silent> s :call <SID>Toggle()<CR>
 endfunction
 

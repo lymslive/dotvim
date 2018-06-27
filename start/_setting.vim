@@ -48,7 +48,7 @@ set cursorline
 set foldmethod=marker
 
 " set clipboard+=unnamed
-" set mouse=a
+set mouse=nv
 set selection=inclusive
 
 set nobackup

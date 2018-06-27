@@ -4,7 +4,9 @@
 " Create: 2018-05-05
 " Modify: 2018-05-05
 
-packadd neco-vim
+if !exists('$SPACEVIM')
+    packadd neco-vim
+endif
 
 " load: 
 function! vimlang#plugin#load() abort "{{{

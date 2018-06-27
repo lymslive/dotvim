@@ -8,6 +8,10 @@ if exists("b:dotvim_ftplugin_perl")
 endif
 let b:dotvim_ftplugin_perl = 1
 
+setlocal shiftwidth=4
+setlocal softtabstop=4
+setlocal noexpandtab
+
 " 插件加载与配置
 PI useperl
 silent! nmap <buffer> <unique> K <Plug>(perldoc)
