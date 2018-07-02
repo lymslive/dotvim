@@ -49,6 +49,9 @@ default_height = 30
 name = "colorscheme"
 
 [[layers]]
+name = "unite"
+
+[[layers]]
 name = "lang#html"
 
 [[layers]]
@@ -61,4 +64,7 @@ name = "lang#lua"
 name = "lang#vim"
 
 [[layers]]
-name = "unite"
+name = "lang#c"
+
+[[layers]]
+name = "lang#perl"

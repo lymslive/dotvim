@@ -115,6 +115,7 @@ sub gitclone
 	my $author = $1;
 	my $resp = $2;
 	my $optdir = "$rootdir/$author/opt";
+	my $sshurl = "git\@github.com:$author/$resp.git";
 	make_path($optdir) unless -d $optdir;
 	warn "$optdir\n";
 
@@ -130,7 +131,8 @@ sub gitclone
 		}
 	}
 	else{
-		oscmd("git", "clone", $url);
+		# oscmd("git", "clone", $url);
+		oscmd("git", "clone", $sshurl);
 	}
 
 	return 1;

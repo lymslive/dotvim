@@ -13,6 +13,7 @@ my $rootdir = "$ENV{HOME}/.vim/pack";
 die "may not git resp: $url" if $url !~ m{github\.com/(.+)/(.+)};
 my $author = $1;
 my $resp = $2;
+my $sshurl = "git\@github.com:$author/$resp.git";
 
 my $optdir = "$rootdir/$author/opt";
 &oscmd("mkdir -p $optdir") unless -d $optdir;
@@ -30,7 +31,8 @@ if (-d $respdir) {
 	}
 }
 else{
-	oscmd("git clone $url");
+	# oscmd("git clone $url");
+	oscmd("git clone $sshurl");
 	if (-d "$respdir/doc") {
 		chdir("$respdir/doc") or die "cannot chdir to $respdir/doc: $!";
 		oscmd("vim -u NONE -c 'helptags .' -cq");
