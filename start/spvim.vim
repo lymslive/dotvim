@@ -11,6 +11,8 @@ packadd autoplug
 call autoplug#load()
 source $STARTHOME/_remap.vim
 
+let g:dein#types#git#default_protocol = 'ssh'
+
 " Load SpaceVim:
 let $SPACEVIM = $HOME . '/SpaceVim'
 execute 'source' . $SPACEVIM . '/init.vim'
