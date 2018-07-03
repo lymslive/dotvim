@@ -31,7 +31,7 @@
 
     # bootstrap_before = "spvim#before"
     # bootstrap_after = "spvim#after"
-    # filemanager = "nerdtree"
+    filemanager = "nerdtree"
     snippet_engine = "ultisnips"
 
 # Enable autocomplete layer
@@ -62,9 +62,6 @@ name = "lang#lua"
 
 [[layers]]
 name = "lang#vim"
-
-[[layers]]
-name = "lang#c"
 
 [[layers]]
 name = "lang#perl"

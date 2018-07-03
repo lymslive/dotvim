@@ -31,10 +31,10 @@
 - https://github.com/Shougo/neosnippet-snippets
 
 ## 特定语言
-+ https://github.com/fatih/vim-go.git
-+ https://github.com/lvht/phpcd.vim
-+ https://github.com/WolfgangMehner/perl-support
-+ make https://github.com/Rip-Rip/clang_complete
+- https://github.com/fatih/vim-go.git
+- https://github.com/lvht/phpcd.vim
+- https://github.com/WolfgangMehner/perl-support
++ https://github.com/Rip-Rip/clang_complete
 
 ## 其他试用过已不常用的插件
 - https://github.com/tsukkee/unite-tag
@@ -51,3 +51,6 @@
 - https://github.com/VundleVim/Vundle.vim
 - https://github.com/kshenoy/vim-signature
 
+## 非 vim 插件的外部支持工具
+
+- https://github.com/ggreer/the_silver_searcher

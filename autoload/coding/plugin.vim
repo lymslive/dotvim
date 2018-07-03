@@ -5,45 +5,48 @@
 " Modify: 2018-05-05
 "
 
-" Plugin:
+" Auto Plugin:
 PI edvsplit usetabpg microcmd qcmotion wraptext
 
-packadd nerdtree
-packadd tagbar
+" PackAdd Plugin: {{{1
+if !exists('$SPACEVIM')
+    packadd nerdtree
+    packadd tagbar
 
-packadd ultisnips
-packadd vim-snippets
+    packadd ultisnips
+    packadd vim-snippets
 
-packadd vimproc.vim
-packadd unite.vim
-packadd neoyank.vim
-" packadd neomru.vim
-" packadd unite-outline
-" packadd unite-help
-" packadd neoinclude.vim
-" packadd unite-tag
-" packadd vim-unite-cscope
+    packadd vimproc.vim
+    packadd unite.vim
+    " packadd neoyank.vim
+    " packadd neomru.vim
+    " packadd unite-outline
+    " packadd unite-help
+    " packadd neoinclude.vim
+    " packadd unite-tag
+    " packadd vim-unite-cscope
 
-packadd neocomplete.vim
-" packadd YouCompleteMe
+    packadd neocomplete.vim
+    " packadd YouCompleteMe
 
-packadd ack.vim
-" packadd vim-dict
-" packadd incsearch.vim
+    packadd ack.vim
+    " packadd vim-dict
+    " packadd incsearch.vim
 
-packadd vim-surround
-" packadd vim-signature
+    packadd vim-surround
+    " packadd vim-signature
+endif
 
 " NERDTree: {{{1
-nnoremap \f :NERDTreeToggle<CR>
-nnoremap \F :NERDTreeMirror<CR>
+nnoremap ;f :NERDTreeToggle<CR>
+nnoremap ;F :NERDTreeMirror<CR>
 " 自动关闭
 let NERDTreeQuitOnOpen=1
 
 " Tagbar: {{{1
 let g:tagbar_autoclose = 1
 let g:tagbar_autofocus = 1
-nnoremap \t :Tagbar<CR>
+nnoremap ;t :Tagbar<CR>
 
 " Unite: {{{1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -126,6 +129,11 @@ let g:snips_author = 'lymslive'
 " nmap /  <Plug>(incsearch-forward)
 " nmap ?  <Plug>(incsearch-backward)
 " nmap g/ <Plug>(incsearch-stay)
+
+" Ack: {{{1
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
 
 " LOAD:
 function! coding#plugin#load(...) abort "{{{1

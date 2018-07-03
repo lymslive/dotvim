@@ -4,7 +4,9 @@
 " Create: 2018-05-05
 " Modify: 2018-05-05
 
-packadd clang_complete
+if !exists('$SPACEVIM')
+    packadd clang_complete
+endif
 
 " Clang_complete: {{{1
 let g:clang_snippets=1
