@@ -89,6 +89,8 @@ syntax match Macro /\<[A-Z_]\{2,}\>/
 syntax match Special /\<\(C\|tag\|Tab\)[A-Z][A-Za-z]\+\>/
 " 以大写字母开头的函数或成员名
 syntax match Identifier /\<[A-Z][a-z][a-zA-Z]\+\>/
+" 以 :: 名字空间连接的标志符
+syntax match cType /\w\+::[[:alnum:]:]\+/
 setlocal iskeyword-=:
 
 " 以 imap 方式插入括号对会有些问题

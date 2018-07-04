@@ -45,11 +45,15 @@ nnoremap ;f :NERDTreeToggle<CR>
 nnoremap ;F :NERDTreeMirror<CR>
 " 自动关闭
 let NERDTreeQuitOnOpen=1
+" 忽略文件
+let NERDTreeIgnore = ['\~$', '\.swp', '\.svn', '\.git', '\.pyc', '\.o', '\.d']
+let NERDTreeRespectWildIgnore = 1
 
 " Tagbar: {{{1
 let g:tagbar_autoclose = 1
 let g:tagbar_autofocus = 1
 nnoremap ;t :Tagbar<CR>
+nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " Unite: {{{1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -107,10 +111,6 @@ imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
             \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 let g:neosnippet#snippets_directory = '~/.vim/bundle/neosnippet-snippets/neosnippets'
-
-" OmniCppComplete: {{{1 
-set completeopt=noselect,menu
-nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " Signature: {{{1
 " nnoremap \m :SignatureToggleSigns<CR>

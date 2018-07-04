@@ -9,6 +9,7 @@ if !exists('$SPACEVIM')
 endif
 
 " Clang_complete: {{{1
+set completeopt=noselect,menu
 let g:clang_snippets=1
 let g:clang_snippets_engine="ultisnips"
 let g:clang_use_library=1
