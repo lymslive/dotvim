@@ -6,7 +6,10 @@
 "
 
 " Auto Plugin:
-PI edvsplit usetabpg microcmd qcmotion wraptext
+PI edvsplit microcmd qcmotion
+if !exists('$SPACEVIM')
+    PI usetabpg wraptext
+endif
 
 " PackAdd Plugin: {{{1
 if !exists('$SPACEVIM')
