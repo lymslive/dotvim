@@ -16,6 +16,7 @@ set noignorecase
 set tagcase=match
 set nowrap
 set formatoptions-=t
+set tags=./tags,./TAGS,tags;.git;.svn,TAGS
 
 " Load Plugin:
 source $VIMRUNTIME/macros/matchit.vim
