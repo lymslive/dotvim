@@ -4,7 +4,7 @@
 " Last Change:	2018-05-16
 
 if exists("b:dotvim_ftplugin_perl")
-    finish
+    " finish
 endif
 let b:dotvim_ftplugin_perl = 1
 
