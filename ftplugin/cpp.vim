@@ -5,8 +5,15 @@
 
 PI clang
 
-set foldmethod=syntax
-set foldlevelstart=99
+" 处理大文件折叠
+let s:iLargeFile = 1024 * 100
+let b:iSize = getfsize(expand('%:p'))
+if (b:iSize > s:iLargeFile || b:iSize == -2) && &foldmethod ==? 'syntax'
+    setlocal foldmethod=indent
+else
+    setlocal foldmethod=syntax
+endif
+setlocal foldlevelstart=99
 
 " 注释
 nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "n")<CR>
@@ -90,7 +97,8 @@ syntax match Special /\<\(C\|tag\|Tab\)[A-Z][A-Za-z]\+\>/
 " 以大写字母开头的函数或成员名
 syntax match Identifier /\<[A-Z][a-z][a-zA-Z]\+\>/
 " 以 :: 名字空间连接的标志符
-syntax match cType /\w\+::[[:alnum:]:]\+/
+" syntax match cType /\w\+::[[:alnum:]_:]\+/
+syntax match Delimiter /[[:alnum:]_:]\+::\ze\w\+/
 setlocal iskeyword-=:
 
 " 以 imap 方式插入括号对会有些问题

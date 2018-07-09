@@ -122,6 +122,10 @@ noremap <S-BS> $
 onoremap <S-Space> {
 onoremap <Space>   }
 
+tnoremap <C-W>b <C-\><C-N><C-B>
+tnoremap <C-W>n <C-W>:tabnext<CR>
+tnoremap <C-W>N <C-W>:tabNext<CR>
+
 vnoremap + "+
 vnoremap - "*
 vnoremap / y/<C-\>e (visualmode() != 'v')? "" : getreg()<CR>

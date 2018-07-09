@@ -15,9 +15,12 @@ let g:dein#types#git#default_protocol = 'ssh'
 
 " Load SpaceVim:
 let $SPACEVIM = $HOME . '/SpaceVim'
-execute 'source' . $SPACEVIM . '/init.vim'
+execute 'source ' . $SPACEVIM . '/init.vim'
 
 " After SpaceVim:
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 set autowriteall
 set nonumber
 set norelativenumber
@@ -30,4 +33,5 @@ nnoremap ;t :Tagbar<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_autofocus = 1
 let NERDTreeQuitOnOpen=1
+nnoremap ;F :NERDTreeMirror<CR>
 " nnoremap ;f :VimFiler -force-hide<CR>
