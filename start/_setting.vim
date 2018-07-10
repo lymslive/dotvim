@@ -51,6 +51,7 @@ set foldmethod=marker
 set mouse=nv
 set selection=inclusive
 
+set noswapfile
 set nobackup
 " set backupdir=~/tmp/vimbak,.
 set history=50
