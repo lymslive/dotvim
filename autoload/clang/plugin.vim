@@ -33,7 +33,7 @@ if has("cscope")
     set cscopetag
 
     " search tas files, after cscope database
-    set cscopetagorder=0
+    set cscopetagorder=1
 
     " print message
     set cscopeverbose

@@ -122,12 +122,6 @@ noremap <S-BS> $
 onoremap <S-Space> {
 onoremap <Space>   }
 
-if has('terminal')
-    tnoremap <C-W>b <C-\><C-N><C-B>
-    tnoremap <C-W>n <C-W>:tabnext<CR>
-    tnoremap <C-W>N <C-W>:tabNext<CR>
-endif
-
 vnoremap + "+
 vnoremap - "*
 vnoremap / y/<C-\>e (visualmode() != 'v')? "" : getreg()<CR>

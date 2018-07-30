@@ -69,6 +69,7 @@ nnoremap <C-p>o :<C-u>Unite -buffer-name=outline outline<CR>
 nnoremap <C-p>r :<C-u>Unite register<CR>
 nnoremap <C-p>y :<C-u>Unite -buffer-name=yank history/yank<CR>
 nnoremap <C-p>j :<C-u>Unite jump<CR>
+nnoremap <C-p>p :<C-u>Unite -start-insert -buffer-name=project file_list:!/cscope.files<CR>
 
 " unite grep source
 if executable('ag')

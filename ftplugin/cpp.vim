@@ -3,12 +3,16 @@
 " Maintainer:	lymslive
 " Last Changed: 2016-01-08
 
+if exists("b:did_ftplugin") && b:did_ftplugin
+    finish
+endif
+
 PI clang
 
 " 处理大文件折叠
 let s:iLargeFile = 1024 * 100
 let b:iSize = getfsize(expand('%:p'))
-if (b:iSize > s:iLargeFile || b:iSize == -2) && &foldmethod ==? 'syntax'
+if (b:iSize > s:iLargeFile || b:iSize == -2) " && &foldmethod ==? 'syntax'
     setlocal foldmethod=indent
 else
     setlocal foldmethod=syntax
