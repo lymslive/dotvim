@@ -26,7 +26,7 @@ vnoremap <buffer> ,,x <ESC>:call wraptext#func#wrap('/*', '*/', visualmode())<CR
 vnoremap <buffer> ,X <ESC>:call wraptext#func#wrap('#if 0', '#endif', visualmode())<CR>
 
 " 空格快捷键模式
-silent! call Spacebar#SpaceModeSelect('Cpp')
+" silent! call Spacebar#SpaceModeSelect('Cpp')
 
 " Compile:
 " compile current file
@@ -104,18 +104,5 @@ syntax match Identifier /\<[A-Z][a-z][a-zA-Z]\+\>/
 " syntax match cType /\w\+::[[:alnum:]_:]\+/
 syntax match Delimiter /[[:alnum:]_:]\+::\ze\w\+/
 setlocal iskeyword-=:
-
-" 以 imap 方式插入括号对会有些问题
-" left brace pairs
-inoremap <buffer> ( ()<Esc>i
-inoremap <buffer> [ []<Esc>i
-inoremap <buffer> { {<CR>}<Esc>O
-" right brace pairs
-inoremap <buffer> } { }<Esc>i
-inoremap <buffer> ) ()
-inoremap <buffer> ] []
-" quation pairs
-inoremap <buffer> " ""<Esc>i
-inoremap <buffer> ' ''<Esc>i
 
 finish

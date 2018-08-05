@@ -50,7 +50,7 @@ inoremap <C-u> <C-o>@=(col('.')==col('$')-1)? "d0x" : "d0"<CR>
 inoremap <C-y> <C-R>"
 inoremap <S-Ins> <C-R>*
 
-nnoremap ? q/
+" nnoremap ? q/
 nnoremap ' `
 nnoremap ` '
 nnoremap + "+

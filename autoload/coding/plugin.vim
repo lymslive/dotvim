@@ -139,6 +139,21 @@ if executable('ag')
     let g:ackprg = 'ag --vimgrep'
 endif
 
+" Leaderf: {{{1
+let g:Lf_WorkingDirectoryMode = 'Ac'
+" \f \b has default
+" noremap \f 
+" noremap \b 
+noremap \t :<C-U>Leaderf bufTag<CR>
+noremap \T :<C-U>Leaderf tag<CR>
+noremap \a :<C-U>Leaderf self<CR>
+noremap \m :<C-U>Leaderf mru<CR>
+noremap \M :<C-U>LeaderfMruCwd <CR>
+noremap \h :<C-U>Leaderf help<CR>
+noremap \c :<C-U>Leaderf cmdHistory<CR>
+noremap \s :<C-U>Leaderf searchHistory<CR>
+
+
 " LOAD:
 function! coding#plugin#load(...) abort "{{{1
     return 1
