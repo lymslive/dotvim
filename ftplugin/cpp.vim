@@ -26,11 +26,12 @@ vnoremap <buffer> ,,x <ESC>:call wraptext#func#wrap('/*', '*/', visualmode())<CR
 vnoremap <buffer> ,X <ESC>:call wraptext#func#wrap('#if 0', '#endif', visualmode())<CR>
 
 " 空格快捷键模式
-silent! call Spacebar#SpaceModeSelect('Cpp')
+PI spacebar
+silent! call spacebar#func#SpaceModeSelect('Cpp')
 
 " Compile:
 " compile current file
-setlocal makeprg=g++\ -std=c++0x\ -c\ %
+" setlocal makeprg=g++\ -std=c++0x\ -c\ %
 nnoremap <buffer> <F9> :make<CR>
 " build, remain in cmdline, may input other file
 nnoremap <buffer> <C-F9> :!g++ -o %< %
