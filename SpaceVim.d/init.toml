@@ -64,4 +64,7 @@ name = "lang#lua"
 name = "lang#vim"
 
 [[layers]]
-name = "lang#perl"
+name = "tags"
+
+# [[layers]]
+# name = "lang#perl"

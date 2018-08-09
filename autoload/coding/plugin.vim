@@ -15,9 +15,11 @@ endif
 if !exists('$SPACEVIM')
     packadd nerdtree
     packadd tagbar
+    packadd LeaderF
 
     packadd ultisnips
     packadd vim-snippets
+    packadd CompleteParameter.vim
 
     packadd vimproc.vim
     packadd unite.vim
@@ -69,6 +71,7 @@ nnoremap <C-p>o :<C-u>Unite -buffer-name=outline outline<CR>
 nnoremap <C-p>r :<C-u>Unite register<CR>
 nnoremap <C-p>y :<C-u>Unite -buffer-name=yank history/yank<CR>
 nnoremap <C-p>j :<C-u>Unite jump<CR>
+nnoremap <C-p>p :<C-u>Unite -start-insert -buffer-name=project file_list:!/cscope.files<CR>
 
 " unite grep source
 if executable('ag')
@@ -137,6 +140,24 @@ let g:snips_author = 'lymslive'
 if executable('ag')
     let g:ackprg = 'ag --vimgrep'
 endif
+
+" Leaderf: {{{1
+let g:Lf_WorkingDirectoryMode = 'Ac'
+" \f \b has default
+" noremap \f 
+" noremap \b 
+noremap \F :<C-U>Leaderf file .<CR>
+noremap \t :<C-U>Leaderf bufTag<CR>
+noremap \T :<C-U>Leaderf tag<CR>
+noremap \a :<C-U>Leaderf self<CR>
+noremap \m :<C-U>Leaderf mru<CR>
+noremap \M :<C-U>LeaderfMruCwd <CR>
+noremap \h :<C-U>Leaderf help<CR>
+noremap \c :<C-U>Leaderf cmdHistory<CR>
+noremap \s :<C-U>Leaderf searchHistory<CR>
+
+" CompleteParameter: {{{1
+let g:complete_parameter_use_ultisnips_mapping = 1
 
 " LOAD:
 function! coding#plugin#load(...) abort "{{{1

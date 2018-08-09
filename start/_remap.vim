@@ -50,7 +50,7 @@ inoremap <C-u> <C-o>@=(col('.')==col('$')-1)? "d0x" : "d0"<CR>
 inoremap <C-y> <C-R>"
 inoremap <S-Ins> <C-R>*
 
-nnoremap ? q/
+" nnoremap ? q/
 nnoremap ' `
 nnoremap ` '
 nnoremap + "+
@@ -121,12 +121,6 @@ noremap <S-BS> $
 
 onoremap <S-Space> {
 onoremap <Space>   }
-
-if has('terminal')
-    tnoremap <C-W>b <C-\><C-N><C-B>
-    tnoremap <C-W>n <C-W>:tabnext<CR>
-    tnoremap <C-W>N <C-W>:tabNext<CR>
-endif
 
 vnoremap + "+
 vnoremap - "*

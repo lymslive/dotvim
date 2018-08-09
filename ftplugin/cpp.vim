@@ -3,12 +3,16 @@
 " Maintainer:	lymslive
 " Last Changed: 2016-01-08
 
+if exists("b:did_ftplugin") && b:did_ftplugin
+    finish
+endif
+
 PI clang
 
 " 处理大文件折叠
 let s:iLargeFile = 1024 * 100
 let b:iSize = getfsize(expand('%:p'))
-if (b:iSize > s:iLargeFile || b:iSize == -2) && &foldmethod ==? 'syntax'
+if (b:iSize > s:iLargeFile || b:iSize == -2) " && &foldmethod ==? 'syntax'
     setlocal foldmethod=indent
 else
     setlocal foldmethod=syntax
@@ -22,11 +26,11 @@ vnoremap <buffer> ,,x <ESC>:call wraptext#func#wrap('/*', '*/', visualmode())<CR
 vnoremap <buffer> ,X <ESC>:call wraptext#func#wrap('#if 0', '#endif', visualmode())<CR>
 
 " 空格快捷键模式
-silent! call Spacebar#SpaceModeSelect('Cpp')
+" silent! call Spacebar#SpaceModeSelect('Cpp')
 
 " Compile:
 " compile current file
-setlocal makeprg=g++\ -std=c++0x\ -c\ %
+" setlocal makeprg=g++\ -std=c++0x\ -c\ %
 nnoremap <buffer> <F9> :make<CR>
 " build, remain in cmdline, may input other file
 nnoremap <buffer> <C-F9> :!g++ -o %< %
@@ -100,18 +104,5 @@ syntax match Identifier /\<[A-Z][a-z][a-zA-Z]\+\>/
 " syntax match cType /\w\+::[[:alnum:]_:]\+/
 syntax match Delimiter /[[:alnum:]_:]\+::\ze\w\+/
 setlocal iskeyword-=:
-
-" 以 imap 方式插入括号对会有些问题
-" left brace pairs
-inoremap <buffer> ( ()<Esc>i
-inoremap <buffer> [ []<Esc>i
-inoremap <buffer> { {<CR>}<Esc>O
-" right brace pairs
-inoremap <buffer> } { }<Esc>i
-inoremap <buffer> ) ()
-inoremap <buffer> ] []
-" quation pairs
-inoremap <buffer> " ""<Esc>i
-inoremap <buffer> ' ''<Esc>i
 
 finish
