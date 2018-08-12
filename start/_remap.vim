@@ -1,6 +1,8 @@
 cabbrev f. cs find f
 cabbrev u. Unite
 cabbrev n. normal!
+cabbrev cd CD
+
 cnoremap <C-Ins> <C-R>*
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
@@ -64,19 +66,19 @@ nnoremap ;, ,
 nnoremap ;; ;
 nnoremap ;B :buffers<CR>:buffer 
 nnoremap ;D :bdelete<CR>
-nnoremap ;E :e ~/.vim/buffer<CR>:set buftype=nowrite<CR>
+nnoremap ;E :e ~/.vim/buffer<CR>:set buftype=nofile<CR>
 nnoremap ;G gwap 
 nnoremap ;M :move 0<CR>
 nnoremap ;O m':copy -1<CR>`'k
 nnoremap ;P :copy 0<CR>
-nnoremap ;Q :wall<CR>:qall!<CR>
+nnoremap ;Q :xall!<CR>
 nnoremap ;R :source Session.vim
-nnoremap ;S :execute 'mksession! ' . v:this_session <CR>
+nnoremap ;S :execute 'mksession! ' . v:this_session <CR>:xall
 nnoremap ;W :wall<CR>
 nnoremap ;a ggVG
 nnoremap ;b :e #<CR>
-nnoremap ;d :bdelete<Space>
-nnoremap ;e :e $MYVIMRC<CR>
+nnoremap ;D :bdelete<Space>
+nnoremap ;d :lcd %:p:h<CR>
 nnoremap ;g gqap 
 nnoremap ;j mz:m+<CR>`z
 nnoremap ;k mz:m-2<CR>`z
@@ -112,8 +114,6 @@ nnoremap g<C-k> H
 nnoremap j gj
 nnoremap k gk
 nnoremap \<BS> :set columns=80<Bar>set lines=25<CR>
-nnoremap \D :echo(expand('%:p'))<CR>
-nnoremap \d :lcd %:p:h<CR>
 nnoremap \q :cclose<CR>
 nnoremap \Q :botright copen<CR>
 noremap <BS> ^

@@ -41,6 +41,7 @@ if !exists('$SPACEVIM')
     packadd vim-surround
     " packadd vim-signature
 endif
+" echomsg 'packadd end'
 
 " NERDTree: {{{1
 nnoremap ;f :NERDTreeToggle<CR>
@@ -163,4 +164,5 @@ let g:complete_parameter_use_ultisnips_mapping = 1
 function! coding#plugin#load(...) abort "{{{1
     return 1
 endfunction "}}}
+" echomsg 'coding/plugin.vim loaded'
 
