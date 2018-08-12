@@ -12,9 +12,7 @@ execute 'source ' . s:thisdir . '/perldoc.vim'
 nnoremap <silent> <Plug>(perldoc) :<C-u>Perldoc<CR>
 
 if has('perl')
-    call useperl#ifperl#UseLib(s:thisdir)
-    command! -nargs=+ -complete=dir PerlLib call useperl#ifperl#UseLib(<q-args>)
-    command! -nargs=+ PerlFile call useperl#ifperl#Require(<q-args>)
+    call useperl#ifperl#load(s:thisdir)
 endif
 
 " load: 

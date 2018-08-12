@@ -1,4 +1,5 @@
 #! /usr/bin/env perl
+# let default main package for vim
 # package ifperl;
 use strict;
 use warnings;
@@ -8,6 +9,16 @@ sub Hello
 	print "hell vim if_perl\n";
 }
 
+sub CompletePerlFile
+{
+	my ($lead, $ispm) = @_;
+	my @list = ();
+	push(@list, 'AAAA');
+	push(@list, 'BBBB');
+	push(@list, 'CCCC');
+
+	print join("\n", @list);
+}
 1;
 =pod
 
