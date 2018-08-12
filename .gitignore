@@ -12,3 +12,4 @@ bundle/
 local
 git.md
 self*.vim
+init.toml
