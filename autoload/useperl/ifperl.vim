@@ -54,15 +54,20 @@ function! s:call(func, ...) abort "{{{
     endif
 
     let l:perl = printf('perl %s(%s);', a:func, l:args)
-    echo 'debug: ' l:perl
-    let l:ifstdout = ''
+    " echo 'debug: ' l:perl
+    " let l:ifstdout = ''
     let v:errmsg = ''
     redir => l:ifstdout
-    execute l:perl
+    silent! execute l:perl
     redir END
 
     if v:errmsg
         return ''
+    endif
+
+    " redir will generate an extra \n before message?
+    if l:ifstdout =~ "^\n"
+        let l:ifstdout = substitute(l:ifstdout, "^\n", '', '')
     endif
 
     return l:ifstdout
@@ -88,6 +93,15 @@ function! s:complete_pm(ArgLead, CmdLine, CursorPos) abort "{{{
     call map(l:lsGlob, {key, val -> substitute(val, '/', '::', 'g')})
     call map(l:lsGlob, {key, val -> substitute(val, '\.pm$', '', 'g')})
     return l:lsGlob
+endfunction "}}}
+
+" pack: 
+function! useperl#ifperl#pack() abort "{{{
+    if !exists('s:pack')
+        let s:pack = {}
+        let s:pack.call = function('s:call')
+    endif
+    return s:pack
 endfunction "}}}
 
 " load: 
