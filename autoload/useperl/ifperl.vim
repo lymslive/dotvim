@@ -26,7 +26,7 @@ function! s:require(file) abort "{{{
         execute l:perl
     endif
 endfunction "}}}
-command! -nargs=+ PerlFile call <SID>require(<q-args>)
+command! -nargs=+ -complete=customlist,<SID>complete_pl PerlFile call <SID>require(<q-args>)
 
 " Module: 
 " :PerlUse module
@@ -37,7 +37,7 @@ function! s:use(pm) abort "{{{
         execute l:perl
     endif
 endfunction "}}}
-command! -nargs=+ PerlUse call <SID>use(<q-args>)
+command! -nargs=+ -complete=customlist,<SID>complete_pm PerlUse call <SID>use(<q-args>)
 
 " call: 
 " call a perl function, return the output as string
@@ -54,28 +54,40 @@ function! s:call(func, ...) abort "{{{
     endif
 
     let l:perl = printf('perl %s(%s);', a:func, l:args)
-    let l:perlstdout = ''
+    echo 'debug: ' l:perl
+    let l:ifstdout = ''
     let v:errmsg = ''
-    redir => l:perlstdout
+    redir => l:ifstdout
     execute l:perl
-    redir => END
+    redir END
 
     if v:errmsg
         return ''
     endif
 
-    return l:perlstdout
+    return l:ifstdout
 endfunction "}}}
-command! -nargs=+ PerlCall <SID>call(<f-args>)
+command! -nargs=+ PerlCall echo <SID>call(<f-args>)
 
 " complete_pl: 
+" find file in @INC path
 function! s:complete_pl(ArgLead, CmdLine, CursorPos) abort "{{{
-    " code
+    let l:lsIncPath = s:call('GotIncPath')
+    let l:pattern = a:ArgLead . '**'
+    let l:lsGlob = globpath(l:lsIncPath, l:pattern, 0, 1)
+    call map(l:lsGlob, {key, val -> substitute(val, '^.*\ze' . a:ArgLead, '', 'g')})
+    return l:lsGlob
 endfunction "}}}
 
-" complete_pl: 
+" complete_pm: 
+" find module in @INC path
 function! s:complete_pm(ArgLead, CmdLine, CursorPos) abort "{{{
-    " code
+    let l:ArgLead = substitute(a:ArgLead, '::', '/', 'g')
+    let l:lsGlob = s:complete_pl(l:ArgLead, a:CmdLine, a:CursorPos)
+    call filter(l:lsGlob, 'v:val =~? "\.pm$"')
+    call map(l:lsGlob, {key, val -> substitute(val, '/', '::', 'g')})
+    call map(l:lsGlob, {key, val -> substitute(val, '\.pm$', '', 'g')})
+    return l:lsGlob
 endfunction "}}}
 
 " load: 

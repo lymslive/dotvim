@@ -4,21 +4,32 @@
 use strict;
 use warnings;
 
+## GotFuncName
+# print string to stdout, which captured by vim
+
+# send a comma-separated list of @INC path
+sub GotIncPath
+{
+	print join(',', @INC);
+}
+
+## Test Function:
+#
+
 sub Hello
 {
-	print "hell vim if_perl\n";
+	print "hello vim if_perl\n";
+	print "hello $_\n" for @_;
 }
 
-sub CompletePerlFile
+sub TestIfperl
 {
-	my ($lead, $ispm) = @_;
-	my @list = ();
-	push(@list, 'AAAA');
-	push(@list, 'BBBB');
-	push(@list, 'CCCC');
-
-	print join("\n", @list);
+	my ($var) = @_;
+	Hello();
+	Hello(qw(AAAA BBBB CCCC));
 }
+
+TestIfperl() unless caller;
 1;
 =pod
 
