@@ -13,6 +13,18 @@ sub GotIncPath
 	print join(',', @INC);
 }
 
+# symbol table of a module, such as PackName::SubName
+# NOT inclue prefix PackName::
+sub GotModuleSyms
+{
+	my ($name) = @_;
+	my $pack_ref = eval('\%' . $name . '::');
+	foreach my $key (sort keys %$pack_ref) {
+		next if $key =~ /BEGIN/;
+		print "$key\n";
+	}
+}
+
 ## Test Function:
 #
 
