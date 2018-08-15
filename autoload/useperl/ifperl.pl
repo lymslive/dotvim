@@ -4,6 +4,19 @@
 use strict;
 use warnings;
 
+# check if call from within vim
+our $InsideVim = 0;
+{
+	eval {
+		VIM::Eval(1);
+	};
+	if ($@) {
+		$InsideVim = 0;
+	} else {
+		$InsideVim = 1;
+	}
+}
+
 ## GotFuncName
 # print string to stdout, which captured by vim
 
@@ -22,6 +35,20 @@ sub GotModuleSyms
 	foreach my $key (sort keys %$pack_ref) {
 		next if $key =~ /BEGIN/;
 		print "$key\n";
+	}
+}
+
+# Search by perl regexp in current vim buffer
+# print out the matched line numbers
+sub SearchLine
+{
+	my $pattern = shift;
+	return unless $InsideVim;
+	
+	my $lineCount = $curbuf->Count();
+	foreach my $i (1 .. $lineCount) {
+		my $lineStr = $curbuf->Get($i);
+		print "$i\n" if $lineStr =~ $pattern;
 	}
 }
 
