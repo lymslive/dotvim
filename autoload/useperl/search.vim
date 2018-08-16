@@ -4,8 +4,6 @@
 " Create: 2018-08-16
 " Modify: 2018-08-16
 
-command! -nargs=* PerlSearch call useperl#search#Commander(<f-args>)
-
 let s:ifperl = useperl#ifperl#pack()
 
 " Commander: 
