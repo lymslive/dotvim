@@ -6,7 +6,14 @@
 
 if !has('perl')
     echoerr 'you vim version seams donnt support perl!'
+    finish
 endif
+let g:DEBUG = 1
+
+" glob variable exchange with perl code
+let g:useperl#ifperl#scalar = ''
+let g:useperl#ifperl#list = []
+let g:useperl#ifperl#dict = {}
 
 " UseLib: 
 " :PerlLib path-to-add-INC
@@ -26,7 +33,7 @@ function! s:require(file) abort "{{{
         execute l:perl
     endif
 endfunction "}}}
-command! -nargs=+ -complete=customlist,<SID>complete_pl PerlFile call <SID>require(<q-args>)
+command! -nargs=+ -complete=customlist,<SID>complist_pl PerlFile call <SID>require(<q-args>)
 
 " Module: 
 " :PerlUse module
@@ -37,7 +44,7 @@ function! s:use(pm) abort "{{{
         execute l:perl
     endif
 endfunction "}}}
-command! -nargs=+ -complete=customlist,<SID>complete_pm PerlUse call <SID>use(<q-args>)
+command! -nargs=+ -complete=customlist,<SID>complist_pm PerlUse call <SID>use(<q-args>)
 
 " call: 
 " call a perl function, return the output as string
@@ -54,7 +61,7 @@ function! s:call(func, ...) abort "{{{
     endif
 
     let l:perl = printf('perl %s(%s);', a:func, l:args)
-    " echo 'debug: ' l:perl
+    :DLOG 'debug: ' .  l:perl
     " let l:ifstdout = ''
     let v:errmsg = ''
     redir => l:ifstdout
@@ -72,11 +79,12 @@ function! s:call(func, ...) abort "{{{
 
     return l:ifstdout
 endfunction "}}}
-command! -nargs=+ PerlCall echo <SID>call(<f-args>)
+command! -nargs=+ -complete=customlist,<SID>complist_sym PerlCall echo <SID>call(<f-args>)
+command! -nargs=+ -complete=customlist,<SID>complist_sym PerlPrint perl print <args>
 
 " complete_pl: 
 " find file in @INC path
-function! s:complete_pl(ArgLead, CmdLine, CursorPos) abort "{{{
+function! s:complist_pl(ArgLead, CmdLine, CursorPos) abort "{{{
     let l:lsIncPath = s:call('GotIncPath')
     let l:pattern = a:ArgLead . '**'
     let l:lsGlob = globpath(l:lsIncPath, l:pattern, 0, 1)
@@ -86,13 +94,45 @@ endfunction "}}}
 
 " complete_pm: 
 " find module in @INC path
-function! s:complete_pm(ArgLead, CmdLine, CursorPos) abort "{{{
+function! s:complist_pm(ArgLead, CmdLine, CursorPos) abort "{{{
     let l:ArgLead = substitute(a:ArgLead, '::', '/', 'g')
     let l:lsGlob = s:complete_pl(l:ArgLead, a:CmdLine, a:CursorPos)
     call filter(l:lsGlob, 'v:val =~? "\.pm$"')
     call map(l:lsGlob, {key, val -> substitute(val, '/', '::', 'g')})
     call map(l:lsGlob, {key, val -> substitute(val, '\.pm$', '', 'g')})
     return l:lsGlob
+endfunction "}}}
+
+" complete_sym: 
+" :PerlPrint SearchLine
+" :PerlPrint $InsideVim
+" :PerlPrint $main::InsideVim
+function! s:complist_sym(ArgLead, CmdLine, CursorPos) abort "{{{
+    let l:module = matchstr(a:ArgLead, '^[%&$@]\?\zs.*\ze::')
+    let l:module_save = l:module
+    if empty(l:module)
+        let l:module = 'main'
+    endif
+    let l:sign = matchstr(a:ArgLead, '^[%&$@]\ze')
+    let l:lead = matchstr(a:ArgLead, '[^%&$@:]*$')
+
+    " return s:call('GotModuleSyms', l:module)
+
+    " GotModuleSyms return symbols without sign $@%
+    let l:str = s:call('GotModuleSyms', l:module)
+    let l:list = split(l:str, "\n")
+    if !empty(l:lead)
+        call filter(l:list, 'v:val =~# "^" . l:lead')
+    endif
+
+    let l:prefix = l:sign
+    if !empty(l:module_save)
+        let l:prefix .= l:module . '::'
+    endif
+    if !empty(l:prefix)
+        call map(l:list, 'l:prefix . v:val')
+    endif
+    return l:list
 endfunction "}}}
 
 " pack: 
@@ -112,3 +152,11 @@ function! useperl#ifperl#load(...) abort "{{{
     endif
     PerlFile ifperl.pl
 endfunction "}}}
+
+finish
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" test regexp
+SearchLine
+$InsideVim
+$main::InsideVim
+%VIM::

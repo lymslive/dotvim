@@ -3,20 +3,16 @@
 # package ifperl;
 use strict;
 use warnings;
+# use VIM;
 
 # check if call from within vim
 our $InsideVim = 0;
 {
-	eval {
-		VIM::Eval(1);
-	};
-	if ($@) {
-		$InsideVim = 0;
-	} else {
-		$InsideVim = 1;
-	}
+	eval { VIM::Eval(1); };
+	$InsideVim = 1 unless $@;
 }
 
+#
 ## GotFuncName
 # print string to stdout, which captured by vim
 
@@ -45,11 +41,80 @@ sub SearchLine
 	my $pattern = shift;
 	return unless $InsideVim;
 	
-	my $lineCount = $curbuf->Count();
+	my $lineCount = $main::curbuf->Count();
 	foreach my $i (1 .. $lineCount) {
-		my $lineStr = $curbuf->Get($i);
-		print "$i\n" if $lineStr =~ $pattern;
+		my $lineStr = $main::curbuf->Get($i);
+		print "$i: $&\n" if $lineStr =~ $pattern;
 	}
+}
+
+#
+## exchange default global variable of three data type
+#
+sub SetVimVariable
+{
+	my ($name, $val) = @_;
+	$name = single_quote($val);
+	VIM::DoCommand("let $name = $val");
+}
+
+sub SetVimScalar
+{
+	my ($val) = @_;
+	$val = single_quote($val);
+	VIM::DoCommand("let g:useperl#ifperl#scalar = $val");
+}
+
+sub SetVimDict
+{
+	my ($key, $val) = @_;
+	$key = single_quote($key);
+	$val = single_quote($val);
+	VIM::DoCommand("let g:useperl#ifperl#dict[$key] = $val");
+}
+
+sub AddVimList
+{
+	my ($val) = @_;
+	$val = single_quote($val);
+	VIM::DoCommand("call add(g:useperl#ifperl#list, $val)");
+}
+
+sub ToVimList
+{
+	my ($array_ref) = @_;
+	VIM::DoCommand("let g:useperl#ifperl#list = []");
+	foreach my $val (@$array_ref) {
+		AddVimList($val);
+	}
+}
+
+sub ToVimDict
+{
+	my ($hash_ref) = @_;
+	VIM::DoCommand("let g:useperl#ifperl#dict = {}");
+	foreach my $key (keys %$hash_ref) {
+		AddVimList($key, $hash_ref->{$key});
+	}
+}
+
+sub single_quote
+{
+	my ($val) = @_;
+	$val = "$val";
+	if ($val =~ "'") {
+		$val =~ s/'/''/g;
+	}
+	return "'$val'";
+}
+
+# return the first buffer object match $arg, or default $curbuf
+sub GetBuffer
+{
+	my ($arg) = @_;
+	return $main::curbuf unless $arg;
+	my $buf = (VIM::Buffers($arg))[0];
+	return $buf;
 }
 
 ## Test Function:

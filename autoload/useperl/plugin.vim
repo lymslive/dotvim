@@ -13,6 +13,11 @@ nnoremap <silent> <Plug>(perldoc) :<C-u>Perldoc<CR>
 
 if has('perl')
     call useperl#ifperl#load(s:thisdir)
+
+    " command abbreviation
+    cabbrev pp PerlPrint
+
+    command! -nargs=* PerlSearch call useperl#search#Commander(<f-args>)
 endif
 
 " load: 
