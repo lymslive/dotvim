@@ -15,7 +15,8 @@ if has('perl')
     call useperl#ifperl#load(s:thisdir)
 
     " command abbreviation
-    cabbrev pp PerlPrint
+    cabbrev PP PerlPrint
+    cabbrev PS PerlSearch
 
     command! -nargs=* PerlSearch call useperl#search#Commander(<f-args>)
 endif

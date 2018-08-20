@@ -38,6 +38,7 @@ function! s:InitResult(pattern, result) abort "{{{
     let b:PerlSearch.pattern = a:pattern
     let b:PerlSearch.result = a:result
 
+    call setloclist(0, [], 'r', {'efm': ":%l|%c %m", 'lines': b:PerlSearch.result})
     call s:RemapNext()
     call s:next()
 endfunction "}}}
@@ -52,20 +53,23 @@ function! s:next() abort "{{{
     let l:idx = 0
     while l:idx < l:length
         let l:str = b:PerlSearch.result[l:idx]
-        let l:linenr = 0 + matchstr(l:str, '^\d+')
-        if l:linenr <= 0
+        let l:idx += 1
+        let l:lsMatch = matchlist(l:str, ':\(\d\+\)|\(\d\+\)\s*\(.*\)')
+        if empty(l:lsMatch)
             continue
         endif
+        let l:linenr = l:lsMatch[1]
+        let l:column = l:lsMatch[2]
+        let l:match = l:lsMatch[3]
         if l:linenr > l:curline
-            execute l:linenr
-            let l:match = matchstr(l:str, '^\d+:\s*\zs.*')
-            let l:scmd = '/' . l:match . "\<CR>"
-            execute 'normal!' l:scmd
+            call cursor(l:linenr, l:column+1)
+            let l:match = substitute(l:match, '[\.*]', '\\&', 'g')
+            let l:cmd = 'match Search /' . l:match . '/'
+            execute l:cmd
             return
         endif
-        let l:idx += 1
     endwhile
-    echoerr 'search to the end, not find any more'
+    echo 'search to the end, not find any more:' b:PerlSearch.pattern
 endfunction "}}}
 
 " Next: 
@@ -78,20 +82,23 @@ function! s:Next() abort "{{{
     let l:idx = l:length - 1
     while l:idx >= 0
         let l:str = b:PerlSearch.result[l:idx]
-        let l:linenr = 0 + matchstr(l:str, '^\d+')
-        if l:linenr <= 0
+        let l:idx -= 1
+        let l:lsMatch = matchlist(l:str, ':\(\d\+\)|\(\d\+\)\s*\(.*\)')
+        if empty(l:lsMatch)
             continue
         endif
+        let l:linenr = l:lsMatch[1]
+        let l:column = l:lsMatch[2]
+        let l:match = l:lsMatch[3]
         if l:linenr < l:curline
-            execute l:linenr
-            let l:match = matchstr(l:str, '^\d+:\s*\zs.*')
-            let l:scmd = '/' . l:match . "\<CR>"
-            execute 'normal!' l:scmd
+            call cursor(l:linenr, l:column+1)
+            let l:match = substitute(l:match, '[\.*]', '\\&', 'g')
+            let l:cmd = 'match Search /' . l:match . '/'
+            execute l:cmd
             return
         endif
-        let l:idx -= 1
     endwhile
-    echoerr 'search to the end, not find any more'
+    echo 'search to the end, not find any more:' b:PerlSearch.pattern
 endfunction "}}}
 
 " RemapNext: 
@@ -105,6 +112,7 @@ endfunction "}}}
 function! s:UnmapNext() abort "{{{
     nunmap <buffer> n
     nunmap <buffer> N
+    match none
     echomsg 'normal n has restored to default'
 endfunction "}}}
 

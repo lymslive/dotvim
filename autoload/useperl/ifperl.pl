@@ -35,7 +35,7 @@ sub GotModuleSyms
 }
 
 # Search by perl regexp in current vim buffer
-# print out the matched line numbers
+# print out the matched :line|col string
 sub SearchLine
 {
 	my $pattern = shift;
@@ -44,7 +44,11 @@ sub SearchLine
 	my $lineCount = $main::curbuf->Count();
 	foreach my $i (1 .. $lineCount) {
 		my $lineStr = $main::curbuf->Get($i);
-		print "$i: $&\n" if $lineStr =~ $pattern;
+		# print "$i: $&\n" if $lineStr =~ $pattern;
+		if ($lineStr =~ $pattern) {
+			my $position = length($`);
+			print ":$i|$position $&\n";
+		}
 	}
 }
 
