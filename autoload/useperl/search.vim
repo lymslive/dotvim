@@ -38,7 +38,7 @@ function! s:InitResult(pattern, result) abort "{{{
     let b:PerlSearch.pattern = a:pattern
     let b:PerlSearch.result = a:result
 
-    call setloclist(0, [], 'r', {'efm': ":%l|%c %m", 'lines': b:PerlSearch.result})
+    call setloclist(0, [], 'r', {'efm': "%f:%l|%c %m", 'lines': b:PerlSearch.result})
     call s:RemapNext()
     call s:next()
 endfunction "}}}

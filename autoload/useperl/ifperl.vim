@@ -8,7 +8,7 @@ if !has('perl')
     echoerr 'you vim version seams donnt support perl!'
     finish
 endif
-let g:DEBUG = 1
+" let g:DEBUG = 1
 
 " glob variable exchange with perl code
 let g:useperl#ifperl#scalar = ''

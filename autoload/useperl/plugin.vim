@@ -11,6 +11,10 @@ let s:thisdir = expand('<sfile>:h')
 execute 'source ' . s:thisdir . '/perldoc.vim'
 nnoremap <silent> <Plug>(perldoc) :<C-u>Perldoc<CR>
 
+if !exists(':DLOG')
+    command -nargs=* DLOG "pass
+endif
+
 if has('perl')
     call useperl#ifperl#load(s:thisdir)
 
@@ -18,7 +22,7 @@ if has('perl')
     cabbrev PP PerlPrint
     cabbrev PS PerlSearch
 
-    command! -nargs=* PerlSearch call useperl#search#Commander(<f-args>)
+    command! -nargs=* PerlSearch call useperl#search#Commander(<q-args>)
 endif
 
 " load: 

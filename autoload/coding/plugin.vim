@@ -110,21 +110,25 @@ let g:neocomplete#sources#dictionary#dictionaries =
 command! NE NeoCompleteEnable
 
 " Neosnippet: {{{1
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-let g:neosnippet#snippets_directory = '~/.vim/bundle/neosnippet-snippets/neosnippets'
+if 0
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+    let g:neosnippet#snippets_directory = '~/.vim/bundle/neosnippet-snippets/neosnippets'
+endif
 
 " Signature: {{{1
 " nnoremap \m :SignatureToggleSigns<CR>
 
 " YouCompleteMe: {{{1
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_min_num_of_chars_for_completion=3
-let g:ycm_seed_identifiers_with_syntax=1
+if 0
+    let g:ycm_key_list_select_completion=[]
+    let g:ycm_key_list_previous_completion=[]
+    let g:ycm_collect_identifiers_from_tags_files=1
+    let g:ycm_min_num_of_chars_for_completion=3
+    let g:ycm_seed_identifiers_with_syntax=1
+endif
 
 " Ultisnips: {{{1
 let g:UltiSnipsEditSplit="vertical"

@@ -7,6 +7,12 @@
 if !exists('g:ineditor#mysql#keepin_window')
     let g:ineditor#mysql#keepin_window = 0
 endif
+if !exists('g:ineditor#mysql#history_file')
+    let g:ineditor#mysql#history_file = $HOME . '/.mysql_history'
+endif
+if !exists('g:ineditor#mysql#start_with_history')
+    let g:ineditor#mysql#start_with_history = 0
+endif
 
 " PreviewTable: 
 function! ineditor#mysql#PreviewTable(...) abort "{{{
@@ -36,7 +42,7 @@ function! ineditor#mysql#PreviewTable(...) abort "{{{
     call add(l:out, l:strCount)
 
     if winnr('$') < 2
-        new
+        new Result
         call s:SetPreviewBuffer()
         call append(0, l:out)
         call cursor(4, 0) " put cursor in the first field
@@ -47,11 +53,17 @@ function! ineditor#mysql#PreviewTable(...) abort "{{{
         endif
     else
         wincmd p
+        let l:bnrView = bufnr('Result', 0)
+        if l:bnrView == -1
+            edit Result
+            call s:SetPreviewBuffer()
+        elseif l:bnrView != bufnr('')
+            execute 'buffer' l:bnrView
+        endif
         let l:maxLine = line('$')
         echomsg 'last maxLine' l:maxLine
         call append('$', l:out)
         call cursor(l:maxLine + 4, 0)
-        " normal! G
         if g:ineditor#mysql#keepin_window
             wincmd p
         else
@@ -105,10 +117,11 @@ endfunction "}}}
 " SetPreviewBuffer: 
 function! s:SetPreviewBuffer() abort "{{{
     setlocal buftype=nofile
+    setlocal bufhidden=hide
     nnoremap <buffer> q :q<CR>
     " back to previous window and insert
-    nnoremap gi <C-W>pgi
-    vnoremap J :call ineditor#mysql#JoinBufLine(',', 1)<CR>
+    nnoremap <buffer> gi <C-W>pgi
+    vnoremap <buffer> J :call ineditor#mysql#JoinBufLine(',', 1)<CR>
 endfunction "}}}
 
 " JoinBufLine: 
@@ -144,3 +157,68 @@ endfunction "}}}
 " join first word of lines, '!' keep another space
 command! -nargs=+ -bang -range=% JoinBufLine 
             \ <line1>,<line2> call ineditor#mysql#JoinBufLine(<q-args>, <bang>0)
+
+" LoadHistory: open history file
+function! ineditor#mysql#LoadHistory() abort "{{{
+    if g:ineditor#mysql#start_with_history < 1
+        return
+    endif
+    if !filereadable(g:ineditor#mysql#history_file)
+        return
+    endif
+
+    let l:history = readfile(g:ineditor#mysql#history_file)
+    call filter(l:history, 'v:val !~? "^\\" && v:val !~? "^[ ;]*$"')
+
+    silent new History
+    call setline(1, l:history)
+    normal! G$
+    call s:OnHistory()
+
+    " back to edit starting tmp file
+    if g:ineditor#mysql#start_with_history < 2
+        wincmd p
+    endif
+
+    let s:History = l:history
+endfunction "}}}
+
+" OnHistory: local maps in history window
+function! s:OnHistory() abort "{{{
+    setlocal filetype=sql
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    nnoremap <buffer> <C-L> <Esc>:ExecuteHistory<CR>
+    inoremap <buffer> <C-L> <Esc>:ExecuteHistory<CR>
+    vnoremap <buffer> <C-L> :ExecuteHistory<CR>
+endfunction "}}}
+
+" ExecuteHistory: 
+" copy the sql from history window to tmp file 
+" and back to mysql shell to execute
+function! s:ExecuteHistory() abort range "{{{
+    if empty(g:SQL_TMP_FILE)
+        return
+    endif
+    let l:lsContent = getline(a:firstline, a:lastline)
+    execute 'buffer' g:SQL_TMP_FILE
+    : 1,$ delete
+    call setline(1, l:lsContent)
+    " trim space and \G
+    : %s/^\s*\|\(\s*\\G\)\?\s*$//g
+    : xall
+endfunction "}}}
+command! -range ExecuteHistory <line1>,<line2> call s:ExecuteHistory()
+
+" AddHistory: 
+function! ineditor#mysql#AddHistory() abort "{{{
+    if empty(g:SQL_TMP_FILE)
+        return
+    endif
+    let l:lastSql = s:History[-1]
+    let l:lsContent = getbufline(bufnr(g:SQL_TMP_FILE), 1, "$")
+    let l:currSql = join(l:lsContent, ' ')
+    if l:currSql !=? l:lastSql
+        call writefile([l:currSql], g:ineditor#mysql#history_file, 'a')
+    endif
+endfunction "}}}

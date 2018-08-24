@@ -41,13 +41,14 @@ sub SearchLine
 	my $pattern = shift;
 	return unless $InsideVim;
 	
+	my $file = $main::curbuf->Name();
 	my $lineCount = $main::curbuf->Count();
 	foreach my $i (1 .. $lineCount) {
 		my $lineStr = $main::curbuf->Get($i);
 		# print "$i: $&\n" if $lineStr =~ $pattern;
 		if ($lineStr =~ $pattern) {
 			my $position = length($`);
-			print ":$i|$position $&\n";
+			print "$file:$i|$position $&\n";
 		}
 	}
 }
