@@ -55,9 +55,9 @@ function! s:call(func, ...) abort "{{{
 
     let l:args = ''
     if a:0 == 1
-        let l:args = a:1
+        let l:args = s:QuoteSingle(a:1)
     elseif a:0 > 1
-        let l:args = join(a:000, ',')
+        let l:args = s:QuoteSingleList(a:000)
     endif
 
     let l:perl = printf('perl %s(%s);', a:func, l:args)
@@ -135,11 +135,26 @@ function! s:complist_sym(ArgLead, CmdLine, CursorPos) abort "{{{
     return l:list
 endfunction "}}}
 
+" QuoteSingle: 
+let s:SINQUOTE = "'"
+let s:DOUQUOTE = '"'
+let s:BACKSLASH = '\'
+let s:ESC_SINQUOTE = s:SINQUOTE . s:SINQUOTE
+let s:ESC_DOUQUOTE = s:BACKSLASH . s:DOUQUOTE
+function! s:QuoteSingle(str) abort "{{{
+    let l:str = substitute(a:str, s:SINQUOTE, s:ESC_SINQUOTE, 'g')
+    return s:SINQUOTE . l:str . s:SINQUOTE
+endfunction "}}}
+function! s:QuoteSingleList(list) abort "{{{
+    return join(map(copy(a:list), {key, val -> s:QuoteSingle(val)}), ',')
+endfunction "}}}
+
 " pack: 
 function! useperl#ifperl#pack() abort "{{{
     if !exists('s:pack')
         let s:pack = {}
         let s:pack.call = function('s:call')
+        let s:pack.QuoteSingle = function('s:QuoteSingle')
     endif
     return s:pack
 endfunction "}}}

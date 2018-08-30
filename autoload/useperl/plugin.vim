@@ -29,3 +29,8 @@ endif
 function! useperl#plugin#load() abort "{{{
     return 1
 endfunction "}}}
+
+" dir: 
+function! useperl#plugin#dir() abort "{{{
+    return s:thisdir
+endfunction "}}}

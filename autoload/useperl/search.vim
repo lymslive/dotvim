@@ -20,7 +20,7 @@ function! useperl#search#Commander(...) abort "{{{
         let l:pattern = l:pattern[1:]
     endif
 
-    let l:pattern = s:QuoteSingle(l:pattern)
+    let l:pattern = s:ifperl.QuoteSingle(l:pattern)
     let l:strOut = s:ifperl.call('SearchLine', l:pattern)
     if empty(l:strOut)
         return
@@ -116,13 +116,3 @@ function! s:UnmapNext() abort "{{{
     echomsg 'normal n has restored to default'
 endfunction "}}}
 
-" QuoteSingle: 
-let s:SINQUOTE = "'"
-let s:DOUQUOTE = '"'
-let s:BACKSLASH = '\'
-let s:ESC_SINQUOTE = s:SINQUOTE . s:SINQUOTE
-let s:ESC_DOUQUOTE = s:BACKSLASH . s:DOUQUOTE
-function! s:QuoteSingle(str) abort "{{{
-    let l:str = substitute(a:str, s:SINQUOTE, s:ESC_SINQUOTE, 'g')
-    return s:SINQUOTE . l:str . s:SINQUOTE
-endfunction "}}}
