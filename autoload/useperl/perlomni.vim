@@ -525,9 +525,9 @@ fun! s:CompBufferFunction(base,context)
         let funclist = l:cache2
     else
         let lines = getline(1,'$')
-        let funclist = SetCacheNS('buf_func_all',expand('%'),s:scanFunctionFromList(getline(1,'$')))
+        let funclist = SetCacheNS('buf_func_all',expand('%'),s:scanFunctionFromList(lines))
     endif
-    let result = filter( copy(funclist),"stridx(v:val,'".a:base."') == 0 && v:val != '".a:base."'" )
+    let result = s:StringFilter(funclist, a:base)
     return SetCacheNS('buf_func',a:base.expand('%'),result)
 endf
 
@@ -541,14 +541,13 @@ fun! s:CompClassFunction(base,context)
     let l:cache2 = GetCacheNS('class_func_all',class)
     let funclist = type(l:cache2) != type(0) ? l:cache2 : SetCacheNS('class_func_all',class,s:scanFunctionFromClass(class))
 
-    let result = filter( copy(funclist),"stridx(v:val,'".a:base."') == 0 && v:val != '".a:base."'" )
+    let result = s:StringFilter(funclist, a:base)
     let funclist = SetCacheNS('classfunc',class.'_'.a:base,result)
     if g:perlomni_show_hidden_func == 0
         call filter(funclist, 'v:val !~ "^_"')
     endif
     return funclist
 endf
-
 
 fun! s:CompObjectMethod(base,context)
     let objvarname = matchstr(a:context,'\$\w\+\(->$\)\@=')
@@ -583,7 +582,7 @@ fun! s:CompObjectMethod(base,context)
         for cls in classes
             cal extend(funclist,s:scanFunctionFromClass( cls ))
         endfor
-        let result = filter( copy(funclist),"stridx(v:val,'".a:base."') == 0 && v:val != '".a:base."'" )
+        let result = s:StringFilter(funclist, a:base)
         let funclist = SetCacheNS('objectMethod',objvarname.'_'.a:base,result)
     endif
     if g:perlomni_show_hidden_func == 0
@@ -619,20 +618,7 @@ fun! s:CompClassName(base,context)
     let result = s:StringFilter(classnames,a:base)
 
     if len(result) > g:perlomni_max_class_length
-        cal remove(result,0, g:perlomni_max_class_length)
-
-" Find a better way
-"         for item in result
-"             let parts = split(item,'::')
-"             while len(parts) > 0
-"                 if len(parts) > 1
-"                     cal insert(result,join(parts,'::'))
-"                 else
-"                     cal insert(result,join(parts,'::').'::')
-"                 endif
-"                 cal remove(parts,-1)
-"             endwhile
-"         endfor
+        cal remove(result, g:perlomni_max_class_length, len(result)-1)
     endif
     if g:perlomni_sort_class_by_lenth
         cal sort(result,'s:SortByLength')
@@ -711,18 +697,7 @@ fun! CPANSourceLists()
   " not found
   echo "CPAN source list not found."
   let f = expand('~/.cpan/sources/modules/02packages.details.txt.gz')
-  " XXX: refactor me !!
-  if ! isdirectory( expand('~/.cpan') )
-    cal mkdir( expand('~/.cpan') )
-  endif
-
-  if ! isdirectory( expand('~/.cpan/sources') )
-    cal mkdir( expand('~/.cpan/sources') )
-  endif
-
-  if ! isdirectory( expand('~/.cpan/sources/modules') )
-    cal mkdir( expand('~/.cpan/sources/modules') )
-  endif
+  cal mkdir( expand('~/.cpan/sources/modules'), 'p')
 
   echo "Downloading CPAN source list."
   if executable('curl')
@@ -740,14 +715,8 @@ endf
 " echo remove(classnames,10)
 " }}}
 " }}}
-" SCOPE FUNCTIONS {{{
-" XXX:
-fun! s:getSubScopeLines(nr)
-    let curline = getline(a:nr)
-endf
-" }}}
-" SCANNING FUNCTIONS {{{
 
+" SCANNING FUNCTIONS {{{
 
 fun! s:runPerlEval(mtext,code)
     let cmd = g:perlomni_perl . ' -M' . a:mtext . ' -e "' . escape(a:code,'"') . '"'
@@ -826,7 +795,11 @@ endf
 fun! s:scanObjectVariableLines(lines)
     let buffile = tempname()
     cal writefile(a:lines,buffile)
-    let varlist = split(s:system(s:vimbin.'grep-objvar.pl', buffile),"\n")
+    if g:perlomni_enable_ifperl
+        let varlist = split(s:ifperl.call('perlomni::GrepObjval', buffile),"\n")
+    else
+        let varlist = split(s:system(s:vimbin.'grep-objvar.pl', buffile),"\n")
+    endif
     let b:objvarMapping = { }
     for item in varlist
         let [varname,classname] = split(item)
@@ -842,10 +815,6 @@ endf
 " }}}
 
 fun! s:scanObjectVariableFile(file)
-"     let l:cache = GetCacheNS('objvar', a:file)
-"     if type(l:cache) != type(0)
-"         return l:cache
-"     endif
 
     let list = split(s:system(s:vimbin.'grep-objvar.pl', expand(a:file)),"\n")
     let b:objvarMapping = { }
@@ -861,8 +830,6 @@ fun! s:scanObjectVariableFile(file)
 "     return SetCacheNSWithExpiry('objvar',a:file,b:objvarMapping,60 * 10)
 endf
 " echo s:scanObjectVariableFile( expand('~/git/bps/jifty-dbi/lib/Jifty/DBI/Collection.pm') )
-
-
 
 " XXX: CACHE THIS
 fun! s:scanHashVariable(lines)
