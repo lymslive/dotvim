@@ -40,3 +40,29 @@ sub GrepObjval
 		}
 	}
 }
+
+# call by ifperl.deal_list()
+# extract $1 from pattern, input string is passed by g:useperl#ifperl#list
+sub DLGrepPattern
+{
+	my $pattern = shift or return;
+	my ($success, $value) = VIM::Eval('g:useperl#ifperl#list');
+	return unless $success && $value;
+	foreach my $val (split /\n/, $value) {
+		print "$1\n" if $val =~ /$pattern/;
+	}
+}
+
+sub DLGrepObjval
+{
+	my ($success, $value) = VIM::Eval('g:useperl#ifperl#list');
+	return unless $success && $value;
+	foreach my $val (split /\n/, $value) {
+		if( $val =~ /(\$\w+)\s*=\s*new\s+([A-Z][a-zA-Z0-9_:]+)/  ) {
+			print "$1\t$2\n";
+		}
+		elsif( $val =~ /(\$\w+)\s*=\s*([A-Z][a-zA-Z0-9_:]+)->new/  ) {
+			print "$1\t$2\n";
+		}
+	}
+}

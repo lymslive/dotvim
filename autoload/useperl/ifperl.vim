@@ -46,21 +46,30 @@ function! s:use(pm) abort "{{{
 endfunction "}}}
 command! -nargs=+ -complete=customlist,<SID>complist_pm PerlUse call <SID>use(<q-args>)
 
-" call: 
-" call a perl function, return the output as string
-function! s:call(func, ...) abort "{{{
-    if empty(a:func)
-        return ''
+" execute: run perl code, may with addtions modules, return stdout as string
+function! s:execute(codelines, ...) abort "{{{
+    if type(a:codelines) == type([])
+        let l:code = join(a:codelines, '')
+    else
+        let l:code = a:codelines
+    endif
+    if type(l:code) != type('')
+        :DLOG 'only accept string as perl code'
+        return
     endif
 
-    let l:args = ''
-    if a:0 == 1
-        let l:args = s:QuoteSingle(a:1)
-    elseif a:0 > 1
-        let l:args = s:QuoteSingleList(a:000)
+    let l:usemodule = ''
+    if a:0 > 0
+        if type(a:1) == type([])
+            for l:module in a:1
+                let l:usemodule .= 'use ' . l:module . ';'
+            endfor
+        else
+            let l:usemodule .= 'use ' . a:1 . ';'
+        endif
     endif
 
-    let l:perl = printf('perl %s(%s);', a:func, l:args)
+    let l:perl = 'perl ' . l:usemodule . l:code
     :DLOG 'debug: ' .  l:perl
     " let l:ifstdout = ''
     let v:errmsg = ''
@@ -79,8 +88,35 @@ function! s:call(func, ...) abort "{{{
 
     return l:ifstdout
 endfunction "}}}
+
+" call: 
+" call a perl function, return the output as string
+function! s:call(func, ...) abort "{{{
+    if empty(a:func)
+        return ''
+    endif
+
+    let l:args = ''
+    if a:0 == 1
+        let l:args = s:QuoteSingle(a:1)
+    elseif a:0 > 1
+        let l:args = s:QuoteSingleList(a:000)
+    endif
+
+    " let l:perl = printf('perl %s(%s);', a:func, l:args)
+    let l:code = printf('%s(%s);', a:func, l:args)
+    return s:execute(l:code)
+endfunction "}}}
 command! -nargs=+ -complete=customlist,<SID>complist_sym PerlCall echo <SID>call(<f-args>)
 command! -nargs=+ -complete=customlist,<SID>complist_sym PerlPrint perl print <args>
+
+" deal_list: 
+function! s:deal_list(input, func, ...) abort "{{{
+    let g:useperl#ifperl#list = a:input
+    let l:output = call(function('s:call'), [a:func] + a:000)
+    " let g:useperl#ifperl#list = 0
+    return l:output
+endfunction "}}}
 
 " complete_pl: 
 " find file in @INC path
@@ -154,6 +190,8 @@ function! useperl#ifperl#pack() abort "{{{
     if !exists('s:pack')
         let s:pack = {}
         let s:pack.call = function('s:call')
+        let s:pack.execute = function('s:execute')
+        let s:pack.deal_list = function('s:deal_list')
         let s:pack.QuoteSingle = function('s:QuoteSingle')
     endif
     return s:pack

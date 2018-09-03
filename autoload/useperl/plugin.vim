@@ -6,10 +6,14 @@
 
 let s:thisdir = expand('<sfile>:h')
 
-" Rerldoc:
-" https://github.com/hotchpotch/perldoc-vim
+" Perldoc:
+" based on: https://github.com/hotchpotch/perldoc-vim
 execute 'source ' . s:thisdir . '/perldoc.vim'
 nnoremap <silent> <Plug>(perldoc) :<C-u>Perldoc<CR>
+
+" Perlomni:
+" based on: https://github.com/c9s/perlomni.vim
+execute 'source ' . s:thisdir . '/perlomni.vim'
 
 if !exists(':DLOG')
     command -nargs=* DLOG "pass
