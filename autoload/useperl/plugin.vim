@@ -5,15 +5,14 @@
 " Modify: 2018-05-16
 
 let s:thisdir = expand('<sfile>:h')
+function! useperl#plugin#dir() abort "{{{
+    return s:thisdir
+endfunction "}}}
 
 " Perldoc:
 " based on: https://github.com/hotchpotch/perldoc-vim
 execute 'source ' . s:thisdir . '/perldoc.vim'
 nnoremap <silent> <Plug>(perldoc) :<C-u>Perldoc<CR>
-
-" Perlomni:
-" based on: https://github.com/c9s/perlomni.vim
-execute 'source ' . s:thisdir . '/perlomni.vim'
 
 if !exists(':DLOG')
     command -nargs=* DLOG "pass
@@ -29,12 +28,12 @@ if has('perl')
     command! -nargs=* PerlSearch call useperl#search#Commander(<q-args>)
 endif
 
+" Perlomni:
+" based on: https://github.com/c9s/perlomni.vim
+execute 'source ' . s:thisdir . '/perlomni.vim'
+
 " load: 
 function! useperl#plugin#load() abort "{{{
     return 1
 endfunction "}}}
 
-" dir: 
-function! useperl#plugin#dir() abort "{{{
-    return s:thisdir
-endfunction "}}}

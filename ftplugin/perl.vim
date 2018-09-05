@@ -15,6 +15,7 @@ setlocal noexpandtab
 " 插件加载与配置
 PI useperl
 silent! nmap <buffer> <unique> K <Plug>(perldoc)
+setlocal omnifunc=PerlComplete
 
 " 注释块
 nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('# ', '', "n")<CR>
@@ -37,7 +38,7 @@ setlocal foldmethod=marker
 " SEE: vim-perl plugin
 if !exists("s:dotvim_ftplugin")
     packadd vim-perl
-    packadd perlomni.vim
+    " packadd perlomni.vim
     let s:dotvim_ftplugin = 1
 endif
 let g:perl_fold = 1

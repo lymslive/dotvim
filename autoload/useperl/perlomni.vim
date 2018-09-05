@@ -6,18 +6,18 @@
 " Modify: 2018-08-29
 
 let s:debug_flag = 0
-fun! s:debug(name,var)
+function! s:debug(name,var)
     if s:debug_flag
         echo a:name . ":" . a:var
         sleep 1
     endif
-endf
+endfunction
 
 " Check Environment: {{{1
-fun! s:findBin(script)
+function! s:findBin(script)
     let l:thisdir = useperl#plugin#dir()
     let l:bins = split(globpath(l:thisdir, 'bin/'.a:script), "\n")
-    if len(l:bins)
+    if len(l:bins) == 0
         let l:bins = split(globpath(&rtp, 'bin/'.a:script), "\n")
     endif
     if len(l:bins) == 0
@@ -34,17 +34,12 @@ if len(s:vimbin) == 0
     finish
 endif
 
-if g:perlomni_enable_ifperl
-    :PerlFile perlomni.pl
-    let s:ifperl = useperl#ifperl#pack()
-endif
-
 " Configurations: {{{1
-fun! s:defopt(name,value)
+function! s:defopt(name,value)
     if !exists('g:{a:name}')
         let g:{a:name} = a:value
     endif
-endf
+endfunction
 cal s:defopt('perlomni_enable_ifperl', has('perl'))
 cal s:defopt('perlomni_cache_expiry',30)
 cal s:defopt('perlomni_max_class_length',40)
@@ -53,9 +48,15 @@ cal s:defopt('perlomni_use_cache',1)
 cal s:defopt('perlomni_use_perlinc',1)
 cal s:defopt('perlomni_show_hidden_func',0)
 cal s:defopt('perlomni_perl','perl')
+cal s:defopt('perlomni_export_functions','1')
+
+if g:perlomni_enable_ifperl
+    :PerlFile perlomni.pl
+    let s:ifperl = useperl#ifperl#pack()
+endif
 
 " Wrapped System Function: {{{1
-fun! s:system(...)
+function! s:system(...)
     let cmd = ''
     if has('win32')
         let ext = toupper(substitute(a:1, '^.*\.', '.', ''))
@@ -83,13 +84,13 @@ fun! s:system(...)
     return system(cmd)
 endfunction
 
-fun! s:runPerlEval(mtext,code)
+function! s:runPerlEval(mtext,code)
     if g:perlomni_enable_ifperl
-        return s:ifperl.execute(code, mtext)
+        return s:ifperl.execute(a:code, a:mtext)
     endif
     let cmd = g:perlomni_perl . ' -M' . a:mtext . ' -e "' . escape(a:code,'"') . '"'
     return system(cmd)
-endf
+endfunction
 
 
 " Cache Mechanism: {{{1
@@ -97,7 +98,7 @@ let s:last_cache_ts = localtime()
 let s:cache_expiry =  { }
 let s:cache_last   =  { }
 
-fun! s:GetCacheNS(ns,key)
+function! s:GetCacheNS(ns,key) "{{{
     let key = a:ns . "_" . a:key
     if has_key( s:cache_expiry , key )
         let expiry = s:cache_expiry[ key ]
@@ -123,9 +124,9 @@ fun! s:GetCacheNS(ns,key)
         return g:perlomni_cache[key]
     endif
     return 0
-endf
+endfunction "}}}
 
-fun! s:SetCacheNSWithExpiry(ns,key,value,exp)
+function! s:SetCacheNSWithExpiry(ns,key,value,exp) "{{{
     if ! exists('g:perlomni_cache')
         let g:perlomni_cache = { }
     endif
@@ -134,49 +135,76 @@ fun! s:SetCacheNSWithExpiry(ns,key,value,exp)
     let s:cache_expiry[ key ] = a:exp
     let s:cache_last[ key ] = localtime()
     return a:value
-endf
+endfunction "}}}
 
-fun! s:SetCacheNS(ns,key,value)
+function! s:SetCacheNS(ns,key,value) "{{{
     if ! exists('g:perlomni_cache')
         let g:perlomni_cache = { }
     endif
     let key = a:ns . "_" . a:key
     let g:perlomni_cache[ key ] = a:value
     return a:value
-endf
-com! PerlOmniCacheClear  :unlet g:perlomni_cache
+endfunction "}}}
+command! PerlOmniCacheClear  :unlet g:perlomni_cache
+
+" ViewCache: 
+function! s:ViewCache(...) abort "{{{
+    if !exists('g:perlomni_cache')
+        echo 'no g:perlomni_cache at all'
+        return
+    endif
+    if a:0 == 0
+        for l:key in sort(keys(g:perlomni_cache))
+            echo l:key
+        endfor
+    else
+        if empty(a:1) || a:1 == '0'
+            echo 'g:perlomni_cache has cached ' . len(g:perlomni_cache) . ' keys'
+        else
+            echo a:1 . ' = ' . string(g:perlomni_cache[a:1])
+        endif
+    endif
+endfunction "}}}
+" ViewCacheComp: 
+function! s:ViewCacheComp(A, L, P) abort "{{{
+    if !exists('g:perlomni_cache')
+        return ''
+    endif
+    return join(keys(g:perlomni_cache), "\n")
+endfunction "}}}
+command! -nargs=* -complete=custom,s:ViewCacheComp PerlOmniCacheView call s:ViewCache(<f-args>)
 
 " COMPLETION PARSE UTILS: {{{1
 
 " Trival Util Functions: {{{
 
-fun! s:Quote(list)
+function! s:Quote(list)
     return map(copy(a:list), '"''".v:val."''"' )
-endf
+endfunction
 
-fun! s:RegExpFilter(list,pattern)
+function! s:RegExpFilter(list,pattern)
     return filter(copy(a:list),"v:val =~ a:pattern")
-endf
+endfunction
 
-fun! s:StringFilter(list,string)
+function! s:StringFilter(list,string)
     return filter(copy(a:list),"stridx(v:val,a:string) == 0 && v:val != a:string" )
-endf
+endfunction
 
-fun! s:ShellQuote(s)
+function! s:ShellQuote(s)
     return &shellxquote == '"' ? "'".a:s."'" : '"'.a:s.'"'
 endfunction
 
 " util function for building completion hashlist
-fun! s:toCompHashList(list,menu)
+function! s:toCompHashList(list,menu)
     return map( a:list , '{ "word": v:val , "menu": "'. a:menu .'" }' )
-endf
+endfunction
 
 " tmpfile: save some line in tmpfile, and return the file name 
 function! s:tmpfile(lines) abort "{{{
     let l:buffile = tempname()
     cal writefile(a:lines, l:buffile)
     return l:buffile
-endfunction "}}}
+endfunction
 
 " }}}
 
@@ -190,8 +218,8 @@ let s:vimreg = {}
 let s:vimreg.Module = '[a-zA-Z][a-zA-Z0-9:]\+'
 
 " BASE CLASS UTILS: {{{
-fun! s:baseClassFromFile(file)
-    let l:cache = GetCacheNS('clsf_bcls',a:file)
+function! s:baseClassFromFile(file)
+    let l:cache = s:GetCacheNS('clsf_bcls',a:file)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -207,20 +235,20 @@ fun! s:baseClassFromFile(file)
         let list[i] = substitute(list[i],'[,''"]',' ','g')
         cal extend( classes , split(list[i],'\s\+'))
     endfor
-    return SetCacheNS('clsf_bcls',a:file,classes)
-endf
+    return s:SetCacheNS('clsf_bcls',a:file,classes)
+endfunction
 " echo s:baseClassFromFile(expand('%'))
 
-fun! s:findBaseClass(class)
+function! s:findBaseClass(class)
     let file = s:locateClassFile(a:class)
     if file == ''
         return []
     endif
     return s:baseClassFromFile(file)
-endf
+endfunction
 " echo s:findBaseClass( 'Jifty::Record' )
 
-fun! s:findCurrentClassBaseClass()
+function! s:findCurrentClassBaseClass()
     let all_mods = [ ]
     for i in range( line('.') , 1 , -1 )
         let line = getline(i)
@@ -235,10 +263,10 @@ fun! s:findCurrentClassBaseClass()
         endif
     endfor
     return all_mods
-endf
+endfunction
 
-fun! s:locateClassFile(class)
-    let l:cache = GetCacheNS('clsfpath',a:class)
+function! s:locateClassFile(class)
+    let l:cache = s:GetCacheNS('clsfpath',a:class)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -256,16 +284,16 @@ fun! s:locateClassFile(class)
     cal insert(paths,'lib')
     for path in paths
         if filereadable( path . '/' . filepath )
-            return SetCacheNS('clsfpath',a:class,path .'/' . filepath)
+            return s:SetCacheNS('clsfpath',a:class,path .'/' . filepath)
         endif
     endfor
     return ''
-endf
+endfunction
 " echo s:locateClassFile('Jifty::DBI')
 " echo s:locateClassFile('No')
 " }}}
 
-fun! s:grepBufferList(pattern) "{{{
+function! s:grepBufferList(pattern) "{{{
     redir => bufferlist
     silent buffers
     redir END
@@ -278,10 +306,10 @@ fun! s:grepBufferList(pattern) "{{{
         endif
     endfor
     return files
-endf "}}}
+endfunction "}}}
 " echo s:grepBufferList('\.pm$')
 
-fun! s:parseParagraphHead(fromLine) "{{{
+function! s:parseParagraphHead(fromLine) "{{{
     let lnum = a:fromLine
     let b:paragraph_head = getline(lnum)
     for nr in range(lnum-1,lnum-10,-1)
@@ -292,12 +320,12 @@ fun! s:parseParagraphHead(fromLine) "{{{
         let b:paragraph_head = line
     endfor
     return b:paragraph_head
-endf "}}}
+endfunction "}}}
 
 " CPAN PERL CLASS LIST UTILS: {{{
 " CPANParseSourceList {{{
 " cat 02packages.details.txt.gz | gzip -dc | grep -Ev '^[A-Za-z0-9-[]+: ' | cut -d" " -f1
-fun! CPANParseSourceList(file)
+function! CPANParseSourceList(file)
     if ! exists('g:cpan_mod_cachef')
         let g:cpan_mod_cachef = expand('~/.vim-cpan-module-cache')
     endif
@@ -308,12 +336,12 @@ fun! CPANParseSourceList(file)
         cal writefile(split(data, "\n"), g:cpan_mod_cachef)
     endif
     return readfile( g:cpan_mod_cachef )
-endf
+endfunction
 " }}}
 " CPANSourceLists {{{
 " XXX: copied from cpan.vim plugin , should be reused.
 " fetch source list from remote
-fun! CPANSourceLists()
+function! CPANSourceLists()
     let paths = [
                 \expand('~/.cpanplus/02packages.details.txt.gz'),
                 \expand('~/.cpan/sources/modules/02packages.details.txt.gz')
@@ -343,7 +371,7 @@ fun! CPANSourceLists()
     endif
     echoerr "You don't have curl or wget to download the package list."
     return
-endf
+endfunction
 " let sourcefile = CPANSourceLists()
 " let classnames = CPANParseSourceList( sourcefile )
 " echo remove(classnames,10)
@@ -353,8 +381,8 @@ endf
 " SCANNING FUNCTIONS: {{{
 
 " scan exported functions from a module.
-fun! s:scanModuleExportFunctions(class)
-    let l:cache = GetCacheNS('mef',a:class)
+function! s:scanModuleExportFunctions(class)
+    let l:cache = s:GetCacheNS('mef',a:class)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -362,22 +390,22 @@ fun! s:scanModuleExportFunctions(class)
     let funcs = []
 
     " XXX: TOO SLOW, CACHE TO FILE!!!!
-    if exists('g:perlomni_export_functions')
+    if g:perlomni_export_functions
         let output = s:runPerlEval( a:class , printf( 'print join " ",@%s::EXPORT_OK' , a:class ))
         cal extend( funcs , split( output ) )
         let output = s:runPerlEval( a:class , printf( 'print join " ",@%s::EXPORT' , a:class ))
         cal extend( funcs , split( output ) )
-        echo [a:class,output]
+        " echo [a:class,output]
     endif
-    return SetCacheNS('mef',a:class,s:toCompHashList(funcs,a:class))
-endf
+    return s:SetCacheNS('mef',a:class, s:toCompHashList(funcs, a:class))
+endfunction
 " echo s:scanModuleExportFunctions( 'List::MoreUtils' )
 " sleep 1
 
 " Scan export functions in current buffer
 " Return functions
-fun! s:scanCurrentExportFunction()
-    let l:cache = GetCacheNS('cbexf', bufname('%'))
+function! s:scanCurrentExportFunction()
+    let l:cache = s:GetCacheNS('cbexf', bufname('%'))
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -391,13 +419,13 @@ fun! s:scanCurrentExportFunction()
             cal extend(funcs ,s:scanModuleExportFunctions(m))
         endif
     endfor
-    return SetCacheNS('cbexf',bufname('%'),funcs)
-endf
+    return s:SetCacheNS('cbexf',bufname('%'),funcs)
+endfunction
 " echo s:scanCurrentExportFunction()
 " sleep 1
 
-fun! s:scanClass(path) " {{{
-    let l:cache = GetCacheNS('classpath', a:path)
+function! s:scanClass(path) " {{{
+    let l:cache = s:GetCacheNS('classpath', a:path)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -408,11 +436,11 @@ fun! s:scanClass(path) " {{{
     cal filter(l:files, 'v:val =~ "\.pm$"')
     cal map(l:files, 'strpart(v:val,strlen(a:path)+1,strlen(v:val)-strlen(a:path)-4)')
     cal map(l:files, 'substitute(v:val,''/'',"::","g")')
-    return SetCacheNS('classpath',a:path,l:files)
-endf
+    return s:SetCacheNS('classpath',a:path,l:files)
+endfunction
 " echo s:scanClass(expand('~/aiink/aiink/lib'))
 " }}}
-fun! s:scanObjectVariableLines(lines) " {{{
+function! s:scanObjectVariableLines(lines) " {{{
     if g:perlomni_enable_ifperl
         let varlist = split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepObjval'),"\n")
     else
@@ -428,11 +456,11 @@ fun! s:scanObjectVariableLines(lines) " {{{
         endif
     endfor
     return b:objvarMapping
-endf
+endfunction
 " echo s:scanObjectVariableLines([])
 " }}}
 
-fun! s:scanObjectVariableFile(file)
+function! s:scanObjectVariableFile(file)
     if g:perlomni_enable_ifperl
         let list = split(s:ifperl.call('perlomni::GrepObjval', expand(a:file)),"n")
     else
@@ -448,70 +476,70 @@ fun! s:scanObjectVariableFile(file)
         endif
     endfor
     return b:objvarMapping
-endf
+endfunction
 " echo s:scanObjectVariableFile( expand('~/git/bps/jifty-dbi/lib/Jifty/DBI/Collection.pm') )
 
 if g:perlomni_enable_ifperl
-fun! s:scanVariable(lines)
+function! s:scanVariable(lines)
     return uniq(sort(split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepPattern', '\$(\w+)'),"\n")))
-endf
-fun! s:scanArrayVariable(lines)
+endfunction
+function! s:scanArrayVariable(lines)
     return uniq(sort(split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepPattern', '@(\w+)'), "\n")))
-endf
-fun! s:scanHashVariable(lines)
+endfunction
+function! s:scanHashVariable(lines)
     return uniq(sort(split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepPattern', '%(\w+)'), "\n")))
-endf
-fun! s:scanQString(lines)
+endfunction
+function! s:scanQString(lines)
     return split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepPattern', s:perlreg.QString), "\n")
-endf
-fun! s:scanQQString(lines)
+endfunction
+function! s:scanQQString(lines)
     return split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepPattern', s:perlreg.QQString), "\n")
-endf
-fun! s:scanFunctionFromList(lines)
+endfunction
+function! s:scanFunctionFromList(lines)
     return uniq(sort(split(s:ifperl.deal_list(a:lines, 'perlomni::DLGrepPattern', s:perlreg.Function), "\n")))
-endf
+endfunction
 
 else
-fun! s:scanVariable(lines)
+function! s:scanVariable(lines)
     return split(s:system(s:vimbin.'grep-pattern.pl', s:tmpfile(a:lines), '\$(\w+)', '|', 'sort', '|', 'uniq'),"\n")
-endf
-fun! s:scanArrayVariable(lines)
+endfunction
+function! s:scanArrayVariable(lines)
     return split(s:system(s:vimbin.'grep-pattern.pl', s:tmpfile(a:lines), '@(\w+)', '|', 'sort', '|', 'uniq'),"\n")
-endf
-fun! s:scanHashVariable(lines)
+endfunction
+function! s:scanHashVariable(lines)
     return split(s:system(s:vimbin.'grep-pattern.pl', s:tmpfile(a:lines), '%(\w+)', '|', 'sort', '|', 'uniq'),"\n")
-endf
-fun! s:scanQString(lines)
+endfunction
+function! s:scanQString(lines)
     return split(s:system(s:vimbin.'grep-pattern.pl', s:tmpfile(a:lines), s:perlreg.QString) ,"\n")
-endf
-fun! s:scanQQString(lines)
+endfunction
+function! s:scanQQString(lines)
     return split(s:system(s:vimbin.'grep-pattern.pl', s:tmpfile(a:lines), s:perlreg.QQString),"\n")
-endf
-fun! s:scanFunctionFromList(lines)
+endfunction
+function! s:scanFunctionFromList(lines)
     return split(s:system(s:vimbin.'grep-pattern.pl', s:tmpfile(a:lines), s:perlreg.Function, '|', 'sort', '|', 'uniq'),"\n")
-endf
+endfunction
 endif
 
-fun! s:scanFunctionFromSingleClassFile(file)
+function! s:scanFunctionFromSingleClassFile(file)
     if g:perlomni_enable_ifperl
         return uniq(sort(split(s:ifperl.call('perlomni::GrepPattern', a:file, s:perlreg.Function), "\n")))
     else
         return split(s:system(s:vimbin.'grep-pattern.pl', a:file, s:perlreg.Function, '|', 'sort', '|', 'uniq'),"\n")
     endif
-endf
+endfunction
 
-fun! s:scanFunctionFromClass(class)
+function! s:scanFunctionFromClass(class)
     let classfile = s:locateClassFile(a:class)
     return classfile == '' ? [ ] :
                 \ extend( s:scanFunctionFromSingleClassFile(classfile),
                 \ s:scanFunctionFromBaseClassFile(classfile) )
-endf
+endfunction
 " echo s:scanFunctionFromClass('Jifty::DBI::Record')
 " echo s:scanFunctionFromClass('CGI')
 " sleep 1
 
 " scan functions from file and parent classes.
-fun! s:scanFunctionFromBaseClassFile(file)
+function! s:scanFunctionFromBaseClassFile(file)
     if ! filereadable( a:file )
         return [ ]
     endif
@@ -521,7 +549,7 @@ fun! s:scanFunctionFromBaseClassFile(file)
     let classes = s:baseClassFromFile(a:file)
     for cls in classes
         unlet! l:cache
-        let l:cache = GetCacheNS('classfile_funcs',cls)
+        let l:cache = s:GetCacheNS('classfile_funcs',cls)
         if type(l:cache) != type(0)
             cal extend(l:funcs,l:cache)
             continue
@@ -530,12 +558,12 @@ fun! s:scanFunctionFromBaseClassFile(file)
         let clsfile = s:locateClassFile(cls)
         if clsfile != ''
             let bfuncs = s:scanFunctionFromBaseClassFile( clsfile )
-            cal SetCacheNS('classfile_funcs',cls,bfuncs)
+            cal s:SetCacheNS('classfile_funcs',cls,bfuncs)
             cal extend( l:funcs , bfuncs )
         endif
     endfor
     return l:funcs
-endf
+endfunction
 " let fs = s:scanFunctionFromBaseClassFile(expand('%'))
 " echo len(fs)
 
@@ -545,7 +573,7 @@ endf
 let s:ComniData = useperl#perlomni#data#struct()
 " DBI METHOD COMPLETION: {{{
 " XXX: provide a dictinoary loader
-fun! s:CompDBIxMethod(base,context)
+function! s:CompDBIxMethod(base,context)
     return s:StringFilter([
                 \ "table" , "table_class" , "add_columns" ,
                 \ "set_primary_key" , "has_many" ,
@@ -562,11 +590,11 @@ fun! s:CompDBIxMethod(base,context)
                 \ "mk_group_accessors",
                 \ "storage"
                 \ ],a:base)
-endf
+endfunction
 
-fun! s:scanDBIxResultClasses()
+function! s:scanDBIxResultClasses()
     let path = 'lib'
-    let l:cache = GetCacheNS('dbix_c',path)
+    let l:cache = s:GetCacheNS('dbix_c',path)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -576,43 +604,44 @@ fun! s:scanDBIxResultClasses()
     cal map( pms, 'substitute(v:val,"\\.pm$","","")' )
     cal map( pms, 'substitute(v:val,"/","::","g")' )
 
-    return SetCacheNS('dbix_c',path,pms)
-endf
+    return s:SetCacheNS('dbix_c',path,pms)
+endfunction
 
-fun! s:getResultClassName( classes )
+function! s:getResultClassName( classes )
     let classes = copy(a:classes)
     cal map( classes , "substitute(v:val,'^.*::','','')" )
     return classes
-endf
+endfunction
 
-fun! s:CompDBIxResultClassName(base,context)
+function! s:CompDBIxResultClassName(base,context)
     return s:StringFilter( s:getResultClassName(   s:scanDBIxResultClasses()  )  ,a:base)
-endf
+endfunction
 
-fun! s:CompExportFunction(base,context)
+function! s:CompExportFunction(base,context)
     let m = matchstr( a:context , '\(^use\s\+\)\@<=' . s:vimreg.Module )
-    let l:funcs = s:toCompHashList(s:scanModuleExportFunctions(m),m)
-    return filter(copy(l:funcs),'v:val.word =~ a:base')
-endf
+    let l:funcs = s:scanModuleExportFunctions(m)
+    let l:words = filter(copy(l:funcs), 'v:val.word =~ a:base')
+    return l:words
+endfunction
 
-fun! s:CompModuleInstallExport(base,context)
+function! s:CompModuleInstallExport(base,context)
     let words = s:ComniData.p5_mi_export
     return filter( copy(words) , 'v:val.word =~ a:base' )
-endf
+endfunction
 " }}}
 " SIMPLE MOOSE COMPLETION: {{{
-fun! s:CompMooseIs(base,context)
+function! s:CompMooseIs(base,context)
     return s:Quote(['rw', 'ro', 'wo'])
-endf
+endfunction
 
-fun! s:CompMooseIsa(base,context)
+function! s:CompMooseIsa(base,context)
     let l:comps = ['Int', 'Str', 'HashRef', 'HashRef[', 'Num', 'ArrayRef']
     let base = substitute(a:base,'^[''"]','','')
     cal extend(l:comps, s:CompClassName(base,a:context))
     return s:Quote(s:StringFilter( l:comps, base  ))
-endf
+endfunction
 
-fun! s:CompMooseAttribute(base,context)
+function! s:CompMooseAttribute(base,context)
     let values = [ 'default' , 'is' , 'isa' ,
                 \ 'label' , 'predicate', 'metaclass', 'label',
                 \ 'expires_after',
@@ -622,24 +651,24 @@ fun! s:CompMooseAttribute(base,context)
                 \ 'predicate' , 'lazy_build', 'initializer', 'documentation' ]
     cal map(values,'v:val . " => "')
     return s:StringFilter(values,a:base)
-endf
+endfunction
 
-fun! s:CompMooseRoleAttr(base,context)
+function! s:CompMooseRoleAttr(base,context)
     let attrs = [ 'alias', 'excludes' ]
     return s:StringFilter(attrs,a:base)
-endf
-fun! s:CompMooseStatement(base,context)
+endfunction
+function! s:CompMooseStatement(base,context)
     let sts = [
                 \'extends' , 'after' , 'before', 'has' ,
                 \'requires' , 'with' , 'override' , 'method',
                 \'super', 'around', 'inner', 'augment', 'confess' , 'blessed' ]
     return s:StringFilter(sts,a:base)
-endf
+endfunction
 " }}}
 " PERL CORE OMNI COMPLETION: {{{
 
-fun! s:CompVariable(base,context)
-    let l:cache = GetCacheNS('variables',a:base)
+function! s:CompVariable(base,context)
+    let l:cache = s:GetCacheNS('variables',a:base)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -649,11 +678,11 @@ fun! s:CompVariable(base,context)
     cal extend( variables , s:scanArrayVariable(lines))
     cal extend( variables , s:scanHashVariable(lines))
     let result = s:StringFilter(variables, a:base)
-    return SetCacheNS('variables',a:base,result)
-endf
+    return s:SetCacheNS('variables',a:base,result)
+endfunction
 
-fun! s:CompArrayVariable(base,context)
-    let l:cache = GetCacheNS('arrayvar',a:base)
+function! s:CompArrayVariable(base,context)
+    let l:cache = s:GetCacheNS('arrayvar',a:base)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -661,29 +690,29 @@ fun! s:CompArrayVariable(base,context)
     let lines = getline(1,'$')
     let variables = s:scanArrayVariable(lines)
     let result = s:StringFilter(variables, a:base)
-    return SetCacheNS('arrayvar',a:base,result)
-endf
+    return s:SetCacheNS('arrayvar',a:base,result)
+endfunction
 
-fun! s:CompHashVariable(base,context)
-    let l:cache = GetCacheNS('hashvar',a:base)
+function! s:CompHashVariable(base,context)
+    let l:cache = s:GetCacheNS('hashvar',a:base)
     if type(l:cache) != type(0)
         return l:cache
     endif
     let lines = getline(1,'$')
     let variables = s:scanHashVariable(lines)
     let result = s:StringFilter(variables, a:base)
-    return SetCacheNS('hashvar',a:base,result)
-endf
+    return s:SetCacheNS('hashvar',a:base,result)
+endfunction
 
 " perl builtin functions
-fun! s:CompFunction(base,context)
+function! s:CompFunction(base,context)
     let efuncs = s:scanCurrentExportFunction()
     let flist = copy(s:ComniData.p5bfunctions)
     cal extend(flist,efuncs)
     return filter(flist,'v:val.word =~ "^".a:base')
-endf
+endfunction
 
-fun! s:CompCurrentBaseFunction(base,context)
+function! s:CompCurrentBaseFunction(base,context)
     let all_mods = s:findCurrentClassBaseClass()
     let funcs = [ ]
     for mod in all_mods
@@ -691,48 +720,48 @@ fun! s:CompCurrentBaseFunction(base,context)
         cal extend(funcs,sublist)
     endfor
     return funcs
-endf
+endfunction
 " echo s:CompCurrentBaseFunction('','$self->')
 " sleep 1
 
-fun! s:CompBufferFunction(base,context)
-    let l:cache = GetCacheNS('buf_func',a:base.expand('%'))
+function! s:CompBufferFunction(base,context)
+    let l:cache = s:GetCacheNS('buf_func',a:base.expand('%'))
     if type(l:cache) != type(0)
         return l:cache
     endif
 
-    let l:cache2 = GetCacheNS('buf_func_all',expand('%'))
+    let l:cache2 = s:GetCacheNS('buf_func_all',expand('%'))
     if type(l:cache2) != type(0)
         let funclist = l:cache2
     else
         let lines = getline(1,'$')
-        let funclist = SetCacheNS('buf_func_all',expand('%'),s:scanFunctionFromList(lines))
+        let funclist = s:SetCacheNS('buf_func_all',expand('%'),s:scanFunctionFromList(lines))
     endif
     let result = s:StringFilter(funclist, a:base)
-    return SetCacheNS('buf_func',a:base.expand('%'),result)
-endf
+    return s:SetCacheNS('buf_func',a:base.expand('%'),result)
+endfunction
 
-fun! s:CompClassFunction(base,context)
+function! s:CompClassFunction(base,context)
     let class = matchstr(a:context,'[a-zA-Z0-9:]\+\(->\)\@=')
-    let l:cache = GetCacheNS('classfunc',class.'_'.a:base)
+    let l:cache = s:GetCacheNS('classfunc',class.'_'.a:base)
     if type(l:cache) != type(0)
         return l:cache
     endif
 
-    let l:cache2 = GetCacheNS('class_func_all',class)
-    let funclist = type(l:cache2) != type(0) ? l:cache2 : SetCacheNS('class_func_all',class,s:scanFunctionFromClass(class))
+    let l:cache2 = s:GetCacheNS('class_func_all',class)
+    let funclist = type(l:cache2) != type(0) ? l:cache2 : s:SetCacheNS('class_func_all',class,s:scanFunctionFromClass(class))
 
     let result = s:StringFilter(funclist, a:base)
-    let funclist = SetCacheNS('classfunc',class.'_'.a:base,result)
+    let funclist = s:SetCacheNS('classfunc',class.'_'.a:base,result)
     if g:perlomni_show_hidden_func == 0
         call filter(funclist, 'v:val !~ "^_"')
     endif
     return funclist
-endf
+endfunction
 
-fun! s:CompObjectMethod(base,context)
+function! s:CompObjectMethod(base,context)
     let objvarname = matchstr(a:context,'\$\w\+\(->$\)\@=')
-    let l:cache = GetCacheNS('objectMethod',objvarname.'_'.a:base)
+    let l:cache = s:GetCacheNS('objectMethod',objvarname.'_'.a:base)
     if type(l:cache) != type(0)
         return l:cache
     endif
@@ -764,20 +793,20 @@ fun! s:CompObjectMethod(base,context)
             cal extend(funclist,s:scanFunctionFromClass( cls ))
         endfor
         let result = s:StringFilter(funclist, a:base)
-        let funclist = SetCacheNS('objectMethod',objvarname.'_'.a:base,result)
+        let funclist = s:SetCacheNS('objectMethod',objvarname.'_'.a:base,result)
     endif
     if g:perlomni_show_hidden_func == 0
         call filter(funclist, 'v:val !~ "^_"')
     endif
     return funclist
-endf
+endfunction
 " let b:objvarMapping = {  }
 " let b:objvarMapping[ '$cgi'  ] = ['CGI']
 " echo s:CompObjectMethod( '' , '$cgi->' )
 " sleep 1
 
-fun! s:CompClassName(base,context)
-    let cache = GetCacheNS('class',a:base)
+function! s:CompClassName(base,context)
+    let cache = s:GetCacheNS('class',a:base)
     if type(cache) != type(0)
         return cache
     endif
@@ -806,38 +835,38 @@ fun! s:CompClassName(base,context)
     else
         cal sort(result)
     endif
-    return SetCacheNS('class',a:base,result)
-endf
+    return s:SetCacheNS('class',a:base,result)
+endfunction
 " echo s:CompClassName('Moose::','')
 
-fun! s:SortByLength(i1, i2)
+function! s:SortByLength(i1, i2)
     return strlen(a:i1) == strlen(a:i2) ? 0 : strlen(a:i1) > strlen(a:i2) ? 1 : -1
-endfunc
+endfunction
 
 
-fun! s:CompUnderscoreTokens(base,context)
+function! s:CompUnderscoreTokens(base,context)
     return s:StringFilter( [ 'PACKAGE__' , 'END__' , 'DATA__' , 'LINE__' , 'FILE__' ] , a:base )
-endf
+endfunction
 
-fun! s:CompPodSections(base,context)
+function! s:CompPodSections(base,context)
     return s:StringFilter( [ 'NAME' , 'SYNOPSIS' , 'AUTHOR' , 'DESCRIPTION' , 'FUNCTIONS' ,
                 \ 'USAGE' , 'OPTIONS' , 'BUG REPORT' , 'DEVELOPMENT' , 'NOTES' , 'ABOUT' , 'REFERENCES' ] , a:base )
-endf
+endfunction
 
-fun! s:CompPodHeaders(base,context)
+function! s:CompPodHeaders(base,context)
     return s:StringFilter(
                 \ [ 'head1' , 'head2' , 'head3' , 'begin' , 'end',
                 \   'encoding' , 'cut' , 'pod' , 'over' ,
                 \   'item' , 'for' , 'back' ] , a:base )
-endf
+endfunction
 
 " echo s:CompPodHeaders('h','')
 
-fun! s:CompQString(base,context)
+function! s:CompQString(base,context)
     let lines = getline(1,'$')
     let strings = s:scanQString( lines )
     return s:StringFilter(strings,a:base)
-endf
+endfunction
 
 " }}}
 
@@ -859,9 +888,9 @@ endf
 "   comp:
 "       completion function reference.
 let s:rules = [ ]
-fun! s:rule(hash)
+function! s:rule(hash)
     cal add( s:rules , a:hash )
-endf
+endfunction
 
 " MODULE-INSTALL FUNCTIONS ================================={{{
 cal s:rule({
@@ -1053,7 +1082,7 @@ cal s:rule({
 " b:lcontext : the text before cursor position
 " b:colpos   : cursor position - 1
 " b:lines    : range of scanning
-fun! PerlComplete(findstart, base) {{{
+function! PerlComplete(findstart, base) "{{{
     if ! exists('b:lines')
         " max 200 lines , to '$' will be very slow
         let b:lines = getline( 1, 200 )
@@ -1155,7 +1184,7 @@ fun! PerlComplete(findstart, base) {{{
     else
         return b:comps
     endif
-endf " }}}
+endfunction
 " setlocal omnifunc=PerlComplete
 
 " pack: 
@@ -1165,5 +1194,5 @@ function! useperl#perlomni#pack() abort "{{{
         let s:pack.AddPerlOmniRule = function('s:rule')
     endif
     return s:pack
-endfunction "}}}
+endfunction
 
