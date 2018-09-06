@@ -226,7 +226,7 @@ function! s:baseClassFromFile(file)
     if g:perlomni_enable_ifperl
         let list = split(s:ifperl.call('perlomni::GrepPattern', a:file, s:perlreg.BaseClass), "\n")
     else
-        let list = split(s:system(s:vimbin.'grep-pattern.pl', a:file, s:perlreg.baseClass),"\n")
+        let list = split(s:system(s:vimbin.'grep-pattern.pl', a:file, s:perlreg.BaseClass),"\n")
     endif
     let classes = [ ]
     for i in range(0,len(list)-1)
@@ -638,7 +638,7 @@ function! s:CompMooseIsa(base,context)
     let l:comps = ['Int', 'Str', 'HashRef', 'HashRef[', 'Num', 'ArrayRef']
     let base = substitute(a:base,'^[''"]','','')
     cal extend(l:comps, s:CompClassName(base,a:context))
-    return s:Quote(s:StringFilter( l:comps, base  ))
+    return s:Quote(s:StringFilter(l:comps, base))
 endfunction
 
 function! s:CompMooseAttribute(base,context)
@@ -893,20 +893,20 @@ function! s:rule(hash)
 endfunction
 
 " MODULE-INSTALL FUNCTIONS ================================={{{
-cal s:rule({
+cal s:rule({ 'name' : 'ModuleInstallExport',
     \'contains'  :  'Module::Install',
     \'backward'  :  '\w*$',
     \'context'   :  '^$',
     \'comp'      :  function('s:CompModuleInstallExport') })
 
-cal s:rule(  {
+cal s:rule({ 'name' : 'ModuleInstall',
     \'context': '^\(requires\|build_requires\|test_requires\)\s',
     \'backward': '[a-zA-Z0-9:]*$',
     \'comp': function('s:CompClassName') })
 
 " }}}
 " UNDERSCORES =================================="{{{
-cal s:rule({
+cal s:rule({ 'name' : 'UnderscoreTokens',
     \'context': '__$',
     \'backward': '[A-Z]*$',
     \'comp': function('s:CompUnderscoreTokens') })
@@ -921,14 +921,14 @@ cal s:rule({
 " so the rest rules willn't be check.
 " for the reason , put the dbix completion rule before them.
 " will take a look later ... (I hope)
-cal s:rule({
+cal s:rule({ 'name' : 'DBIx::Method',
     \'context': '^__PACKAGE__->$',
     \'contains': 'DBIx::Class::Core',
     \'backward': '\w*$',
     \'comp':    function('s:CompDBIxMethod')
     \})
 
-cal s:rule( {
+cal s:rule({ 'name' : 'DBIx::ResultClass',
     \'only': 1,
     \'context': '->resultset(\s*[''"]',
     \'backward': '\w*$',
@@ -937,51 +937,62 @@ cal s:rule( {
 "}}}
 
 " Moose Completion Rules: {{{
-cal s:rule({
+cal s:rule({ 'name' : 'Moose::Is',
     \'only':1,
     \'head': '^has\s\+\w\+' ,
-    \'context': '\s\+is\s*=>\s*$'  ,
+    \'context': '\s\+is\s*=>\s*$',
     \'backward': '[''"]\?\w*$' ,
     \'comp': function('s:CompMooseIs') } )
 
-cal s:rule({
+cal s:rule({ 'name' : 'Moose::Isa',
     \'only':1,
     \'head': '^has\s\+\w\+' ,
     \'context': '\s\+\(isa\|does\)\s*=>\s*$' ,
     \'backward': '[''"]\?\S*$' ,
     \'comp': function('s:CompMooseIsa') } )
-cal s:rule({ 'only':1, 'head': '^has\s\+\w\+' ,
+
+cal s:rule({ 'name' : 'Moose::BufferFunction',
+    \'only':1, 
+    \'head': '^has\s\+\w\+',
     \'context': '\s\+\(reader\|writer\|clearer\|predicate\|builder\)\s*=>\s*[''"]$' ,
     \'backward': '\w*$',
     \'comp': function('s:CompBufferFunction') })
 
-cal s:rule({
+cal s:rule({ 'name' : 'Moose::Attribute',
     \'only':1,
-    \'head': '^has\s\+\w\+' ,
-    \'context': '^\s*$' ,
+    \'head': '^has\s\+\w\+',
+    \'context': '^\s*$',
     \'backward': '\w*$',
     \'comp': function('s:CompMooseAttribute') } )
 
-cal s:rule({
+cal s:rule({ 'name' : 'Moose::RoleAttr',
     \'only':1,
     \'head': '^with\s\+',
     \'context': '^\s*-$',
     \'backward': '\w\+$',
     \'comp': function('s:CompMooseRoleAttr') } )
 
-cal s:rule({
+cal s:rule({ 'name' : 'Moose::Statement',
     \'context': '^\s*$',
     \'backward': '\w\+$',
     \'comp':function('s:CompMooseStatement')})
 
 " }}}
 " Core Completion Rules: {{{
-cal s:rule({'only':1, 'context': '^=$', 'backward': '\w*$', 'comp': function('s:CompPodHeaders') })
+cal s:rule({ 'name' : 'Pod::Headers',
+    \'only':1, 
+    \'context': '^=$',
+    \'backward': '\w*$',
+    \'comp': function('s:CompPodHeaders') })
 
-cal s:rule({'only':1, 'context': '^=\w\+\s' , 'backward': '\w*$', 'comp': function('s:CompPodSections') })
+cal s:rule({ 'name' : 'Pod::Sections',
+    \'only':1,
+    \'context': '^=\w\+\s',
+    \'backward': '\w*$',
+    \'comp': function('s:CompPodSections') })
 
 " export function completion
-cal s:rule({
+cal s:rule({ 'name' : 'ExportFunction',
     \'only': 1,
     \'context': '^use\s\+[a-zA-Z0-9:]\+\s\+qw',
     \'backward': '\w*$',
@@ -993,51 +1004,51 @@ cal s:rule({
 "     use [ClassName]
 "     use base qw(ClassName ...
 "     use base 'ClassName
-cal s:rule({
+cal s:rule({ 'name' : 'ClassName',
     \'only':1,
-    \'context': '\<\(new\|use\)\s\+\(\(base\|parent\)\s\+\(qw\)\?[''"(/]\)\?$' ,
+    \'context': '\<\(new\|use\)\s\+\(\(base\|parent\)\s\+\(qw\)\?[''"(/]\)\?$',
     \'backward': '\<[A-Z][A-Za-z0-9_:]*$',
     \'comp': function('s:CompClassName') } )
 
 
-cal s:rule({
+cal s:rule({ 'name' : 'ClassName',
     \'only':1,
-    \'context': '^extends\s\+[''"]$' ,
+    \'context': '^extends\s\+[''"]$',
     \'backward': '\<\u[A-Za-z0-9_:]*$',
     \'comp': function('s:CompClassName') } )
 
-cal s:rule({
-    \'context': '^\s*\(sub\|method\)\s\+'              ,
+cal s:rule({ 'name' : 'BaseFunction',
+    \'context': '^\s*\(sub\|method\)\s\+',
     \'backward': '\<\w\+$' ,
     \'only':1 ,
     \'comp': function('s:CompCurrentBaseFunction') })
 
-cal s:rule({
+cal s:rule({ 'name' : 'ObjectSelf',
     \'only':1,
     \'context': '^\s*my\s\+\$self' ,
     \'backward': '\s*=\s\+shift;',
     \'comp': [ ' = shift;' ] })
 
 " variable completion
-cal s:rule({
+cal s:rule({ 'name' : 'Variable',
     \'only':1,
-    \'context': '\s*\$$' ,
-    \'backward': '\<\U\w*$' ,
+    \'context': '\s*\$$',
+    \'backward': '\<\U\w*$',
     \'comp': function('s:CompVariable') })
 
-cal s:rule({
-    \'only':1,
-    \'context': '%$',
-    \'backward': '\<\U\w\+$',
-    \'comp': function('s:CompHashVariable') })
-
-cal s:rule({
+cal s:rule({ 'name' : 'ArrayVariable',
     \'only':1,
     \'context': '@$',
     \'backward': '\<\U\w\+$',
     \'comp': function('s:CompArrayVariable') })
 
-cal s:rule({
+cal s:rule({ 'name' : 'HashVariable',
+    \'only':1,
+    \'context': '%$',
+    \'backward': '\<\U\w\+$',
+    \'comp': function('s:CompHashVariable') })
+
+cal s:rule({ 'name' : 'BufferFunction',
     \'only':1,
     \'context': '&$',
     \'backward': '\<\U\w\+$',
@@ -1045,27 +1056,28 @@ cal s:rule({
 
 
 " function completion
-cal s:rule({
+cal s:rule({ 'name' : 'Function',
     \'context': '\(->\|\$\)\@<!$',
     \'backward': '\<\w\+$' ,
     \'comp': function('s:CompFunction') })
 
-cal s:rule({'context': '\$\(self\|class\)->$',
+cal s:rule( 'name' : 'BufferMethod',
+    \{'context': '\$\(self\|class\)->$',
     \'backward': '\<\w\+$' ,
     \'only':1 ,
     \'comp': function('s:CompBufferFunction') })
 
-cal s:rule({
-    \'context': '\$\w\+->$'  ,
-    \'backward': '\<\w\+$' ,
+cal s:rule({ 'name' : 'ObjectMethod',
+    \'context': '\$\w\+->$',
+    \'backward': '\<\w\+$',
     \'comp': function('s:CompObjectMethod') })
 
-cal s:rule({
-    \'context': '\<[a-zA-Z0-9:]\+->$'  ,
-    \'backward': '\w*$' ,
+cal s:rule({ 'name' : 'ClassFunction',
+    \'context': '\<[a-zA-Z0-9:]\+->$',
+    \'backward': '\w*$',
     \'comp': function('s:CompClassFunction') })
 
-cal s:rule({
+cal s:rule({ 'name' : 'ClassName',
     \'context': '$' ,
     \'backward': '\<\u\w*::[a-zA-Z0-9:]*$',
     \'comp': function('s:CompClassName') } )
@@ -1130,15 +1142,8 @@ function! PerlComplete(findstart, base) "{{{
 
             " lefttext: context matched text
             " basetext: backward matched text
-
             let lefttext = strpart(b:lcontext,0,bwidx)
             let basetext = strpart(b:lcontext,bwidx)
-
-            cal s:debug( 'function' , string(rule.comp) )
-            cal s:debug( 'head'     , b:paragraph_head )
-            cal s:debug( 'lefttext' , lefttext )
-            cal s:debug( 'regexp'   , rule.context )
-            cal s:debug( 'basetext' , basetext )
 
             if ( has_key( rule ,'head')
                         \ && b:paragraph_head =~ rule.head
@@ -1161,6 +1166,7 @@ function! PerlComplete(findstart, base) "{{{
                     endif
                 endif
 
+                :DLOG 'use completion rule: ' . rule.name
                 if type(rule.comp) == type(function('tr'))
                     cal extend(b:comps, call( rule.comp, [basetext,lefttext] ) )
                 elseif type(rule.comp) == type([])

@@ -47,6 +47,8 @@ endfunction "}}}
 command! -nargs=+ -complete=customlist,<SID>complist_pm PerlUse call <SID>use(<q-args>)
 
 " execute: run perl code, may with addtions modules, return stdout as string
+" note: perl print "\t" will captured as "^I"(tow printable chars), 
+"       so space is better;
 function! s:execute(codelines, ...) abort "{{{
     if type(a:codelines) == type([])
         let l:code = join(a:codelines, '')
@@ -132,7 +134,7 @@ endfunction "}}}
 " find module in @INC path
 function! s:complist_pm(ArgLead, CmdLine, CursorPos) abort "{{{
     let l:ArgLead = substitute(a:ArgLead, '::', '/', 'g')
-    let l:lsGlob = s:complete_pl(l:ArgLead, a:CmdLine, a:CursorPos)
+    let l:lsGlob = s:complist_pl(l:ArgLead, a:CmdLine, a:CursorPos)
     call filter(l:lsGlob, 'v:val =~? "\.pm$"')
     call map(l:lsGlob, {key, val -> substitute(val, '/', '::', 'g')})
     call map(l:lsGlob, {key, val -> substitute(val, '\.pm$', '', 'g')})
