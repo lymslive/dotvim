@@ -530,9 +530,7 @@ endfunction
 
 function! s:scanFunctionFromClass(class)
     let classfile = s:locateClassFile(a:class)
-    return classfile == '' ? [ ] :
-                \ extend( s:scanFunctionFromSingleClassFile(classfile),
-                \ s:scanFunctionFromBaseClassFile(classfile) )
+    return classfile == '' ? [ ] : s:scanFunctionFromBaseClassFile(classfile)
 endfunction
 " echo s:scanFunctionFromClass('Jifty::DBI::Record')
 " echo s:scanFunctionFromClass('CGI')
@@ -1061,10 +1059,10 @@ cal s:rule({ 'name' : 'Function',
     \'backward': '\<\w\+$' ,
     \'comp': function('s:CompFunction') })
 
-cal s:rule( 'name' : 'BufferMethod',
-    \{'context': '\$\(self\|class\)->$',
-    \'backward': '\<\w\+$' ,
-    \'only':1 ,
+cal s:rule({ 'name' : 'BufferMethod',
+    \'context': '\$\(self\|class\)->$',
+    \'backward': '\<\w\+$',
+    \'only':1,
     \'comp': function('s:CompBufferFunction') })
 
 cal s:rule({ 'name' : 'ObjectMethod',

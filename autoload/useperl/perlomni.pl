@@ -8,6 +8,8 @@ use warnings;
 sub GrepPattern
 {
 	my ($file, $pattern) = @_;
+	# print "$file\n";
+	# print "$pattern\n";
 	
 	open FH, "<" , $file or die $!;
 	my @lines = <FH>;
@@ -33,10 +35,10 @@ sub GrepObjval
 
 	for ( @lines ) {
 		if( /(\$\w+)\s*=\s*new\s+([A-Z][a-zA-Z0-9_:]+)/  ) {
-			print $1 , "\t" , $2 , "\n";
+			print "$1 $2\n";
 		}
 		elsif( /(\$\w+)\s*=\s*([A-Z][a-zA-Z0-9_:]+)->new/  ) {
-			print $1 , "\t" , $2 , "\n";
+			print "$1 $2\n";
 		}
 	}
 }
