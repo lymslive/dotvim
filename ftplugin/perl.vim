@@ -37,8 +37,10 @@ if !exists("s:dotvim_ftplugin")
     let s:dotvim_ftplugin = 1
 
     packadd vim-perl
+    " see {vim-perl}/syntax/perl.vim
     let g:perl_fold = 1
-    let g:perl_fold_blocks = 1
+    let g:perl_fold_blocks = 0
+    let g:perl_nofold_packages = 1
 
     packadd useperl
 endif
