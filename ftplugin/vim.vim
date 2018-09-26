@@ -3,6 +3,13 @@
 " Maintainer: lymslive
 " Modify: 2018-05-05
 
+if exists('b:dot_ftplugin_did')
+    finish
+endif
+let b:dot_ftplugin_did = 1
+
+call debug#plugin#ftvim()
+
 " 常规设置 "{{{1
 " always use space to indent
 setlocal shiftwidth=4
@@ -17,6 +24,9 @@ vnoremap <buffer> <F5> :call <SID>RunLines()<CR>
 
 " 重新加载并测试脚本
 nnoremap <buffer> <F9> :update<CR>:source %<CR>:ClassTest
+
+" 加断点
+command! -nargs=* -buffer B call debug#break#command(<f-args>)
 
 " 为正则表达式添加括号分组 \(\)
 vnoremap <buffer> ,) <ESC>:call wraptext#func#wrap('\(', '\)', "v")<CR>

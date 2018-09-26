@@ -32,37 +32,52 @@ endfunction "}}}
 endsnippet
 
 snippet fs "script local function" b
-" $1: 
+" Func: s:$1 
 function! s:${1:function_name}(${2}) abort "{{{
 	${3:" code}
 endfunction "}}}
 endsnippet
 
 snippet fc "class method function" b
-" $1: 
+" Method: $1 
 function! s:class.${1:function_name}(${2}) dict abort "{{{
 	${3:" code}
 endfunction "}}}
 endsnippet
 
 snippet fa "autoload function" b
-" $1: 
+" Func: #$1 
 function! `!p snip.rv = snip.basename or "script"`#${1:function_name}(${2}) abort "{{{
 	${3:" code}
 endfunction "}}}
 endsnippet
 
 snippet fah "command handle function" b
-" $1: 
+" Func: $1 
 function! `!v cmass#util#GetAutoName(expand('%:p:r'))`#h${1:function_name}(${2}) abort "{{{
 	${3:" code}
 endfunction "}}}
 endsnippet
 
 snippet fal "long autoload function" b
-" $1: 
-function! `!v cmass#util#GetAutoName(expand('%:p:r'))`#${1:function_name}(${2}) abort "{{{
+" Func: #$1 
+function! `!v ly#util#GetAutoName(expand('%:p:r'))`#${1:function_name}(${2}) abort "{{{
 	${3:" code}
+endfunction "}}}
+endsnippet
+
+snippet /^pack/ "package definition" r
+function! `!v ly#util#GetAutoName(expand('%:p:r'))`#package() abort "{{{
+	return s:
+endfunction "}}}
+function! `!v ly#util#GetAutoName(expand('%:p:r'))`#export() abort "{{{
+	return s:EXPORT
+endfunction "}}}
+endsnippet
+
+snippet /^load/ "package load definition" r
+function! `!v ly#util#GetAutoName(expand('%:p:r'))`#load() abort "{{{
+	return 1
 endfunction "}}}
 endsnippet
 
