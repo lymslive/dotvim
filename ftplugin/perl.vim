@@ -43,11 +43,13 @@ if !exists("s:dotvim_ftplugin")
     let g:perl_nofold_packages = 1
 
     packadd useperl
+    " command abbreviation
+    cabbrev PP PerlPrint
+    cabbrev PS PerlSearch
+
 endif
 
 setlocal foldlevelstart=3
-silent! nmap <buffer> <unique> K <Plug>(perldoc)
-setlocal omnifunc=PerlComplete
-
+call useperl#ftplugin#load()
 
 finish
