@@ -23,13 +23,6 @@ if !exists('$SPACEVIM')
 
     packadd vimproc.vim
     packadd unite.vim
-    " packadd neoyank.vim
-    " packadd neomru.vim
-    " packadd unite-outline
-    " packadd unite-help
-    " packadd neoinclude.vim
-    " packadd unite-tag
-    " packadd vim-unite-cscope
 
     packadd neocomplete.vim
     " packadd YouCompleteMe
@@ -56,7 +49,7 @@ let NERDTreeRespectWildIgnore = 1
 let g:tagbar_autoclose = 1
 let g:tagbar_autofocus = 1
 nnoremap ;t :Tagbar<CR>
-nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+nnoremap <F6> :!ctags -R .<CR>
 
 " Unite: {{{1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])

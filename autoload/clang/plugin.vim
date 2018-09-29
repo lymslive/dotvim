@@ -32,8 +32,9 @@ if has("cscope")
     " use :cstag instead of the defualt :tag
     set cscopetag
 
-    " search tas files, after cscope database
-    set cscopetagorder=1
+    " 0: search cscope database, then tas files
+    " 1: search tas files, then cscope database
+    set cscopetagorder=0
 
     " print message
     set cscopeverbose

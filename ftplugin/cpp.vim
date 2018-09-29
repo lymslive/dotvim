@@ -31,7 +31,8 @@ vnoremap <buffer> ,X <ESC>:call wraptext#func#wrap('#if 0', '#endif', visualmode
 " Compile:
 " compile current file
 " setlocal makeprg=g++\ -std=c++0x\ -c\ %
-nnoremap <buffer> <F9> :make<CR>
+" nnoremap <buffer> <F9> :make<CR>
+nnoremap <buffer> <F9> :AsyncRun make<CR>
 " build, remain in cmdline, may input other file
 nnoremap <buffer> <C-F9> :!g++ -o %< %
 " run
