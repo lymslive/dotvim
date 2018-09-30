@@ -41,8 +41,8 @@ nnoremap ;f :NERDTreeToggle<CR>
 nnoremap ;F :NERDTreeMirror<CR>
 " 自动关闭
 let NERDTreeQuitOnOpen=1
-" 忽略文件
-let NERDTreeIgnore = ['\~$', '\.swp', '\.svn', '\.git', '\.pyc', '\.o', '\.d']
+" 忽略文件，f 键切换是否隐藏
+let NERDTreeIgnore = ['\~$', '\.swp', '\.svn', '\.git', '\.pyc', '\.o', '\.d', '\.gcno', '\.gcda']
 let NERDTreeRespectWildIgnore = 1
 
 " Tagbar: {{{1
