@@ -170,13 +170,17 @@ function! ineditor#mysql#LoadHistory() abort "{{{
     let l:history = readfile(g:ineditor#mysql#history_file)
     call filter(l:history, 'v:val !~? "^\\" && v:val !~? "^[ ;]*$"')
 
+    " the length of initial sql cmd line
+    let l:iEditLen = len(getline('.'))
+    " echomsg 'l:iEditLen = ' l:iEditLen
+
     silent new History
     call setline(1, l:history)
     normal! G$
     call s:OnHistory()
 
     " back to edit starting tmp file
-    if g:ineditor#mysql#start_with_history < 2
+    if g:ineditor#mysql#start_with_history < 2 || l:iEditLen > 4
         wincmd p
     endif
 

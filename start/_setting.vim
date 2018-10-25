@@ -58,6 +58,8 @@ set history=50
 set sessionoptions=tabpages,curdir,slash
 set switchbuf=usetab
 
+set wildignore=*.o,*.obj,*out,*.exe,*.gcda,*.gcno
+
 " let default value ok, wait 1 second
 " set timeout
 " set nottimeout
