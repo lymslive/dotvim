@@ -57,4 +57,18 @@ public:
 };
 endsnippet
 
+snippet fora "for auto iterator loop"
+for (auto ${2:it} = ${1:container}.begin(); $2 < $1.end(); ++$2)
+{
+	${VISUAL}${0}
+}
+endsnippet
+
+snippet forap "for auto iterator loop"
+for (auto ${2:it} = ${1:container}->begin(); $2 < $1->end(); ++$2)
+{
+	${VISUAL}${0}
+}
+endsnippet
+
 # vim:ft=snippets:

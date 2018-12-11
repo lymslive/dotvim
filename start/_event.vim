@@ -12,5 +12,8 @@ augroup vimrcEx
                 \if !isdirectory(expand("%:p:h")) |
                 \  call mkdir(expand("%:p:h"), "p") |
                 \endif
+
+    " When open terminal
+    autocmd! TerminalOpen * PI useterm
 augroup END
 

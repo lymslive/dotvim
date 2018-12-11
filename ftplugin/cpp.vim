@@ -69,7 +69,7 @@ iabbrev <buffer> -f friend
 iabbrev <buffer> -i inline
 iabbrev <buffer> -s static
 iabbrev <buffer> -c const
-iabbrev <buffer> -t template <class T>
+iabbrev <buffer> -t template <typename T>
 
 " in case class name is file name
 " type C:: to get <class>:: wher class is the filename
@@ -91,6 +91,12 @@ iabbrev <buffer> //a // Author: tan.sin.log
 iabbrev <buffer> //d // Date: <C-R>=strftime("20%y-%m-%d")<CR>
 iabbrev <buffer> //p // >>Para: 
 iabbrev <buffer> //r // <<Return:
+
+" block jumping
+nnoremap [c :call search('^\s*class', 'bW')<CR>
+nnoremap ]c :call search('^\s*class', 'W')<CR>
+nnoremap [s :call search('^\s*namespace', 'bW')<CR>
+nnoremap ]s :call search('^\s*namespace', 'W')<CR>
 
 " highlight: Macro Special
 " 宏定义
