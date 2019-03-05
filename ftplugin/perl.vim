@@ -38,7 +38,7 @@ if !exists("s:dotvim_ftplugin")
 
     packadd vim-perl
     " see {vim-perl}/syntax/perl.vim
-    let g:perl_fold = 1
+    let g:perl_fold = 0
     let g:perl_fold_blocks = 0
     let g:perl_nofold_packages = 1
 
@@ -49,6 +49,14 @@ if !exists("s:dotvim_ftplugin")
 
 endif
 
+" 处理大文件折叠
+let s:iLargeFile = 1024 * 100
+let b:iSize = getfsize(expand('%:p'))
+if (b:iSize > s:iLargeFile || b:iSize == -2) " && &foldmethod ==? 'syntax'
+    setlocal foldmethod=manual
+else
+    setlocal foldmethod=syntax
+endif
 setlocal foldlevelstart=3
 call useperl#ftplugin#load()
 

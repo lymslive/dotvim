@@ -62,6 +62,16 @@ sub ${1:function_name}
 }
 endsnippet
 
+snippet subc "sub and pod doc"
+=markdown $1()
+=cut
+sub ${1:function_name}
+{
+	my ($${2:var}) = @_;
+	${VISUAL}${0}
+}
+endsnippet
+
 snippet open "Open file"
 open(my $${1:fh}, '${3:<}', $${2:filename}) or die "cannot open $$2 $!";
 ${VISUAL}${0}
