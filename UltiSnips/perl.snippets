@@ -29,10 +29,24 @@ sub main
 __END__
 endsnippet
 
-snippet /^end/ "end document" r
-__END__
-=pod
-=cut
+snippet /^new/ "new object" r
+sub new
+{
+	my $class = shift;
+	my $self = {};
+	bless $self, $class;
+	return $self;
+}
+endsnippet
+
+snippet /^meth/ "object method" r
+sub ${1:method}
+{
+	my $self = shift;
+	my ($${2:var}) = @_;
+	${VISUAL}${0}
+	return $self;
+}
 endsnippet
 
 snippet if

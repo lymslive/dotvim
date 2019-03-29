@@ -16,20 +16,28 @@ for (var ${2:i} = 0; $2 < ${1:count}; ${3:++$2}) {
 endsnippet
 
 snippet fori "for loop at array(fori)"
-for (var ${2:i} = 0; $2 < ${1:array}.length; ${3:++$2})
-{
+for (var ${2:i} = 0; $2 < ${1:array}.length; ${3:++$2}) {
 	${VISUAL}${0}
+}
+endsnippet
+
+snippet forin "for prop in obj using hasOwnProperty"
+for (var ${1:prop} in ${2:obj}){
+	if ($2.hasOwnProperty($1)) {
+		${VISUAL}$0
+	}
 }
 endsnippet
 
 snippet fore "forEach loop at array"
 ${1:array}.forEach(function(_item, _idx) {
 	${VISUAL}${0}
-});
+}, ${2:this});
 endsnippet
 
 snippet each "$jQuery .each"
 $${1:jquery}.each(function(_idx, _element) {
+	$(this)
 	${VISUAL}${0}
 });
 endsnippet
