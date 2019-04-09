@@ -26,44 +26,44 @@ endsnippet
 
 snippet f "function" b
 " $1: 
-function! ${1:function_name}(${2}) abort "{{{
+function! ${1:function_name}(${2}) abort
 	${3:" code}
-endfunction "}}}
+endfunction
 endsnippet
 
 snippet fs "script local function" b
 " Func: s:$1 
-function! s:${1:function_name}(${2}) abort "{{{
+function! s:${1:function_name}(${2}) abort
 	${3:" code}
-endfunction "}}}
+endfunction
 endsnippet
 
 snippet fc "class method function" b
 " Method: $1 
-function! s:class.${1:function_name}(${2}) dict abort "{{{
+function! s:class.${1:function_name}(${2}) dict abort
 	${3:" code}
-endfunction "}}}
+endfunction
 endsnippet
 
 snippet fa "autoload function" b
 " Func: #$1 
-function! `!p snip.rv = snip.basename or "script"`#${1:function_name}(${2}) abort "{{{
+function! `!p snip.rv = snip.basename or "script"`#${1:function_name}(${2}) abort
 	${3:" code}
-endfunction "}}}
+endfunction
 endsnippet
 
 snippet fah "command handle function" b
 " Func: $1 
-function! `!v cn#util#GetAutoName(expand('%:p:r'))`#h${1:function_name}(${2}) abort "{{{
+function! `!v cn#util#GetAutoName(expand('%:p:r'))`#h${1:function_name}(${2}) abort
 	${3:" code}
-endfunction "}}}
+endfunction
 endsnippet
 
 snippet fal "long autoload function" b
 " Func: #$1 
-function! `!v cn#util#GetAutoName(expand('%:p:r'))`#${1:function_name}(${2}) abort "{{{
+function! `!v cn#util#GetAutoName(expand('%:p:r'))`#${1:function_name}(${2}) abort
 	${3:" code}
-endfunction "}}}
+endfunction
 endsnippet
 
 snippet /^pack/ "package definition" r
@@ -155,6 +155,12 @@ augroup ${1:AU_NAME}
 	" this one is which you're most likely to use?
 	autocmd ${2:BufRead,BufNewFile} ${3:*.ext,*.ext3|<buffer[=N]>} ${0}
 augroup END
+endsnippet
+
+snippet /^finish/ "finish script" r
+finish
+======================================================================
+${VISUAL}${0}
 endsnippet
 
 # vim:ft=snippets:
