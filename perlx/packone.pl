@@ -4,12 +4,20 @@
 # 安装在 ~/.vim/pack/*/opt 目录下，暂只支持 linux
 # 如果之前已安装，会提示，确认后执行 git pull
 # 否则执行 git clone 
+# 选项：
+#   --ssh, 使用 ssh 协议下载
+#   --pack 指定其他 pack 目录，替代默认 ~/.vim/pack
 
 use strict;
 use warnings;
+use Getopt::Long;
+
+my $use_ssh = 0;
+my $rootdir = "$ENV{HOME}/.vim/pack";
+GetOptions ("ssh" => \$use_ssh, "pack=s" => \$rootdir,) 
+	or die("Error in command line arguments\n");
 
 my $url = shift;
-my $rootdir = "$ENV{HOME}/.vim/pack";
 die "may not git resp: $url" if $url !~ m{github\.com/(.+)/(.+)};
 my $author = $1;
 my $resp = $2;
@@ -31,8 +39,12 @@ if (-d $respdir) {
 	}
 }
 else{
-	# oscmd("git clone $url");
-	oscmd("git clone $sshurl");
+	if ($use_ssh) {
+		oscmd("git clone $sshurl");
+	}
+	else {
+		oscmd("git clone $url");
+	}
 	if (-d "$respdir/doc") {
 		chdir("$respdir/doc") or die "cannot chdir to $respdir/doc: $!";
 		oscmd("vim -u NONE -c 'helptags .' -cq");

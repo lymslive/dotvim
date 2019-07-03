@@ -11,6 +11,7 @@
 + https://github.com/majutsushi/tagbar
 + https://github.com/SirVer/ultisnips
 * https://github.com/honza/vim-snippets
++ https://github.com/Yggdroot/LeaderF
 
 + https://github.com/mileszs/ack.vim
 + https://github.com/tpope/vim-surround
@@ -54,3 +55,4 @@
 ## 非 vim 插件的外部支持工具
 
 - https://github.com/ggreer/the_silver_searcher
+- https://github.com/universal-ctags/ctags

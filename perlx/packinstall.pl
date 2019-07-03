@@ -4,6 +4,10 @@
 # 配置文件按 markdown 的列表语法，每行给出 github 的网址
 #   - 不安装，+ 安装，* 安装并更新
 # 也可以在命令直接给出一个网址，单独安装一个插件
+# 选项：
+#   --ssh, 使用 ssh 协议下载
+#   --pack 指定其他 pack 目录，替代默认 ~/.vim/pack
+#   --cfg 指定其他配置文件，替换默认的 ~/.vim/pack.md
 
 use strict;
 use warnings;
@@ -12,6 +16,11 @@ use File::Path qw(make_path remove_tree);
 &checkgit();
 my $rootdir = "$ENV{HOME}/.vim/pack";
 my $packcfg = "$ENV{HOME}/.vim/pack.md";
+my $use_ssh = 0;
+GetOptions ("ssh" => \$use_ssh,
+	"pack=s" => \$rootdir, 
+	"cfg=s" => \$packcfg) 
+	or die("Error in command line arguments\n");
 
 # 键为网址，值为是否更新
 my %pack = ();
@@ -91,8 +100,12 @@ sub gitclone
 		}
 	}
 	else{
-		# oscmd("git", "clone", $url);
-		oscmd("git", "clone", $sshurl);
+		if ($use_ssh) {
+			oscmd("git clone $sshurl");
+		}
+		else {
+			oscmd("git clone $url");
+		}
 		if (-d "$respdir/doc") {
 			chdir("$respdir/doc") or die "cannot chdir to $respdir/doc: $!";
 			oscmd("vim", "-u", "NONE", '-c', 'helptags .', "-cq");
