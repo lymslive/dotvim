@@ -109,13 +109,13 @@ endif
 "
 let s:global_command = $GTAGSGLOBAL
 if s:global_command == ''
-        let s:global_command = "global"
+    let s:global_command = "global"
 endif
 if !exists("GtagsCscope_Auto_Load")
-    let GtagsCscope_Auto_Load = 0
+    let GtagsCscope_Auto_Load = 1
 endif
 if !exists("GtagsCscope_Auto_Map")
-    let GtagsCscope_Auto_Map = 0
+    let GtagsCscope_Auto_Map = 1
 endif
 if !exists("GtagsCscope_Quiet")
     let GtagsCscope_Quiet = 0

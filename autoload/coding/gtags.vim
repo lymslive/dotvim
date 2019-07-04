@@ -219,7 +219,7 @@ endif
 " the :cwindow command.
 " (This code was derived from 'grep.vim'.)
 if !exists("g:Gtags_OpenQuickfixWindow")
-    let g:Gtags_OpenQuickfixWindow = 0
+    let g:Gtags_OpenQuickfixWindow = 1
 endif
 
 if !exists("g:Gtags_VerticalWindow")
@@ -227,7 +227,7 @@ if !exists("g:Gtags_VerticalWindow")
 endif
 
 if !exists("g:Gtags_Auto_Map")
-    let g:Gtags_Auto_Map = 0
+    let g:Gtags_Auto_Map = 1
 endif
 
 if !exists("g:Gtags_Auto_Update")
@@ -431,16 +431,16 @@ function! s:ExecLoad(option, long_option, pattern, flags)
 
     " Open the quickfix window
     if g:Gtags_OpenQuickfixWindow == 1
-	let l:open = 1
+        let l:open = 1
         if g:Gtags_Close_When_Single == 1
-	    let l:open = 0
-	    let l:idx = stridx(l:result, "\n")
-	    if l:idx > 0 && stridx(l:result, "\n", l:idx + 1) > 0
-		let l:open = 1
-	    endif
-	endif
-	if l:open == 0
-	    cclose
+            let l:open = 0
+            let l:idx = stridx(l:result, "\n")
+            if l:idx > 0 && stridx(l:result, "\n", l:idx + 1) > 0
+                let l:open = 1
+            endif
+        endif
+        if l:open == 0
+            cclose
         elseif g:Gtags_VerticalWindow == 1
             topleft vertical copen
         else
