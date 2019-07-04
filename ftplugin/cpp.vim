@@ -105,6 +105,7 @@ syntax match Macro /\<[A-Z_]\{2,}\>/
 " 类或结构体定义
 " 2match Identifier /\<\(C\|tag\)[A-Z][A-Za-z]\+\>/
 syntax match Special /\<\(C\|tag\|Tab\)[A-Z][A-Za-z]\+\>/
+syntax match Type /\<[a-z_]\+_t\>/
 " 以大写字母开头的函数或成员名
 syntax match Identifier /\<[A-Z][a-z][a-zA-Z]\+\>/
 " 以 :: 名字空间连接的标志符

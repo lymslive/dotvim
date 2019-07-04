@@ -24,7 +24,7 @@ let g:clang_jumpto_back_key = '<C-\><C-T>'
 
 " Cscope: {{{1
 " see: cscope_maps.vim bt Jason Duell
-if has("cscope")
+if has("cscope") && !executable('gtags')
 
     " use relative path of cscpo.out
     set cscoperelative
@@ -72,8 +72,21 @@ if has("cscope")
     nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
     nnoremap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
+endif
 
+" load: 
+function! clang#plugin#load() abort "{{{1
+    return 1
+endfunction "}}}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+finish
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" cscope.vim maps backup
+if 0
     " horizontally split find
+    " Using 'CTRL-spacebar', the result is displayed in new horizontal window.
     nnoremap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
     nnoremap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
     nnoremap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
@@ -84,6 +97,7 @@ if has("cscope")
     nnoremap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
 
     " vertical split find
+    " Hitting CTRL-space *twice*, the result is displayed in new vertical window.
     nnoremap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
     nnoremap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
     nnoremap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
@@ -93,8 +107,3 @@ if has("cscope")
     nnoremap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
     nnoremap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 endif
-
-" load: 
-function! clang#plugin#load() abort "{{{1
-    return 1
-endfunction "}}}
