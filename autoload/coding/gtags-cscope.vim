@@ -124,7 +124,7 @@ if !exists("GtagsCscope_Ignore_Case")
     let GtagsCscope_Ignore_Case = 0
 endif
 if !exists("GtagsCscope_Absolute_Path")
-    let GtagsCscope_Absolute_Path = 0
+    let GtagsCscope_Absolute_Path = 1
 endif
 if !exists("GtagsCscope_Keep_Alive")
     let GtagsCscope_Keep_Alive = 0
@@ -166,9 +166,11 @@ function! s:GtagsCscope()
     "
     " Load gtags-cscope.
     "
-    set cscopetag
     set csprg=gtags-cscope
-    let s:command = "cs add " . gtagsroot . "/GTAGS"
+    let gtagsfile = gtagsroot . "/GTAGS"
+    if filereadable(gtagsfile)
+        let s:command = "cs add " . gtagsfile
+    endif
     let s:option = ''
     if g:GtagsCscope_Ignore_Case == 1
         let s:option = s:option . 'C'

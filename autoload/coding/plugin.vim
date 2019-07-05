@@ -56,6 +56,10 @@ nnoremap ;t :Tagbar<CR>
 if executable('gtags') && executable('global')
     execute 'source ' . s:thispath . '/gtags.vim'
     execute 'source ' . s:thispath . '/gtags-cscope.vim'
+    set cscopetag
+    set cscopetagorder=0
+    " use quickfix for some cs find command
+    set cscopequickfix=s-,c-,d-,i-,t-,e-
 endif
 
 " Unite: {{{1
