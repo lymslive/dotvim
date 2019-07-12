@@ -109,6 +109,11 @@ sub foundgit($$)
 		$remote = $1;
 	}
 	warn "fail got remote url for $name" if length($remote) == 0;
+	unless ($remote) {
+		if ($path =~ m{([^/]+)/(opt|start)/([^/]+)}) {
+			$remote = "https://github.com/$1/$3.git";
+		}
+	}
 	my $entry = "* $name: [$path]($remote)";
 	return $entry;
 }

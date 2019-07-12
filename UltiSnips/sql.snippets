@@ -1,2 +1,28 @@
+# see: ~/.vim/pack/honza/opt/vim-snippets/UltiSnips/plsql.snippets
 extends plsql
 
+snippet /^table/ "CREATE TABLE" r
+CREATE TABLE t_${1}(
+	${0}
+	PRIMARY KEY(),
+	KEY idx_()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '${2}';
+
+endsnippet
+
+snippet /^\s*fstr/ "F_column VARCHAR" r
+	F_${1} VARCHAR(${2}) DEFAULT ${3:'0'} COMMENT '${4}',
+endsnippet
+
+snippet /^\s*fint/ "F_column INT" r
+	F_${1} ${2}INT ${5:UNSIGNED} DEFAULT ${3:0} COMMENT '${4}',
+endsnippet
+
+snippet /^\s*fdt/ "F_column DATETIME" r
+	F_${1} ${2}int DATETIME DEFAULT ${3:NULL} COMMENT '${4}',
+endsnippet
+
+snippet /^\s*fid/ "F_column AUTO_INCREMENT" r
+	F_${1:id} BIGINT UNSIGNED AUTO_INCREMENT COMMENT '${2:序列号}',
+	PRIMARY KEY(F_$1),
+endsnippet

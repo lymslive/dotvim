@@ -12,6 +12,7 @@
 use strict;
 use warnings;
 use File::Path qw(make_path remove_tree);
+use Getopt::Long;
 
 &checkgit();
 my $rootdir = "$ENV{HOME}/.vim/pack";
