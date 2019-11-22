@@ -14,6 +14,8 @@ augroup vimrcEx
                 \endif
 
     " When open terminal
-    autocmd! TerminalOpen * PI useterm
+    if exists('##TerminalOpen')
+        autocmd! TerminalOpen * PI useterm
+    endif
 augroup END
 

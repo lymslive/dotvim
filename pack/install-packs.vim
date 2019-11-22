@@ -9,7 +9,7 @@ packadd vimloo
 packadd StartVim
 
 " the plugin list file
-let s:plugins = 'plugins.md'
+let s:plugins = 'packs.md'
 " whether update if already installed
 let s:flag = 0
 

@@ -11,7 +11,7 @@ source $STARTHOME/_remap.vim
 source $STARTHOME/_event.vim
 
 " Load Plugin:
-packadd StartVim
+" packadd StartVim
 packadd vimloo
 packadd autoplug
 call autoplug#load()
