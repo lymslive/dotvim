@@ -11,8 +11,10 @@ source $STARTHOME/_remap.vim
 source $STARTHOME/_event.vim
 
 set guifont=Lucida_Console:h12:cANSI:qDRAFT
+" set guifont=DejaVu_Sans_Mono:h12:cANSI:qDRAFT
 set guioptions=
 set clipboard=unnamed
+set winaltkeys=no
 
 " Load Plugin:
 " packadd StartVim

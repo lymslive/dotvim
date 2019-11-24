@@ -17,5 +17,9 @@ augroup vimrcEx
     if exists('##TerminalOpen')
         autocmd! TerminalOpen * PI useterm
     endif
+
+    if exists('##GUIEnter')
+        autocmd! GUIEnter * simalt ~x
+    endif
 augroup END
 
