@@ -97,8 +97,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 nnoremap <C-j> 5<C-e>
 nnoremap <C-k> 5<C-y>
-nnoremap <C-S-j> 12<C-e>
-nnoremap <C-S-k> 12<C-y>
 " nnoremap <CR> q:
 nnoremap <CR> : <C-R>=expand("<cword>")<CR>
 nnoremap <S-CR> :<UP>
