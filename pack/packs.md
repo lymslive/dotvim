@@ -15,6 +15,7 @@
 
 + https://github.com/mileszs/ack.vim
 + https://github.com/tpope/vim-surround
++ https://github.com/skywind3000/asyncrun.vim
 
 ## Shougo 套件
 + https://github.com/Shougo/unite.vim
@@ -36,6 +37,7 @@
 - https://github.com/lvht/phpcd.vim
 - https://github.com/WolfgangMehner/perl-support
 + https://github.com/Rip-Rip/clang_complete
++ https://github.com/lymslive/vim-wenyan
 
 ## 其他试用过已不常用的插件
 - https://github.com/tsukkee/unite-tag

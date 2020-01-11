@@ -15,25 +15,25 @@ endif
 
 " PackAdd Plugin: {{{1
 if !exists('$SPACEVIM')
-    packadd nerdtree
-    packadd tagbar
-    packadd LeaderF
+    silent! packadd nerdtree
+    silent! packadd tagbar
+    silent! packadd LeaderF
 
-    packadd ultisnips
-    packadd vim-snippets
-    packadd CompleteParameter.vim
+    silent! packadd ultisnips
+    silent! packadd vim-snippets
+    silent! packadd CompleteParameter.vim
 
-    packadd vimproc.vim
-    packadd unite.vim
+    " silent packadd vimproc.vim
+    " silent packadd unite.vim
 
-    packadd neocomplete.vim
+    silent! packadd neocomplete.vim
     " packadd YouCompleteMe
 
-    packadd ack.vim
+    silent! packadd ack.vim
     " packadd vim-dict
     " packadd incsearch.vim
 
-    packadd vim-surround
+    silent! packadd vim-surround
     " packadd vim-signature
 endif
 " echomsg 'packadd end'
