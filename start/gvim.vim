@@ -23,3 +23,5 @@ packadd autoplug
 call autoplug#load()
 PI usetabpg microcmd
 filetype plugin indent on
+
+set exrc
