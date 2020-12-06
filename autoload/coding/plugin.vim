@@ -13,6 +13,9 @@ if !exists('$SPACEVIM')
     PI usetabpg wraptext
 endif
 
+set shiftwidth=4
+set expandtab
+
 " PackAdd Plugin: {{{1
 if !exists('$SPACEVIM')
     silent! packadd nerdtree
