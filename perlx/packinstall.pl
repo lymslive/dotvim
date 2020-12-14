@@ -1,5 +1,5 @@
 #! /usr/bin/perl
-# 从 ~/.vim/pack.md 配置文件下载一批插件，安装在 pack 对应的 opt 子目录
+# 从 ~/.vim/pack/packs.md 配置文件下载一批插件，安装在 pack 对应的 opt 子目录
 # 可从命令行参数指定其他配置文件名
 # 配置文件按 markdown 的列表语法，每行给出 github 的网址
 #   - 不安装，+ 安装，* 安装并更新
@@ -7,7 +7,7 @@
 # 选项：
 #   --ssh, 使用 ssh 协议下载
 #   --pack 指定其他 pack 目录，替代默认 ~/.vim/pack
-#   --cfg 指定其他配置文件，替换默认的 ~/.vim/pack.md
+#   --cfg 指定其他配置文件，替换默认的 ~/.vim/pack/packs.md
 
 use strict;
 use warnings;
