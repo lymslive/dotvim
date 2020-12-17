@@ -22,7 +22,7 @@ if !exists('$SPACEVIM')
     silent! packadd tagbar
     silent! packadd LeaderF
 
-    silent! packadd ultisnips
+    " silent! packadd ultisnips
     silent! packadd vim-snippets
     silent! packadd CompleteParameter.vim
 
@@ -36,6 +36,7 @@ if !exists('$SPACEVIM')
     " packadd vim-dict
     " packadd incsearch.vim
 
+    silent! packadd asyncrun.vim
     silent! packadd vim-surround
     " packadd vim-signature
 endif
@@ -119,6 +120,7 @@ let g:snips_author = 'lymslive'
 " Ack: {{{1
 if executable('ag')
     let g:ackprg = 'ag --vimgrep'
+    cabbrev AG AsyncRun ag --vimgrep .<Left><Left>
 endif
 
 " Leaderf: {{{1

@@ -145,3 +145,5 @@ vnoremap <S-Del> "*d
 vnoremap <S-Ins> "*y
 vnoremap ? y?<C-\>e (visualmode() != 'v')? "" : getreg()<CR>
 vnoremap Q gw
+vnoremap < <gv
+vnoremap > >gv

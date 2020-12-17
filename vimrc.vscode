@@ -1,6 +1,6 @@
-" vimrc for qt
+" vimrc for vscode
 
-" configured in QT
+" configured in vscode
 " set clipboard=unnamed
 
 cnoremap <C-Ins> <C-R>*
@@ -39,8 +39,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 noremap H ^
 noremap L $
-" nnoremap P P=`]`]
-" nnoremap p p=`]`]
+nnoremap Y y$
+nnoremap P P=`]`]
+nnoremap p p=`]`]
 nnoremap <C-j> 5<C-e>
 nnoremap <C-k> 5<C-y>
 nnoremap K <F1><F1>

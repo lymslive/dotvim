@@ -1,0 +1,95 @@
+" vimrc for old linux vim7
+" keep a single and simple vimrc
+
+set ruler
+set showcmd	
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set wildmenu
+set scrolloff=3
+set backspace=indent,eol,start
+set whichwrap+=<,>,[,]
+set autoindent
+set smartindent
+set display=lastline
+set textwidth=78
+set formatoptions+=mB
+set fileencodings=ucs-bom,utf-8,gb18030,cp936,latin1
+set fileformats=unix,dos
+set autowriteall
+set autochdir
+set cmdheight=2
+set laststatus=2
+set statusline=%t%m%r%h%w:%l\|%v\ %{&ff}\-%Y\ %p%%%LL%=%{&fenc}\ 0x\%B\|\%b\ 
+set cursorline
+set mouse=nv
+set selection=inclusive
+set history=50
+set noswapfile
+set nobackup
+set sessionoptions=tabpages,curdir,slash
+set switchbuf=usetab
+set wildignore=*.o,*.obj,*out,*.exe,*.gcda,*.gcno
+
+cnoremap <C-Ins> <C-R>*
+cnoremap <C-y> <C-R>"
+cnoremap <S-Ins> <C-R>+
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-d> <Del>
+cnoremap <C-f> <Right>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+inoremap <C-/> <C-o>u
+inoremap <C-Ins> <C-R>+
+inoremap <C-y> <C-R>"
+inoremap <S-Ins> <C-R>*
+inoremap <C-BS> <C-w>
+inoremap <C-^> <C-y>
+inoremap <C-_> <C-o>u
+inoremap <C-a> <C-o>I
+inoremap <C-b> <Left>
+inoremap <C-d> <Del>
+inoremap <C-e> <C-o>A
+inoremap <C-f> <Right>
+inoremap <C-k> <C-o>d$
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+inoremap <C-l> <C-X><C-L>
+inoremap <C-;> <C-X><C-P>
+inoremap <C-'> <C-X><C-N>
+inoremap <C-t> <C-X><C-]>
+inoremap <C-,> <C-X><C-K>
+inoremap <C-.> <C-X><C-O>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+noremap H ^
+noremap L $
+nnoremap Y y$
+nnoremap P P=`]`]
+nnoremap p p=`]`]
+nnoremap <C-j> 5<C-e>
+nnoremap <C-k> 5<C-y>
+nnoremap K <F1><F1>
+nnoremap ;w :w<CR>
+nnoremap - :move +1<CR>
+nnoremap _ :move -2<CR>
+nnoremap ,O :call append(line(".")-1, "")<CR>
+nnoremap ,o :call append(line("."), "")<CR>
+
+" jkhl movement with tabpage
+nnoremap gT :tabnew<CR>
+nnoremap gh :tabfirst<CR>
+nnoremap gj :tabnext<CR>
+nnoremap gk :tabprevious<CR>
+nnoremap gl :tablast<CR>
+
+vnoremap < <gv
+vnoremap > >gv
+
+" show path of current file, like pwd for dirctory
+command PWF echo expand('%:p')
