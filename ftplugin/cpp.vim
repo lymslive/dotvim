@@ -30,7 +30,7 @@ vnoremap <buffer> ,X <ESC>:call wraptext#func#wrap('#if 0', '#endif', visualmode
 
 " Compile:
 " compile current file
-" setlocal makeprg=g++\ -std=c++0x\ -c\ %
+setlocal makeprg=g++\ -std=c++11\ -c\ %
 " nnoremap <buffer> <F9> :make<CR>
 nnoremap <buffer> <F9> :AsyncRun make<CR>
 " build, remain in cmdline, may input other file
@@ -91,6 +91,20 @@ iabbrev <buffer> //a // Author: tan.sin.log
 iabbrev <buffer> //d // Date: <C-R>=strftime("20%y-%m-%d")<CR>
 iabbrev <buffer> //p // >>Para: 
 iabbrev <buffer> //r // <<Return:
+" doxygen comment
+iabbrev <buffer> //x /** */<Left><Left><Left>
+iabbrev <buffer> @a @author lymslive
+iabbrev <buffer> @b @brief
+iabbrev <buffer> @c @code
+iabbrev <buffer> @d @date <C-R>=strftime("20%y-%m-%d")<CR>
+iabbrev <buffer> @e @details
+iabbrev <buffer> @f @file <C-R>=expand('%')<CR>
+iabbrev <buffer> @m @remark
+iabbrev <buffer> @n @note
+iabbrev <buffer> @p @param[IN] 
+iabbrev <buffer> @r @return
+iabbrev <buffer> @v @retval
+iabbrev <buffer> @w @warning
 
 " block jumping
 nnoremap [c :call search('^\s*class', 'bW')<CR>
