@@ -101,7 +101,7 @@ iabbrev <buffer> @e @details
 iabbrev <buffer> @f @file <C-R>=expand('%')<CR>
 iabbrev <buffer> @m @remark
 iabbrev <buffer> @n @note
-iabbrev <buffer> @p @param[IN] 
+iabbrev <buffer> @p @param
 iabbrev <buffer> @r @return
 iabbrev <buffer> @v @retval
 iabbrev <buffer> @w @warning
