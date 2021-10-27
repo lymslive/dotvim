@@ -43,8 +43,8 @@ inoremap <C-k> <C-o>d$
 inoremap <C-l> <C-X><C-L>
 inoremap <C-;> <C-X><C-P>
 inoremap <C-'> <C-X><C-N>
-inoremap <C-n> <Down>
-inoremap <C-p> <C-X><C-P>
+" inoremap <C-n> <Down>
+" inoremap <C-p> <C-X><C-P>
 inoremap <C-t> <C-X><C-]>
 inoremap <C-,> <C-X><C-K>
 inoremap <C-.> <C-X><C-O>
@@ -74,7 +74,7 @@ nnoremap ;P :copy 0<CR>
 nnoremap ;Q :xall!<CR>
 nnoremap ;R :source Session.vim
 nnoremap ;S :execute 'mksession! ' . v:this_session <CR>:xall
-nnoremap ;W :wall<CR>
+nnoremap ;W :w!<CR>
 nnoremap ;a ggVG
 nnoremap ;b :e #<CR>
 nnoremap ;D :bdelete<Space>
@@ -147,3 +147,5 @@ vnoremap ? y?<C-\>e (visualmode() != 'v')? "" : getreg()<CR>
 vnoremap Q gw
 vnoremap < <gv
 vnoremap > >gv
+vnoremap p pgvy
+vnoremap P Pgvy

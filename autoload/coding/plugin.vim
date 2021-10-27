@@ -14,7 +14,17 @@ if !exists('$SPACEVIM')
 endif
 
 set shiftwidth=4
+set tabstop=4
 set expandtab
+
+" Complete Menu: {{{1
+set complete -=i
+inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>" : "\<End>"
+inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>" : "\<C-R>\""
+inoremap <silent><expr> <tab>
+            \ pumvisible()? "\<c-n>" : "\<c-n>"
+inoremap <silent><expr> <s-tab>
+            \ pumvisible()? "\<c-p>" : "\<s-tab>"
 
 " PackAdd Plugin: {{{1
 if !exists('$SPACEVIM')
@@ -22,7 +32,7 @@ if !exists('$SPACEVIM')
     silent! packadd tagbar
     silent! packadd LeaderF
 
-    " silent! packadd ultisnips
+    silent! packadd ultisnips
     silent! packadd vim-snippets
     silent! packadd CompleteParameter.vim
 
@@ -31,6 +41,7 @@ if !exists('$SPACEVIM')
 
     silent! packadd neocomplete.vim
     " packadd YouCompleteMe
+    silent! packadd vim-auto-popmenu
 
     silent! packadd ack.vim
     " packadd vim-dict
@@ -64,6 +75,11 @@ if executable('gtags') && executable('global')
     set cscopetagorder=0
     " use quickfix for some cs find command
     set cscopequickfix=s-,c-,d-,i-,t-,e-
+endif
+
+if executable('ctags')
+    nnoremap <F6> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+    command Ctags !ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
 endif
 
 " Unite: {{{1
@@ -140,6 +156,10 @@ noremap \s :<C-U>Leaderf searchHistory<CR>
 
 " CompleteParameter: {{{1
 let g:complete_parameter_use_ultisnips_mapping = 1
+
+" ApcEnable: {{{1
+" skywind3000/vim-auto-popmenu
+let g:apc_enable_tab = 0
 
 " LOAD:
 function! coding#plugin#load(...) abort "{{{1

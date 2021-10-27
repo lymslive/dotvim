@@ -58,6 +58,6 @@ else
     setlocal foldmethod=syntax
 endif
 setlocal foldlevelstart=3
-call useperl#ftplugin#load()
+silent call useperl#ftplugin#load()
 
 finish
