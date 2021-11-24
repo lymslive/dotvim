@@ -1,0 +1,16 @@
+#! /bin/sh
+# refer to: https://github.com/skywind3000/vim-terminal-help
+
+if [ -z "$VIM_TERMINAL" ]; then
+    echo "Must be called inside vim/neovim"
+    exit 1
+fi
+
+filepath="$(realpath -s """$1""" 2> /dev/null)"
+printf '\033]51;["drop", "%s"]\007' "$filepath"
+
+# if the default :drop command is not enough, defined a terminal api function 
+# Tapi_TerminalEdit() to handle it.
+
+#printf '\033]51;["call", "Tapi_TerminalEdit", ["%s"]]\007' "$filepath"
+
