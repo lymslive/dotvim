@@ -16,6 +16,7 @@
 + https://github.com/mileszs/ack.vim
 + https://github.com/tpope/vim-surround
 + https://github.com/skywind3000/asyncrun.vim
++ https://github.com/skywind3000/vim-auto-popmenu.git
 
 ## Shougo 套件
 + https://github.com/Shougo/unite.vim
