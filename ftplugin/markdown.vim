@@ -5,6 +5,10 @@ setlocal shiftwidth=2
 setlocal softtabstop=2
 setlocal expandtab
 
+" 注释块
+nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('<!-- ', ' -->', "n")<CR>
+vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('<!-- ', ' -->', "v")<CR>
+
 " Map Set: "{{{1
 nnoremap <buffer> [[ :call search('^\s*#\+', 'Wb')<CR>
 nnoremap <buffer> ]] :call search('^\s*#\+', 'W')<CR>
