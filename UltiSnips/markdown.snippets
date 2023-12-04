@@ -1,0 +1,26 @@
+
+snippet -- "html comment" b
+<!-- ${0} -->
+endsnippet
+
+snippet code "Codeblock" b
+\`\`\`$1
+$2
+\`\`\`
+$0
+endsnippet
+
+snippet zola "zola front matter" b
++++
+title = "$1"
+[taxonomies]
+categories = []
+tags = []
++++
+$0
+endsnippet
+
+snippet more "zola summary" b
+<!-- more -->
+endsnippet
+
