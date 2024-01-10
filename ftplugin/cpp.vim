@@ -107,10 +107,10 @@ iabbrev <buffer> @v @retval
 iabbrev <buffer> @w @warning
 
 " block jumping
-nnoremap [c :call search('^\s*class', 'bW')<CR>
-nnoremap ]c :call search('^\s*class', 'W')<CR>
-nnoremap [s :call search('^\s*namespace', 'bW')<CR>
-nnoremap ]s :call search('^\s*namespace', 'W')<CR>
+nnoremap <buffer> [c :call search('^\s*class', 'bW')<CR>
+nnoremap <buffer> ]c :call search('^\s*class', 'W')<CR>
+nnoremap <buffer> [s :call search('^\s*namespace', 'bW')<CR>
+nnoremap <buffer> ]s :call search('^\s*namespace', 'W')<CR>
 
 " highlight: Macro Special
 " 宏定义

@@ -5,12 +5,12 @@ set foldlevelstart=2
 setlocal foldlevel=2
 
 " 跳转函数定义头
-nnoremap [[ :call search('\<function\(\s\+\w\+\s*\)\?(.*)', 'bW')<CR>^
-nnoremap ]] :call search('\<function\(\s\+\w\+\s*\)\?(.*)', 'W')<CR>$
+nnoremap <buffer> [[ :call search('\<function\(\s\+\w\+\s*\)\?(.*)', 'bW')<CR>^
+nnoremap <buffer> ]] :call search('\<function\(\s\+\w\+\s*\)\?(.*)', 'W')<CR>$
 
 " 跳转对象定义 object: {
-nnoremap [o :call search('\w\+\s*:\s*{\s*$', 'bW')<CR>^
-nnoremap ]o :call search('\w\+\s*:\s*{\s*$', 'W')<CR>$
+nnoremap <buffer> [o :call search('\w\+\s*:\s*{\s*$', 'bW')<CR>^
+nnoremap <buffer> ]o :call search('\w\+\s*:\s*{\s*$', 'W')<CR>$
 
 nnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "n")<CR>
 vnoremap <buffer> ,x <ESC>:call wraptext#func#wrap('// ', '', "v")<CR>
