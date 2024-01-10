@@ -1,5 +1,11 @@
 # plugins in github
 
+## 最近安装
+
++ https://github.com/neoclide/coc.nvim
++ https://github.com/evanleck/vim-svelte
++ https://github.com/pangloss/vim-javascript
+
 ## 自己的插件
 * https://github.com/lymslive/vimloo
 * https://github.com/lymslive/StartVim
