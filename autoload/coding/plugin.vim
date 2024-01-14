@@ -34,14 +34,9 @@ if !exists('$SPACEVIM')
 
     silent! packadd ultisnips
     silent! packadd vim-snippets
-    silent! packadd CompleteParameter.vim
 
-    " silent packadd vimproc.vim
-    " silent packadd unite.vim
-
-    silent! packadd neocomplete.vim
-    " packadd YouCompleteMe
     silent! packadd vim-auto-popmenu
+    silent! packadd coc.nvim
 
     silent! packadd ack.vim
     " packadd vim-dict
@@ -82,50 +77,9 @@ if executable('ctags')
     command Ctags !ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
 endif
 
-" Unite: {{{1
-if exists(':Unite')
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    nnoremap \u :Unite 
-
-    " unite grep source
-    if executable('ag')
-        " Use ag (the silver searcher)
-        " https://github.com/ggreer/the_silver_searcher
-        let g:unite_source_grep_command = 'ag'
-        let g:unite_source_grep_default_opts =
-                    \ '-i --vimgrep --hidden --ignore ' .
-                    \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-        let g:unite_source_grep_recursive_opt = ''
-    elseif executable('ack')
-        " Use ack
-        " http://beyondgrep.com/
-        let g:unite_source_grep_command = 'ack'
-        let g:unite_source_grep_default_opts =
-                    \ '-i --no-heading --no-color -k -H'
-        let g:unite_source_grep_recursive_opt = ''
-    endif
-
-endif
-
-" Neocomplete: {{{1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#auto_completion_start_length = 3
-let g:neocomplete#ignore_source_files = ['tag.vim']
-let g:neocomplete#enable_ignore_case = 1
-" let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#text_mode_filetypes = 
-            \ {'text':1, 'markdown':1, 'tex':1, 'help':1} 
-let g:neocomplete#sources#dictionary#dictionaries = 
-            \ {'default':'', 'text':'~/.vim/dict/english.dic'}
-command! NE NeoCompleteEnable
-
-" YouCompleteMe: {{{1
-if 0
-    let g:ycm_key_list_select_completion=[]
-    let g:ycm_key_list_previous_completion=[]
-    let g:ycm_collect_identifiers_from_tags_files=1
-    let g:ycm_min_num_of_chars_for_completion=3
-    let g:ycm_seed_identifiers_with_syntax=1
+" Coc: {{{1
+if exists(':CocEnable')
+    inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
 endif
 
 " Ultisnips: {{{1
@@ -153,9 +107,6 @@ noremap \M :<C-U>LeaderfMruCwd <CR>
 noremap \h :<C-U>Leaderf help<CR>
 noremap \c :<C-U>Leaderf cmdHistory<CR>
 noremap \s :<C-U>Leaderf searchHistory<CR>
-
-" CompleteParameter: {{{1
-let g:complete_parameter_use_ultisnips_mapping = 1
 
 " ApcEnable: {{{1
 " skywind3000/vim-auto-popmenu
