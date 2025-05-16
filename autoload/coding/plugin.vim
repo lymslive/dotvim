@@ -80,6 +80,16 @@ endif
 " Coc: {{{1
 if exists(':CocEnable')
     inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    " GoTo code navigation.
+    nmap <silent> gd <Plug>(coc-definition)       " 跳转到定义处
+    nmap <silent> gy <Plug>(coc-type-definition)  " 跳转到类型定义处
+    nmap <silent> gm <Plug>(coc-implementation)   " 跳转到实现处
+    nmap <silent> gr <Plug>(coc-references)       " 查找引用
+
+    noremap gc :CocList<CR>
 endif
 
 " Ultisnips: {{{1
